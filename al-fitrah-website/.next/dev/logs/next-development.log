@@ -1,0 +1,4 @@
+[00:00:03.946] Server  LOG     ✓ Ready in 2.9s
+[00:00:10.493] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:13.661] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:18.647] Browser WARN    Supabase credentials are not set. Registration functionality will be disabled. Please update NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env.local file.
