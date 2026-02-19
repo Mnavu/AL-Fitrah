@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+/dist
+
+# Next.js
+.next/
+out/
+
+# Production
+build/
+
+# Environment variables
+.env*.local
+
+# Media (Large files)
+public/*.mp4
+public/*.jpeg
+public/*.png
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
