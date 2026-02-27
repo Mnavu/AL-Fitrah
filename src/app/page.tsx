@@ -414,7 +414,7 @@ const AboutUsContent = () => {
                 }
             }}
             className="w-full max-w-4xl rounded-lg shadow-lg">
-            <source src="/SLIDESHOW%20NOT%20FINISHED.mp4" type="video/mp4" />
+            <source src="/SLIDESHOW.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
