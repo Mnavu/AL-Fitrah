@@ -13,9 +13,6 @@ build/
 .env*.local
 
 # Media (Large files)
-public/*.mp4
-public/*.jpeg
-public/*.png
 
 # OS files
 .DS_Store
