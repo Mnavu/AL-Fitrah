@@ -13,6 +13,7 @@ CREATE TABLE courses (
   description TEXT,
   price NUMERIC(10, 2), -- Made nullable
   requires_registration BOOLEAN NOT NULL DEFAULT TRUE, -- New field
+  is_visible BOOLEAN NOT NULL DEFAULT TRUE, -- Flag to control frontend visibility
   section_id UUID REFERENCES sections(id) ON DELETE CASCADE, -- Link to sections, ON DELETE CASCADE
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -65,5 +66,29 @@ CREATE TABLE registrations (
   course_id UUID REFERENCES courses(id) ON DELETE CASCADE, -- Made NOT NULL and ON DELETE CASCADE
   
   -- Status
-  status TEXT DEFAULT 'Pending'
+  status TEXT DEFAULT 'Pending',
+  amount_paid TEXT DEFAULT 'Pending',
+  payment_reference TEXT,
+  checkout_request_id TEXT, -- M-Pesa link
+  notes TEXT,
+  declaration BOOLEAN NOT NULL
+);
+
+-- Create the 'notifications' table
+CREATE TABLE notifications (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  message TEXT NOT NULL,
+  is_read BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create the 'messages' table
+CREATE TABLE messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT,
+  subject TEXT NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

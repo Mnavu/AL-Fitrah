@@ -2,41 +2,44 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Course } from '@/lib/types'; // Import the Course interface
+import { Course } from '@/lib/types';
 
 interface CourseCardProps {
-  course: Course;
+  // We use any here temporarily in case your types file hasn't been updated to accept string prices yet
+  course: any; 
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
   return (
-    <div className="bg-white shadow-lg rounded-lg p-5 flex flex-col justify-between border border-seafoam/30 hover:shadow-xl transition-shadow duration-300">
+    <div className="bg-white shadow-md rounded-xl p-6 flex flex-col justify-between border border-gray-100 hover:shadow-xl transition-all duration-300">
       <div>
-        <Link href={`/courses/${course.id}`}>
-          <h3 className="text-2xl font-serif text-primary mb-2 hover:text-secondary transition-colors cursor-pointer">
+        {/* IMPORTANT: Make sure this link matches your folder structure! */}
+        {/* If your detail page is in src/app/academics/[id], change this to /academics/${course.id} */}
+        <Link href={`/academics/${course.id}`}>
+          <h3 className="text-2xl font-serif text-[#0f5257] mb-3 hover:text-[#07CAC3] transition-colors cursor-pointer">
             {course.title}
           </h3>
         </Link>
-        {course.description && (
-          <p className="text-slate text-sm mb-4 line-clamp-2">
-            {course.description}
+        
+        {/* Safely display the short description */}
+        {(course.short_description || course.description) && (
+          <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+            {course.short_description || course.description}
           </p>
         )}
         
-        {course.price !== null && course.price > 0 && (
-          <p className="text-lg font-bold text-accent mb-4">
-            KES {parseFloat(course.price.toString()).toLocaleString()}
-          </p>
-        )}
-        {(course.price === null || course.price === 0) && (
-          <p className="text-md font-semibold text-seafoam mb-4">Free</p>
-        )}
+        {/* NO MORE MATH RENDER! Safely display the exact text from the database */}
+        <div className="mb-4">
+          <span className="inline-block bg-[#F0FDF4] text-[#045C4C] border border-[#B5DB82] px-3 py-1 rounded-md font-bold text-sm">
+            {course.price && course.price !== 'Free' ? course.price : 'Open / Free'}
+          </span>
+        </div>
       </div>
       
-      <div className="mt-4 flex flex-col gap-2">
+      <div className="mt-4 flex flex-col gap-3">
         <Link 
-          href={`/courses/${course.id}`} 
-          className="bg-primary text-white text-center py-2 px-4 rounded-md hover:bg-secondary transition duration-300 font-medium"
+          href={`/academics/${course.id}`} 
+          className="bg-[#0f5257] text-white text-center py-3 px-4 rounded-lg hover:bg-[#045C4C] transition duration-300 font-medium shadow-sm"
         >
           Learn More
         </Link>
@@ -44,7 +47,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
         {course.requires_registration && (
           <Link 
             href={`/register/${course.id}`} 
-            className="border-2 border-accent text-accent text-center py-2 px-4 rounded-md hover:bg-accent hover:text-white transition duration-300 font-medium"
+            className="border-2 border-[#07CAC3] text-[#077B83] text-center py-3 px-4 rounded-lg hover:bg-[#07CAC3] hover:text-white transition duration-300 font-bold shadow-sm"
           >
             Quick Enroll
           </Link>

@@ -1,262 +1,732 @@
-"use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, Controller } from "react-hook-form";
-import { z } from "zod";
-import { supabase } from "@/lib/supabase";
-import { toast } from "sonner";
-import { useState } from "react";
-import { Calendar as CalendarIcon } from "lucide-react";
+'use client';
 
-// --- Zod Schema for Validation ---
-const registrationSchema = z.object({
-  full_name: z.string().min(1, "Full name is required"),
-  date_of_birth: z.date().optional(),
-  place_of_birth: z.string().optional(),
-  gender: z.string().optional(),
-  nationality: z.string().optional(),
-  address: z.string().optional(),
-  city: z.string().optional(),
-  postal_code: z.string().optional(),
-  student_phone: z.string().optional(),
-  student_email: z.string().email("Invalid email address"),
+import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
+import { 
+  Download, 
+  AlertCircle, 
+  Check, 
+  Loader2, 
+  User, 
+  Phone, 
+  Mail, 
+  MapPin, 
+  Calendar, 
+  ShieldAlert,
+  CreditCard,
+  Heart,
+  FileText,
+  Info,
+  ChevronDown,
+  ArrowLeft,
+  Search
+} from 'lucide-react';
+import { jsPDF } from 'jspdf';
+import { Course } from '@/lib/types';
+
+// Hardcoded M-Pesa details
+const MPESA_PAYBILL = "516600";
+const MPESA_ACCOUNT = "103236Amina";
+
+export default function RegistrationPage() {
+  const { id } = useParams();
+  const router = useRouter();
   
-  father_name: z.string().optional(),
-  father_occupation: z.string().optional(),
-  father_phone: z.string().optional(),
-  mother_name: z.string().optional(),
-  mother_occupation: z.string().optional(),
-  mother_phone: z.string().optional(),
-  guardian_name: z.string().optional(),
-  guardian_relationship: z.string().optional(),
-  guardian_phone: z.string().optional(),
+  // State
+  const [course, setCourse] = useState<Course | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [paymentStep, setPaymentStep] = useState<'form' | 'manual_payment' | 'success'>('form');
+  const [transactionCode, setTransactionCode] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
-  emergency_contact_name: z.string().min(1, "Emergency contact name is required"),
-  emergency_contact_relationship: z.string().optional(),
-  emergency_contact_phone: z.string().min(1, "Emergency contact number is required"),
-
-  has_medical_conditions: z.boolean().default(false),
-  medical_conditions_details: z.string().optional(),
-  allergies: z.string().optional(),
-  
-  how_did_you_hear: z.string().optional(),
-  declaration: z.boolean().refine(val => val === true, "You must agree to the declaration"),
-});
-
-type RegistrationFormInputs = z.infer<typeof registrationSchema>;
-
-// --- UI Components ---
-const Card = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-    <h2 className="text-2xl font-serif text-primary mb-6 border-b pb-4">{title}</h2>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {children}
-    </div>
-  </div>
-);
-
-const Input = ({ name, label, register, error, ...props }: any) => (
-  <div className={props.className}>
-    <label htmlFor={name} className="block text-primary text-sm font-bold mb-2">{label}</label>
-    <input id={name} {...register(name)} {...props} className={`shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline focus:border-primary ${error ? 'border-red-500' : ''}`} />
-    {error && <p className="text-red-500 text-xs italic mt-1">{error.message}</p>}
-  </div>
-);
-
-const Select = ({ name, label, options, register, error, ...props }: any) => (
-    <div className={props.className}>
-        <label htmlFor={name} className="block text-primary text-sm font-bold mb-2">{label}</label>
-        <select id={name} {...register(name)} {...props} className={`shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline focus:border-primary ${error ? 'border-red-500' : ''}`}>
-            {options.map((option: any) => <option key={option.value} value={option.value}>{option.label}</option>)}
-        </select>
-        {error && <p className="text-red-500 text-xs italic mt-1">{error.message}</p>}
-    </div>
-);
-
-
-const Textarea = ({ name, label, register, error, ...props }: any) => (
-  <div className={props.className}>
-    <label htmlFor={name} className="block text-primary text-sm font-bold mb-2">{label}</label>
-    <textarea id={name} {...register(name)} {...props} className={`shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline focus:border-primary ${error ? 'border-red-500' : ''}`} />
-    {error && <p className="text-red-500 text-xs italic mt-1">{error.message}</p>}
-  </div>
-);
-
-const Checkbox = ({ name, label, register, error, ...props }: any) => (
-    <div className={`flex items-center ${props.className}`}>
-        <input type="checkbox" id={name} {...register(name)} {...props} className="mr-2 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded" />
-        <label htmlFor={name} className="text-primary text-sm font-bold">{label}</label>
-        {error && <p className="text-red-500 text-xs italic mt-1">{error.message}</p>}
-    </div>
-);
-
-
-const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => {
-  if (!isOpen) return null;
-
-  const handleReturnHome = () => {
-    // Redirect to home page
-    window.location.href = '/';
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-      <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full relative transform transition-all duration-300 scale-95 animate-in fade-in-0 zoom-in-95">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">Application Received Successfully!</h2>
-        <p className="text-gray-600 mb-6 text-center">
-          To complete your registration, please pay the required fee using the details below.
-        </p>
-        
-        <div className="bg-gray-50 border border-gray-200 p-6 rounded-lg mb-6 receipt-style">
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-gray-500">Bank/Network:</span>
-            <span className="font-semibold text-gray-800">DTB / M-Pesa</span>
-          </div>
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-gray-500">Paybill Number:</span>
-            <span className="font-mono font-bold text-lg text-gray-900 tracking-wider">516600</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-500">Account Number:</span>
-            <span className="font-mono font-bold text-lg text-gray-900 tracking-wider">103236Amina</span>
-          </div>
-        </div>
-        
-        <div className="flex justify-center">
-          <button 
-            onClick={handleReturnHome} 
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
-          >
-            Return to Home
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-
-// --- Main Registration Page Component ---
-export default function RegisterPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  const { register, handleSubmit, control, watch, formState: { errors, isSubmitting } } = useForm<RegistrationFormInputs>({
-    resolver: zodResolver(registrationSchema),
+  // Form State
+  const [formData, setFormData] = useState({
+    full_name: '',
+    date_of_birth: '',
+    gender: '',
+    nationality: '',
+    address: '',
+    city: '',
+    phone: '',
+    email: '',
+    guardian_name: '',
+    guardian_relationship: '',
+    guardian_phone: '',
+    medical_conditions: '',
+    allergies: '',
+    agreed: false
   });
 
-  const hasMedicalConditions = watch("has_medical_conditions");
+  // Dynamic Payment State
+  const [duration, setDuration] = useState(1);
+  const [totalAmount, setTotalAmount] = useState(0);
 
-  const onSubmit = async (data: RegistrationFormInputs) => {
-    try {
-      const { error } = await supabase.from("registrations").insert(data);
+  useEffect(() => {
+    async function fetchCourse() {
+      try {
+        setLoading(true);
+        const { data, error: fetchError } = await supabase
+          .from('courses')
+          .select('*')
+          .eq('id', id)
+          .single();
 
-      if (error) {
-        throw error;
+        if (fetchError) throw fetchError;
+        setCourse(data);
+      } catch (err: any) {
+        setError("Failed to load course details.");
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
+    }
+    fetchCourse();
+  }, [id]);
 
-      toast.success("Registration Successful!", {
-        description: "Your admission form has been submitted.",
+  // Handle calculation logic
+  useEffect(() => {
+    if (!course) return;
+
+    const isBoarding = course.title.toLowerCase().includes('boarding') || course.title.toLowerCase().includes('leadership');
+    
+    if (isBoarding) {
+      setTotalAmount(70000 * duration);
+    } else {
+      const rawPrice = course.price?.toString() || "0";
+      const basePrice = parseInt(rawPrice.replace(/[^\d]/g, '')) || 0;
+      setTotalAmount(basePrice * duration);
+    }
+  }, [course, duration]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target as HTMLInputElement;
+    const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
+    setFormData(prev => ({ ...prev, [name]: val }));
+  };
+
+  const validatePhone = (num: string) => {
+    const clean = num.replace(/\s/g, '');
+    return /^(07|01|254|(\+254))\d{7,9}$/.test(clean);
+  };
+
+  const generateReceipt = async (data: typeof formData, courseTitle: string, amount: number, period: string, code: string) => {
+    const doc = new jsPDF();
+    const date = new Date().toLocaleDateString();
+
+    // BRAND COLOR CODES
+    const midnight = [15, 82, 87]; // #0f5257
+    const turquoise = [7, 202, 195]; // #07CAC3
+    const lightTurquoise = [240, 253, 250]; // #f0fdfa
+
+    // Background Accent for Header
+    doc.setFillColor(lightTurquoise[0], lightTurquoise[1], lightTurquoise[2]);
+    doc.rect(0, 0, 210, 55, 'F');
+    
+    // Vertical Accent Bar
+    doc.setFillColor(turquoise[0], turquoise[1], turquoise[2]);
+    doc.rect(0, 0, 4, 297, 'F');
+
+    // 1. HEADER & LOGO
+    try {
+      const img = new Image();
+      img.src = '/Logo.png';
+      await new Promise((resolve) => {
+        img.onload = resolve;
+        img.onerror = resolve; 
       });
-      setIsModalOpen(true);
+      if (img.complete && img.naturalWidth !== 0) {
+        // Position logo on the left
+        doc.addImage(img, 'PNG', 15, 12, 45, 20);
+      }
+    } catch (e) {
+      console.error("Logo failed to load", e);
+    }
+
+    // Institute Name & Subtitle
+    doc.setFontSize(22);
+    doc.setTextColor(midnight[0], midnight[1], midnight[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text('AL-FITRAH', 195, 25, { align: 'right' });
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.setFont('helvetica', 'normal');
+    doc.text('TRAINING INSTITUTE', 195, 31, { align: 'right' });
+    
+    doc.setFontSize(9);
+    doc.setTextColor(turquoise[0], turquoise[1], turquoise[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text('OFFICIAL ENROLLMENT RECEIPT', 195, 37, { align: 'right' });
+
+    // 2. MAIN CONTENT BOX
+    doc.setDrawColor(240);
+    doc.roundedRect(15, 65, 180, 185, 4, 4);
+
+    // Metadata Row
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Date Issued:', 25, 78);
+    doc.setTextColor(0);
+    doc.text(date, 52, 78);
+
+    doc.setTextColor(100);
+    doc.text('Receipt No:', 125, 78);
+    doc.setTextColor(midnight[0], midnight[1], midnight[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`ALF-${code}`, 150, 78);
+
+    // Section 1: Student Details
+    doc.setFillColor(turquoise[0], turquoise[1], turquoise[2]);
+    doc.rect(25, 90, 160, 0.5, 'F');
+    
+    doc.setFontSize(12);
+    doc.setTextColor(midnight[0], midnight[1], midnight[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text('STUDENT INFORMATION', 25, 100);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(0);
+    doc.setFont('helvetica', 'normal');
+    
+    const detailsY = 112;
+    const spacing = 9;
+    
+    doc.setTextColor(100); doc.text('Full Name:', 25, detailsY);
+    doc.setTextColor(0); doc.text(data.full_name, 75, detailsY);
+    
+    doc.setTextColor(100); doc.text('Student Phone:', 25, detailsY + spacing);
+    doc.setTextColor(0); doc.text(data.phone, 75, detailsY + spacing);
+    
+    doc.setTextColor(100); doc.text('Guardian Name:', 25, detailsY + spacing * 2);
+    doc.setTextColor(0); doc.text(data.guardian_name, 75, detailsY + spacing * 2);
+    
+    doc.setTextColor(100); doc.text('Guardian M-Pesa Phone:', 25, detailsY + spacing * 3);
+    doc.setTextColor(midnight[0], midnight[1], midnight[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text(data.guardian_phone, 75, detailsY + spacing * 3);
+    doc.setFont('helvetica', 'normal');
+
+    // Section 2: Enrollment Summary
+    doc.setFillColor(turquoise[0], turquoise[1], turquoise[2]);
+    doc.rect(25, 160, 160, 0.5, 'F');
+    
+    doc.setFontSize(12);
+    doc.setTextColor(midnight[0], midnight[1], midnight[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text('ENROLLMENT & PAYMENT', 25, 170);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(0);
+    doc.setFont('helvetica', 'normal');
+    
+    const payY = 182;
+    doc.setTextColor(100); doc.text('Course Enrolled:', 25, payY);
+    doc.setTextColor(0); doc.text(courseTitle, 75, payY);
+    
+    doc.setTextColor(100); doc.text('Payment Duration:', 25, payY + spacing);
+    doc.setTextColor(0); doc.text(period, 75, payY + spacing);
+    
+    doc.setTextColor(100); doc.text('M-Pesa Trans. Code:', 25, payY + spacing * 2);
+    doc.setTextColor(midnight[0], midnight[1], midnight[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text(code, 75, payY + spacing * 2);
+    doc.setFont('helvetica', 'normal');
+
+    // Total Amount Highlight Box
+    doc.setFillColor(midnight[0], midnight[1], midnight[2]);
+    doc.roundedRect(25, 215, 160, 22, 3, 3, 'F');
+    doc.setTextColor(255);
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('TOTAL AMOUNT PAID:', 35, 230);
+    doc.setFontSize(18);
+    doc.text(`KES ${amount.toLocaleString()}`, 175, 230, { align: 'right' });
+
+    // 3. FOOTER
+    doc.setFontSize(8);
+    doc.setTextColor(150);
+    doc.setFont('helvetica', 'italic');
+    doc.text('This receipt is electronically generated and subject to M-Pesa transaction verification by administration.', 105, 265, { align: 'center' });
+    doc.text('Al-Fitrah Training Institute | South C & Karen Campuses | Nairobi, Kenya', 105, 271, { align: 'center' });
+    
+    // Stamp Effect
+    doc.setDrawColor(turquoise[0], turquoise[1], turquoise[2]);
+    doc.setLineWidth(1.2);
+    doc.circle(175, 265, 14);
+    doc.setFontSize(7);
+    doc.setTextColor(turquoise[0], turquoise[1], turquoise[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text('VERIFIED', 175, 264, { align: 'center' });
+    doc.text('PAYMENT', 175, 269, { align: 'center' });
+
+    doc.save(`Al-Fitrah_Receipt_${data.full_name.split(' ')[0]}.pdf`);
+  };
+
+  const handleInitialSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    if (!formData.agreed) {
+      setError("You must agree to the Fee Policy and Code of Conduct.");
+      return;
+    }
+
+    if (!validatePhone(formData.phone)) {
+      setError("Please enter a valid Kenyan phone number (e.g., 07XXXXXXXX).");
+      return;
+    }
+
+    setPaymentStep('manual_payment');
+    window.scrollTo(0, 0);
+  };
+
+  const handleVerifySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    if (transactionCode.length !== 10) {
+      setError("Standard M-Pesa transaction codes must be exactly 10 characters long.");
+      return;
+    }
+
+    setSubmitting(true);
+
+    try {
+      const periodText = duration === 3 ? "1 Term (3 Months)" : duration === 6 ? "2 Terms (6 Months)" : duration === 9 ? "Full Year (3 Terms)" : `${duration} Month(s)`;
+      
+      const { error: regError } = await supabase
+        .from('registrations')
+        .insert([{
+          full_name: formData.full_name,
+          date_of_birth: formData.date_of_birth,
+          gender: formData.gender,
+          nationality: formData.nationality,
+          address: formData.address,
+          city: formData.city,
+          student_phone: formData.phone,
+          student_email: formData.email,
+          guardian_name: formData.guardian_name,
+          guardian_relationship: formData.guardian_relationship,
+          guardian_phone: formData.guardian_phone,
+          medical_conditions_details: formData.medical_conditions,
+          allergies: formData.allergies,
+          course_id: id,
+          status: 'Paid',
+          amount_paid: totalAmount.toString(),
+          payment_reference: transactionCode.toUpperCase(),
+          notes: `Paid for ${periodText}`,
+          declaration: true,
+          emergency_contact_name: formData.guardian_name,
+          emergency_contact_phone: formData.guardian_phone
+        }]);
+
+      if (regError) throw regError;
+
+      // Notify Admin
+      await supabase.from('notifications').insert([{
+        message: `Manual Payment Submitted: ${formData.full_name} for ${course?.title}. Code: ${transactionCode.toUpperCase()}`
+      }]);
+
+      setPaymentStep('success');
+      generateReceipt(formData, course?.title || '', totalAmount, periodText, transactionCode.toUpperCase());
+
     } catch (err: any) {
-      toast.error("Registration Failed", {
-        description: err.message || "Please try again later.",
-      });
+      setError(err.message || "Final submission failed. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
+      <Loader2 className="w-12 h-12 text-[#07CAC3] animate-spin" />
+    </div>
+  );
+
+  const isBoarding = course?.title.toLowerCase().includes('boarding') || course?.title.toLowerCase().includes('leadership');
+  const basePriceValue = isBoarding ? 70000 : parseInt(course?.price?.toString().replace(/[^\d]/g, '') || "0");
+
   return (
-    <div className="container mx-auto px-4 py-16 bg-gray-50">
+    <div className="min-h-screen bg-[#F8FAFC] py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-serif text-primary text-center mb-12">
-          Student Admission Form (2026-2027)
-        </h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          
-          <Card title="Personal Student Information">
-            <Input name="full_name" label="Full Name" register={register} error={errors.full_name} className="md:col-span-2" />
-            
-            <Controller
-                name="date_of_birth"
-                control={control}
-                render={({ field }) => (
-                    <div>
-                        <label htmlFor="date_of_birth" className="block text-primary text-sm font-bold mb-2">Date of Birth</label>
-                        <input
-                            type="date"
-                            id="date_of_birth"
-                            onChange={(e) => field.onChange(e.target.valueAsDate)}
-                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline focus:border-primary ${errors.date_of_birth ? 'border-red-500' : ''}`}
-                        />
-                        {errors.date_of_birth && <p className="text-red-500 text-xs italic mt-1">{errors.date_of_birth.message}</p>}
-                    </div>
-                )}
-            />
+        
+        {/* Progress Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-serif text-[#0f5257] font-bold mb-2">Student Admission Portal</h1>
+          <p className="text-xl text-[#07CAC3] font-medium">{course?.title}</p>
+        </div>
 
-            <Input name="place_of_birth" label="Place of Birth" register={register} error={errors.place_of_birth} />
-            <Select name="gender" label="Gender" register={register} error={errors.gender} options={[{value: '', label: 'Select Gender'}, {value: 'Male', label: 'Male'}, {value: 'Female', label: 'Female'}]} />
-            <Input name="nationality" label="Nationality" register={register} error={errors.nationality} />
-            <Input name="address" label="Address" register={register} error={errors.address} className="md:col-span-2" />
-            <Input name="city" label="City" register={register} error={errors.city} />
-            <Input name="postal_code" label="Postal Code" register={register} error={errors.postal_code} />
-            <Input name="student_phone" label="Student Phone" register={register} error={errors.student_phone} />
-            <Input name="student_email" label="Student Email" type="email" register={register} error={errors.student_email} />
-          </Card>
-
-          <Card title="Parent/Guardian Information">
-            <Input name="father_name" label="Father's Name" register={register} error={errors.father_name} />
-            <Input name="father_occupation" label="Father's Occupation" register={register} error={errors.father_occupation} />
-            <Input name="father_phone" label="Father's Phone" register={register} error={errors.father_phone} />
-            <Input name="mother_name" label="Mother's Name" register={register} error={errors.mother_name} />
-            <Input name="mother_occupation" label="Mother's Occupation" register={register} error={errors.mother_occupation} />
-            <Input name="mother_phone" label="Mother's Phone" register={register} error={errors.mother_phone} />
-            <Input name="guardian_name" label="Guardian's Name (Optional)" register={register} error={errors.guardian_name} />
-            <Input name="guardian_relationship" label="Guardian's Relationship" register={register} error={errors.guardian_relationship} />
-            <Input name="guardian_phone" label="Guardian's Phone" register={register} error={errors.guardian_phone} />
-          </Card>
-
-          <Card title="Emergency Contact">
-            <Input name="emergency_contact_name" label="Full Name" register={register} error={errors.emergency_contact_name} />
-            <Input name="emergency_contact_relationship" label="Relationship" register={register} error={errors.emergency_contact_relationship} />
-            <Input name="emergency_contact_phone" label="Contact Number" register={register} error={errors.emergency_contact_phone} />
-          </Card>
-          
-          <Card title="Medical Information">
-            <Checkbox name="has_medical_conditions" label="Does the student have any medical conditions?" register={register} error={errors.has_medical_conditions} className="md:col-span-2"/>
-            {hasMedicalConditions && (
-                <Textarea name="medical_conditions_details" label="If yes, please specify details" register={register} error={errors.medical_conditions_details} className="md:col-span-2" />
-            )}
-            <Input name="allergies" label="Allergies (if any)" register={register} error={errors.allergies} className="md:col-span-2" />
-          </Card>
-
-          <Card title="Additional Information">
-            <Select name="how_did_you_hear" label="How did you learn about our institution?" register={register} error={errors.how_did_you_hear} className="md:col-span-2"
-                options={[
-                    { value: '', label: 'Select an option' },
-                    { value: 'Social Media', label: 'Social Media' },
-                    { value: 'Friend', label: 'Friend' },
-                    { value: 'Event', label: 'Event' },
-                    { value: 'Other', label: 'Other' },
-                ]}
-            />
-          </Card>
-
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <Checkbox name="declaration" label="I declare that all information provided is true and accurate." register={register} error={errors.declaration} />
-          </div>
-
-          <div className="flex justify-end mt-8">
-            <button
-              type="submit"
-              className="bg-primary hover:bg-secondary text-white font-bold py-3 px-8 rounded-full focus:outline-none focus:shadow-outline transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit Application'}
+        {course?.is_enrollment_open === false ? (
+          <div className="bg-white border-2 border-red-100 rounded-3xl p-10 text-center shadow-xl animate-in fade-in duration-500">
+            <ShieldAlert className="w-20 h-20 text-red-500 mx-auto mb-6" />
+            <h2 className="text-3xl font-bold text-red-600 mb-4">Enrollment Currently Closed</h2>
+            <p className="text-gray-600 text-lg max-w-md mx-auto">
+              {course?.enrollment_status_message || "We are currently at capacity for this program. Please check back later or contact us for waiting list options."}
+            </p>
+            <button onClick={() => router.back()} className="mt-8 bg-[#0f5257] text-white px-10 py-4 rounded-xl font-bold hover:bg-[#077B83] transition-all">
+              Go Back
             </button>
           </div>
+        ) : paymentStep === 'manual_payment' ? (
+          <div className="animate-in slide-in-from-bottom-10 duration-700">
+            {/* Payment Instructions Card */}
+            <div className="bg-[#f0fdfa] border-2 border-[#07CAC3] rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden mb-8">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#07CAC3] opacity-5 rounded-full -mr-32 -mt-32"></div>
+              
+              <button 
+                onClick={() => setPaymentStep('form')}
+                className="flex items-center gap-2 text-[#0f5257] font-bold hover:text-[#07CAC3] transition-colors mb-8"
+              >
+                <ArrowLeft size={20} /> Edit Details
+              </button>
 
-        </form>
+              <div className="flex items-center gap-4 mb-8">
+                <div className="bg-[#07CAC3] p-3 rounded-2xl text-white">
+                  <CreditCard size={32} />
+                </div>
+                <h2 className="text-3xl font-bold text-[#0f5257]">Complete Your Payment</h2>
+              </div>
+
+              <div className="space-y-8 bg-white p-8 rounded-3xl border border-[#07CAC3]/20 shadow-sm">
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-1">
+                    <p className="text-xs font-black text-gray-400 uppercase tracking-widest">Paybill Number</p>
+                    <p className="text-3xl font-black text-[#0f5257]">{MPESA_PAYBILL}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-xs font-black text-gray-400 uppercase tracking-widest">Account Name</p>
+                    <p className="text-3xl font-black text-[#0f5257]">{MPESA_ACCOUNT}</p>
+                  </div>
+                </div>
+
+                <div className="pt-6 border-t border-gray-100">
+                  <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Amount to Pay</p>
+                  <p className="text-5xl font-black text-[#0f5257]">KES {totalAmount.toLocaleString()}</p>
+                </div>
+
+                <div className="bg-[#f8fafc] p-6 rounded-2xl border border-gray-100">
+                  <h4 className="font-bold text-[#0f5257] mb-4 flex items-center gap-2">
+                    <Info size={18} className="text-[#07CAC3]" /> Instruction Steps:
+                  </h4>
+                  <ul className="space-y-3 text-sm font-medium text-gray-600">
+                    <li className="flex gap-3"><span className="w-5 h-5 rounded-full bg-[#07CAC3] text-white flex items-center justify-center text-[10px] flex-shrink-0">1</span> Go to M-Pesa {'>'} Lipa na M-Pesa {'>'} Paybill</li>
+                    <li className="flex gap-3"><span className="w-5 h-5 rounded-full bg-[#07CAC3] text-white flex items-center justify-center text-[10px] flex-shrink-0">2</span> Enter Business No: <span className="font-bold text-[#0f5257]">516600</span></li>
+                    <li className="flex gap-3"><span className="w-5 h-5 rounded-full bg-[#07CAC3] text-white flex items-center justify-center text-[10px] flex-shrink-0">3</span> Enter Account No: <span className="font-bold text-[#0f5257]">103236Amina</span></li>
+                    <li className="flex gap-3"><span className="w-5 h-5 rounded-full bg-[#07CAC3] text-white flex items-center justify-center text-[10px] flex-shrink-0">4</span> Enter Amount <span className="font-bold text-[#0f5257]">({totalAmount.toLocaleString()})</span> and your PIN</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Verification Form */}
+            <div className="bg-white rounded-[2.5rem] p-10 shadow-xl border border-gray-100">
+               {error && (
+                <div className="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-2xl flex items-center gap-4 mb-8">
+                  <AlertCircle className="text-red-500" size={24} />
+                  <p className="text-red-700 font-bold">{error}</p>
+                </div>
+              )}
+
+              <form onSubmit={handleVerifySubmit} className="space-y-6">
+                <div>
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-4">
+                    Enter M-Pesa Transaction Code (e.g., QWF8...) *
+                  </label>
+                  <div className="relative">
+                    <Search className="absolute left-6 top-6 text-gray-400 pointer-events-none" size={24} />
+                    <input 
+                      required
+                      value={transactionCode}
+                      onChange={(e) => setTransactionCode(e.target.value.toUpperCase())}
+                      maxLength={10}
+                      className="w-full pl-16 pr-8 py-6 rounded-2xl border-2 border-gray-50 bg-gray-50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all text-2xl font-black tracking-[0.3em] text-[#0f5257] placeholder:text-gray-300 placeholder:tracking-normal"
+                      placeholder="QWF8..."
+                    />
+                  </div>
+                  <p className="mt-4 text-sm text-gray-400 font-medium">Exactly 10 characters as shown in your M-Pesa SMS.</p>
+                </div>
+
+                <button 
+                  type="submit" 
+                  disabled={submitting}
+                  className="w-full bg-[#0f5257] text-white py-6 rounded-2xl font-black text-2xl flex items-center justify-center gap-4 hover:bg-[#077B83] disabled:opacity-50 transition-all shadow-xl"
+                >
+                  {submitting ? <Loader2 className="animate-spin" /> : <Check size={28} />}
+                  Verify & Get Receipt
+                </button>
+              </form>
+            </div>
+          </div>
+        ) : paymentStep === 'success' ? (
+          <div className="bg-white rounded-[2.5rem] p-12 shadow-2xl text-center border-t-8 border-green-500 animate-in zoom-in duration-500">
+            <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8">
+              <Check className="w-14 h-14 text-green-600" />
+            </div>
+            <h2 className="text-4xl font-bold text-[#0f5257] mb-4">Registration Complete!</h2>
+            <p className="text-xl text-gray-600 mb-12 max-w-lg mx-auto">
+              Your details and payment reference have been submitted for verification. Welcome to Al-Fitrah!
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button 
+                onClick={() => generateReceipt(formData, course?.title || '', totalAmount, duration === 3 ? "1 Term (3 Months)" : duration === 6 ? "2 Terms (6 Months)" : duration === 9 ? "Full Year (3 Terms)" : `${duration} Month(s)`, transactionCode.toUpperCase())}
+                className="flex items-center justify-center gap-2 bg-[#07CAC3] text-white px-10 py-5 rounded-2xl font-black text-lg hover:bg-[#0f5257] transition-all shadow-xl hover:shadow-2xl"
+              >
+                <Download size={22} /> Download Receipt
+              </button>
+              <button onClick={() => router.push('/')} className="bg-gray-100 text-[#0f5257] px-10 py-5 rounded-2xl font-bold text-lg hover:bg-gray-200 transition-all">
+                Back to Home
+              </button>
+            </div>
+          </div>
+        ) : (
+          <form onSubmit={handleInitialSubmit} className="space-y-10 pb-20">
+            
+            {error && (
+              <div className="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-2xl flex items-center gap-4 shadow-sm animate-shake">
+                <AlertCircle className="text-red-500 flex-shrink-0" size={28} />
+                <p className="text-red-700 font-bold">{error}</p>
+              </div>
+            )}
+
+            {/* Section 1: Student Information */}
+            <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100 group hover:shadow-md transition-all">
+              <div className="flex items-center gap-4 mb-10 pb-4 border-b">
+                <div className="bg-[#07CAC3]/10 p-3 rounded-2xl group-hover:bg-[#07CAC3]/20 transition-colors">
+                  <User className="text-[#07CAC3] w-7 h-7" />
+                </div>
+                <h3 className="text-2xl font-bold text-[#0f5257]">Student Information</h3>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-x-10 gap-y-8">
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Full Legal Name</label>
+                  <input required name="full_name" value={formData.full_name} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] focus:ring-0 outline-none transition-all text-gray-700" placeholder="As it appears on ID or Passport" />
+                </div>
+                
+                <div>
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Date of Birth</label>
+                  <div className="relative">
+                    <Calendar className="absolute right-5 top-5 text-gray-400 w-5 h-5 pointer-events-none" />
+                    <input required type="date" name="date_of_birth" value={formData.date_of_birth} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all" />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Gender</label>
+                  <div className="relative">
+                    <ChevronDown className="absolute right-5 top-5 text-gray-400 w-5 h-5 pointer-events-none" />
+                    <select required name="gender" value={formData.gender} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all appearance-none cursor-pointer">
+                      <option value="">Select Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Nationality</label>
+                  <input required name="nationality" value={formData.nationality} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all" placeholder="e.g. Kenyan" />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Email Address</label>
+                  <div className="relative">
+                    <Mail className="absolute right-5 top-5 text-gray-400 w-5 h-5 pointer-events-none" />
+                    <input required type="email" name="email" value={formData.email} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all" placeholder="email@example.com" />
+                  </div>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Residential Address</label>
+                  <div className="relative">
+                    <MapPin className="absolute right-5 top-5 text-gray-400 w-5 h-5 pointer-events-none" />
+                    <input required name="address" value={formData.address} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all" placeholder="Estate, Street, House Number" />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">City / Town</label>
+                  <input required name="city" value={formData.city} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all" />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Phone Number (M-Pesa)</label>
+                  <div className="relative">
+                    <Phone className="absolute right-5 top-5 text-gray-400 w-5 h-5 pointer-events-none" />
+                    <input required name="phone" value={formData.phone} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all" placeholder="07XXXXXXXX" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Section 2: Guardian Details */}
+            <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100 group transition-all">
+              <div className="flex items-center gap-4 mb-10 pb-4 border-b">
+                <div className="bg-[#07CAC3]/10 p-3 rounded-2xl group-hover:bg-[#07CAC3]/20 transition-colors">
+                  <ShieldAlert className="text-[#07CAC3] w-7 h-7" />
+                </div>
+                <h3 className="text-2xl font-bold text-[#0f5257]">Guardian Information</h3>
+              </div>
+              <div className="grid md:grid-cols-2 gap-x-10 gap-y-8">
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Guardian Full Name</label>
+                  <input required name="guardian_name" value={formData.guardian_name} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all" />
+                </div>
+                <div>
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Relationship</label>
+                  <input required name="guardian_relationship" value={formData.guardian_relationship} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all" placeholder="e.g. Father" />
+                </div>
+                <div>
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Guardian Phone</label>
+                  <input required name="guardian_phone" value={formData.guardian_phone} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all" placeholder="07XXXXXXXX" />
+                </div>
+              </div>
+            </div>
+
+            {/* Section 3: Medical Information */}
+            <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100 group transition-all">
+              <div className="flex items-center gap-4 mb-10 pb-4 border-b">
+                <div className="bg-[#07CAC3]/10 p-3 rounded-2xl group-hover:bg-[#07CAC3]/20 transition-colors">
+                  <Heart className="text-[#07CAC3] w-7 h-7" />
+                </div>
+                <h3 className="text-2xl font-bold text-[#0f5257]">Medical History (Optional)</h3>
+              </div>
+              <div className="space-y-8">
+                <div>
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Known Medical Conditions</label>
+                  <textarea name="medical_conditions" value={formData.medical_conditions} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all h-28 resize-none" placeholder="Please list any chronic conditions..." />
+                </div>
+                <div>
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Allergies (Food, Meds, etc.)</label>
+                  <textarea name="allergies" value={formData.allergies} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all h-28 resize-none" placeholder="Please list all known allergies..." />
+                </div>
+              </div>
+            </div>
+
+            {/* Section 4: Dynamic Payment Selection */}
+            <div className="bg-white rounded-[2.5rem] p-10 shadow-xl border-2 border-[#07CAC3]/30">
+                <div className="flex items-center gap-4 mb-10 pb-4 border-b border-gray-100">
+                    <div className="bg-[#0f5257]/10 p-3 rounded-2xl">
+                        <CreditCard className="text-[#0f5257] w-7 h-7" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-[#0f5257]">Payment Period</h3>
+                </div>
+
+                <div className="bg-[#F8FAFC] p-8 rounded-3xl border border-gray-100 mb-8">
+                    <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-4">Select Duration to Pay For:</label>
+                    <div className="relative">
+                        <ChevronDown className="absolute right-5 top-5 text-gray-400 w-6 h-6 pointer-events-none" />
+                        <select 
+                            value={duration} 
+                            onChange={(e) => setDuration(parseInt(e.target.value))}
+                            className="w-full px-6 py-5 rounded-2xl border-2 border-gray-200 bg-white focus:border-[#07CAC3] outline-none transition-all appearance-none cursor-pointer font-bold text-lg text-[#0f5257]"
+                        >
+                            {isBoarding ? (
+                                <>
+                                    <option value={1}>1 Month (KES 70,000)</option>
+                                    <option value={3}>1 Term - 3 Months (KES 210,000)</option>
+                                    <option value={6}>2 Terms - 6 Months (KES 420,000)</option>
+                                    <option value={9}>Full Year - 3 Terms (KES 630,000)</option>
+                                </>
+                            ) : (
+                                Array.from({length: 12}, (_, i) => i + 1).map(m => (
+                                    <option key={m} value={m}>{m} {m === 1 ? 'Month' : 'Months'}</option>
+                                ))
+                            )}
+                        </select>
+                    </div>
+                    
+                    {!isBoarding && (
+                        <p className="mt-4 text-sm text-gray-500 font-medium italic">
+                            Calculation: KES {basePriceValue.toLocaleString()} x {duration} {duration === 1 ? 'Month' : 'Months'} = <span className="text-[#07CAC3] font-bold">KES {totalAmount.toLocaleString()}</span>
+                        </p>
+                    )}
+                </div>
+
+                <div className="flex justify-between items-center px-4">
+                    <span className="text-gray-500 font-bold uppercase tracking-widest text-sm">Grand Total:</span>
+                    <span className="text-4xl font-black text-[#0f5257]">KES {totalAmount.toLocaleString()}</span>
+                </div>
+            </div>
+
+            {/* Terms & Conditions Section */}
+            <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100">
+              <div className="flex items-center gap-3 mb-6">
+                <FileText className="text-[#07CAC3]" />
+                <h3 className="text-xl font-bold text-[#0f5257]">Fee Policy & Code of Conduct</h3>
+              </div>
+              
+              <div className="h-44 overflow-y-auto bg-gray-50/80 p-6 rounded-2xl border border-gray-100 text-sm text-gray-600 leading-relaxed mb-8 custom-scrollbar">
+                {isBoarding ? (
+                    <>
+                        <p className="font-bold text-[#0f5257] mb-2 uppercase tracking-widest text-[10px]">Boarding Campus Rules:</p>
+                        <ul className="list-disc pl-5 space-y-2 font-medium">
+                            <li>All boarding fees are strictly payable in advance before the term begins.</li>
+                            <li>There are no refunds for fees paid after the student has been admitted.</li>
+                            <li>Strict Islamic discipline is expected; recurring violations may result in expulsion.</li>
+                            <li>Mobile phones and tablets are strictly prohibited on campus.</li>
+                            <li>Any medical conditions must be fully disclosed upon admission for student safety.</li>
+                        </ul>
+                    </>
+                ) : (
+                    <>
+                        <p className="font-bold text-[#0f5257] mb-2 uppercase tracking-widest text-[10px]">Standard Campus Rules:</p>
+                        <ul className="list-disc pl-5 space-y-2 font-medium">
+                            <li>A one-time non-refundable Registration Fee of KES 1,000 is included.</li>
+                            <li>Monthly tuition must be cleared by the 1st of every calendar month.</li>
+                            <li>Tuition fees remain payable in full even if the student is absent.</li>
+                            <li>A minimum of 1-month written notice is required before withdrawal from any course.</li>
+                            <li>Punctuality and respect for instructors are core requirements.</li>
+                        </ul>
+                    </>
+                )}
+              </div>
+              
+              <label className="flex items-start gap-4 cursor-pointer group p-2">
+                <input required type="checkbox" name="agreed" checked={formData.agreed} onChange={handleInputChange} className="mt-1 w-6 h-6 rounded border-gray-300 text-[#07CAC3] focus:ring-[#07CAC3]" />
+                <span className="text-gray-600 font-bold group-hover:text-[#0f5257] transition-colors leading-snug">
+                  I solemnly declare that the information provided is correct and I agree to the <span className="text-[#0f5257] underline">Fee Policy</span> and <span className="text-[#0f5257] underline">Code of Conduct</span>.
+                </span>
+              </label>
+            </div>
+
+            {/* Bottom Action Section */}
+            <div className="bg-[#0f5257] rounded-[3rem] p-10 md:p-14 text-white shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-80 h-80 bg-[#07CAC3] opacity-10 rounded-full -mr-40 -mt-40"></div>
+                <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-10">
+                    <div className="text-center md:text-left">
+                        <p className="text-[#91E0CD] font-black uppercase tracking-[0.2em] text-xs mb-3">Confirmation Summary</p>
+                        <h4 className="text-5xl font-black mb-2">KES {totalAmount.toLocaleString()}</h4>
+                        <p className="text-white/60 font-medium">Manual Paybill Verification</p>
+                    </div>
+                    
+                    <button 
+                        type="submit" 
+                        disabled={submitting}
+                        className="w-full md:w-auto bg-[#07CAC3] text-[#0f5257] py-6 px-16 rounded-[2rem] font-black text-2xl flex items-center justify-center gap-4 hover:bg-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_20px_50px_rgba(7,202,195,0.3)]"
+                    >
+                        Proceed to Payment <CreditCard size={28} />
+                    </button>
+                </div>
+            </div>
+
+          </form>
+        )}
       </div>
-      <PaymentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #07CAC3; border-radius: 10px; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .animate-shake { animation: shake 0.2s ease-in-out 0s 2; }
+      `}</style>
     </div>
   );
 }

@@ -21,6 +21,9 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: 'Al-Fitrah Training Institute',
   description: 'Woven into the fabric of Excellence.',
+  icons: {
+    icon: '/Logo.png',
+  },
 };
 
 export default function RootLayout({

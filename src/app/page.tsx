@@ -30,7 +30,7 @@ const HeroSection = () => {
   return (
     <section className="relative h-screen flex items-center justify-center text-white overflow-hidden">
       <video ref={videoRef} autoPlay loop playsInline className="absolute inset-0 w-full h-full object-cover">
-        <source src="/Al-Fitrah%20Intro.mp4" type="video/mp4" />
+        <source src="/Al-Fitrah_blurred.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="absolute inset-0 bg-black opacity-40"></div>
@@ -217,8 +217,9 @@ const FacultySection = () => (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Faculty 1 */}
         <div className="text-center">
-          <div className="w-40 h-40 rounded-full bg-gradient-to-br from-primary to-primary mx-auto mb-6 flex items-center justify-center ring-4 ring-gold/20">
-            <p className="text-white text-center text-sm font-semibold px-4">Ustadha Amina Abdiqadir</p>
+          <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
+            <img src="/UstAmina.jpg" // 👈 Make sure to put the photo in your 'public' folder
+              alt="Ustadha Amina" className="w-full h-full object-cover"/>
           </div>
           <h3 className="text-2xl font-serif text-primary mb-2">Ustadha Amina Abdiqadir</h3>
           <p className="text-accent font-semibold mb-3">Founder & Lead Instructor</p>
@@ -228,8 +229,9 @@ const FacultySection = () => (
         </div>
         {/* Faculty 2 */}
         <div className="text-center">
-          <div className="w-40 h-40 rounded-full bg-gradient-to-br from-primary to-primary mx-auto mb-6 flex items-center justify-center ring-4 ring-gold/20">
-            <p className="text-white text-center text-sm font-semibold px-4">Ustadh Nasser Abdulaziz</p>
+          <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
+            <img src="/UstNasser.jpeg" // 👈 Make sure to put the photo in your 'public' folder
+              alt="Ustadh Nasser" className="w-full h-full object-cover"/>
           </div>
           <h3 className="text-2xl font-serif text-primary mb-2">Ustadh Nasser Abdulaziz</h3>
           <p className="text-accent font-semibold mb-3">Lead Instructor</p>
@@ -239,23 +241,47 @@ const FacultySection = () => (
         </div>
         {/* Faculty 3 */}
         <div className="text-center">
-          <div className="w-40 h-40 rounded-full bg-gradient-to-br from-primary to-primary mx-auto mb-6 flex items-center justify-center ring-4 ring-gold/20">
-            <p className="text-white text-center text-sm font-semibold px-4">Dr. Yusuf Hassan</p>
+          <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
+            <img src="/UstMusa.jpeg" // 👈 Make sure to put the photo in your 'public' folder
+              alt="Ustadh Musa" className="w-full h-full object-cover"/>
           </div>
-          <h3 className="text-2xl font-serif text-primary mb-2">Dr. Yusuf Hassan</h3>
+          <h3 className="text-2xl font-serif text-primary mb-2">Dr. Musa Anis</h3>
           <p className="text-accent font-semibold mb-3">Senior Instructor</p>
           <p className="text-primary text-sm leading-relaxed">
-            Fiqh & Usul al-Fiqh. Bridging classical jurisprudence with contemporary needs.
+            Arabic Language and Islamic Jurisprudence.
           </p>
         </div>
         <div className="text-center">
-          <div className="w-40 h-40 rounded-full bg-gradient-to-br from-primary to-primary mx-auto mb-6 flex items-center justify-center ring-4 ring-gold/20">
-            <p className="text-white text-center text-sm font-semibold px-4">Ustadha Nahla Rashid</p>
+          <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
+            <img src="/UstNahla.png" // 👈 Make sure to put the photo in your 'public' folder
+              alt="Ustadha Nahla Rashid" className="w-full h-full object-cover"/>
           </div>
           <h3 className="text-2xl font-serif text-primary mb-2">Ustadha Nahla Rashid</h3>
-          <p className="text-accent font-semibold mb-3">Nooraniyah Teacher</p>
+          <p className="text-accent font-semibold mb-3">Nooraniyah Instructor</p>
           <p className="text-primary text-sm leading-relaxed">
             Tajweed Basics. Ensuring you are able to read the Quran correctly.
+          </p>
+        </div>
+        <div className="text-center">
+          <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
+            <img src="/UstMariam.png" // 👈 Make sure to put the photo in your 'public' folder
+              alt="Ustadha Mariam" className="w-full h-full object-cover"/>
+          </div>
+          <h3 className="text-2xl font-serif text-primary mb-2">Ustadha Mariam</h3>
+          <p className="text-accent font-semibold mb-3">Aqeeda and Hadith Instructor</p>
+          <p className="text-primary text-sm leading-relaxed">
+            She leads the Aqeedah and Hadith modules for our children's programs.
+          </p>
+        </div>
+        <div className="text-center">
+          <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
+            <img src="/UstAbubakr.png" // 👈 Make sure to put the photo in your 'public' folder
+              alt="Ustadh Abubakr" className="w-full h-full object-cover"/>
+          </div>
+          <h3 className="text-2xl font-serif text-primary mb-2">Ustadh Abubakr</h3>
+          <p className="text-accent font-semibold mb-3">Quran Instructor</p>
+          <p className="text-primary text-sm leading-relaxed">
+            Our Qur'an instructor specializes in the Nooraniyah method, to ensure an accurate connection to the Book of Allah.
           </p>
         </div>
       </div>

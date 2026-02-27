@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Phone, MessageCircle, Mail, MapPin, Globe, Instagram, Facebook } from 'lucide-react';
 import { toast } from 'sonner';
+import { supabase } from '@/lib/supabase';
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -22,16 +23,35 @@ export default function ContactUs() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    console.log('Form submitted:', formData);
+    
+    try {
+      // 1. Insert into messages table
+      const { error: messageError } = await supabase
+        .from('messages')
+        .insert([formData]);
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+      if (messageError) throw messageError;
 
-    toast.success('Message Sent Successfully!', {
-      description: 'We will get back to you shortly. Asalamu Alaikum!',
-    });
+      // 2. Notify admin
+      await supabase
+        .from('notifications')
+        .insert([{
+          message: `New Inquiry from ${formData.name}: ${formData.subject}`
+        }]);
 
-    setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-    setIsSubmitting(false);
+      toast.success('Message Sent Successfully!', {
+        description: 'We will get back to you shortly. Asalamu Alaikum!',
+      });
+
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    } catch (error: any) {
+      console.error('Submission error:', error);
+      toast.error('Failed to send message', {
+        description: error.message || 'Please try again later.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const quickContactMethods = [

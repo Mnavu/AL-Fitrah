@@ -17,6 +17,9 @@ export interface Course {
   schedule: string | null; // New field
   instructor_name: string | null; // New field
   requires_registration: boolean; // New field
+  is_visible: boolean; // Flag to control frontend visibility
+  is_enrollment_open: boolean; // Control if course is open for admission
+  enrollment_status_message: string | null; // Custom message when closed (e.g. "Class Full")
   section_id: string; // Foreign key to sections table
   created_at: string;
 }

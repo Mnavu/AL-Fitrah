@@ -25,6 +25,7 @@ export default async function CourseDetailPage({ params }: { params: { id: strin
     );
   }
 
+
   const typedCourse = course as Course;
 
   return (
