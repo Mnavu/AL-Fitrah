@@ -30,7 +30,7 @@ const HeroSection = () => {
   return (
     <section className="relative h-screen flex items-center justify-center text-white overflow-hidden">
       <video ref={videoRef} autoPlay loop playsInline className="absolute inset-0 w-full h-full object-cover">
-        <source src="/Al-Fitrah_blurred.mp4" type="video/mp4" />
+        <source src="/Al-Fitrah_Intro.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="absolute inset-0 bg-black opacity-40"></div>
@@ -264,7 +264,7 @@ const FacultySection = () => (
         </div>
         <div className="text-center">
           <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
-            <img src="/UstMariam.png" // 👈 Make sure to put the photo in your 'public' folder
+            <img src="/UstMariam.png" 
               alt="Ustadha Mariam" className="w-full h-full object-cover"/>
           </div>
           <h3 className="text-2xl font-serif text-primary mb-2">Ustadha Mariam</h3>
@@ -275,7 +275,7 @@ const FacultySection = () => (
         </div>
         <div className="text-center">
           <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
-            <img src="/UstAbubakr.png" // 👈 Make sure to put the photo in your 'public' folder
+            <img src="/UstAbubakr.png" 
               alt="Ustadh Abubakr" className="w-full h-full object-cover"/>
           </div>
           <h3 className="text-2xl font-serif text-primary mb-2">Ustadh Abubakr</h3>

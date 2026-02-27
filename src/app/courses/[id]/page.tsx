@@ -7,6 +7,16 @@ import { Calendar, Clock, ArrowLeft, CheckCircle } from 'lucide-react';
 export default async function CourseDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
 
+  // Prevent build crash if env vars are missing during static generation
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <h1 className="text-2xl font-bold text-red-600 mb-4">Configuration Error</h1>
+        <p className="text-gray-600">Database credentials are missing.</p>
+      </div>
+    );
+  }
+
   // Fetch course details from Supabase
   const { data: course, error } = await supabase
     .from('courses')
