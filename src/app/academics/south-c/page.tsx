@@ -100,24 +100,20 @@ export default function SouthCCampus() {
     if (name.includes('adult')) {
       return '/Sisters.jpeg';
     }
-    if (name.includes('children')) {
+    if (name.includes('children') || name.includes('baby')) {
       return '/Babyclass.png';
     }
     if (name.includes('senior')) {
       return '/Al-Fitrah3.jpeg';
     }
-    if (name.includes('counselling')) {
+    if (name.includes('counselling') || name.includes('support')) {
       return '/Consultation.png';
     }
-    if (name.includes('support')) {
-      return '/Consultation.png';
-    }
-    if (name.includes('online')) {
+    if (name.includes('online') || name.includes('global')) {
       return '/Online.png';
     }
-    if (name.includes('global')) {
-      return '/Online.png';
-    }
+    // Default alternating images for other sections
+    return index % 2 === 0 ? "/Al-Fitrah2.png" : "/Al-Fitrah3.jpeg";
   };
 
   return (

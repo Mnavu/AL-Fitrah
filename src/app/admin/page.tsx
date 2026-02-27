@@ -24,9 +24,9 @@ interface Registration {
   student_phone: string;
   guardian_name?: string;
   guardian_phone?: string;
-  course_id: string;
+  course_id?: string;
   status: string;
-  courses: { title: string };
+  courses: { title: string }[];
 }
 
 interface Message {
@@ -63,13 +63,14 @@ export default function AdminDashboard() {
           student_phone,
           guardian_name,
           guardian_phone,
+          course_id,
           status,
           courses (title)
         `)
         .order('created_at', { ascending: false });
 
       if (regError) throw regError;
-      setRegistrations(regData || []);
+      setRegistrations((regData as any) || []);
 
       // Fetch Messages
       const { data: msgData, error: msgError } = await supabase
@@ -191,7 +192,7 @@ export default function AdminDashboard() {
                         </td>
                         <td className="px-6 py-4">
                           <span className="bg-[#07CAC3]/10 text-[#0f5257] px-3 py-1 rounded-full text-xs font-bold">
-                            {reg.courses?.title || 'Unknown Course'}
+                            {(reg.courses as any)?.[0]?.title || 'Unknown Course'}
                           </span>
                           <p className="text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-tighter">
                             Applied: {new Date(reg.created_at).toLocaleDateString()}
