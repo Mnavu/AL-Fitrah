@@ -18,7 +18,34 @@ const AnnouncementsBanner = () => (
 
 const HeroSection = () => {
   const [isMuted, setIsMuted] = useState(true);
+  const [needsPlay, setNeedsPlay] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const tryAutoplay = async () => {
+      try {
+        await video.play();
+        setNeedsPlay(false);
+      } catch {
+        setNeedsPlay(true);
+      }
+    };
+    tryAutoplay();
+  }, []);
+
+  const handlePlay = async () => {
+    const video = videoRef.current;
+    if (!video) return;
+    setIsMuted(false);
+    try {
+      await video.play();
+      setNeedsPlay(false);
+    } catch {
+      setNeedsPlay(true);
+    }
+  };
 
   const toggleMute = () => {
     if (!videoRef.current) return;
@@ -27,7 +54,9 @@ const HeroSection = () => {
 
     // Ensure playback continues with sound after user interaction.
     if (!nextMuted) {
-      videoRef.current.play().catch(() => {});
+      videoRef.current.play().catch(() => {
+        setNeedsPlay(true);
+      });
     }
   };
 
@@ -40,13 +69,21 @@ const HeroSection = () => {
         muted={isMuted}
         playsInline
         preload="metadata"
-        poster="/Al-Fitrah1.png"
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/Al-Fitrah_Intro.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="absolute inset-0 bg-black opacity-40"></div>
+      {needsPlay && (
+        <button
+          type="button"
+          onClick={handlePlay}
+          className="absolute inset-0 z-20 m-auto h-12 w-44 rounded-full bg-white/80 text-primary font-semibold shadow-lg backdrop-blur-sm"
+        >
+          Tap to Play
+        </button>
+      )}
       <div className="relative z-10 text-center px-4">
         <h1 className="text-5xl md:text-7xl font-serif mb-4 drop-shadow-lg">Al-Fitrah Training Institute.</h1>
         <div/>
@@ -382,11 +419,23 @@ const NewsletterSection = () => {
 
 const AboutUsContent = () => {
     const videoRefJourney = useRef<HTMLVideoElement>(null);
+    const [needsPlayJourney, setNeedsPlayJourney] = useState(false);
 
     useEffect(() => {
-        if (videoRefJourney.current) {
-            videoRefJourney.current.playbackRate = 2;
-        }
+        const video = videoRefJourney.current;
+        if (!video) return;
+        video.playbackRate = 2;
+
+        const tryAutoplay = async () => {
+            try {
+                await video.play();
+                setNeedsPlayJourney(false);
+            } catch {
+                setNeedsPlayJourney(true);
+            }
+        };
+
+        tryAutoplay();
     }, []);
 
     return (
@@ -416,23 +465,42 @@ const AboutUsContent = () => {
       <section className="mb-16">
         <h3 className="text-3xl font-serif text-primary text-center mb-12">Our Journey: 15 Years of Excellence</h3>
         <div className="flex justify-center mb-8">
-          <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
-            preload="metadata"
-            poster="/Al-Fitrah2.png"
-            ref={videoRefJourney} 
-            onLoadedMetadata={() => {
-                if (videoRefJourney.current) {
-                    videoRefJourney.current.playbackRate = 2;
-                }
-            }}
-            className="w-full max-w-4xl rounded-lg shadow-lg">
-            <source src="/SLIDESHOW.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <div className="relative w-full max-w-4xl">
+            <video 
+              autoPlay 
+              loop 
+              muted 
+              playsInline 
+              preload="metadata"
+              ref={videoRefJourney} 
+              onLoadedMetadata={() => {
+                  if (videoRefJourney.current) {
+                      videoRefJourney.current.playbackRate = 2;
+                  }
+              }}
+              className="w-full rounded-lg shadow-lg">
+              <source src="/SLIDESHOW.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            {needsPlayJourney && (
+              <button
+                type="button"
+                onClick={async () => {
+                  const video = videoRefJourney.current;
+                  if (!video) return;
+                  try {
+                    await video.play();
+                    setNeedsPlayJourney(false);
+                  } catch {
+                    setNeedsPlayJourney(true);
+                  }
+                }}
+                className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/40 text-white font-semibold"
+              >
+                Tap to Play
+              </button>
+            )}
+          </div>
         </div>
         <div className="relative wrap overflow-hidden p-10 h-full">
           <div className="border-2-2 absolute border-opacity-20 border-accent h-full border" style={{ left: '50%' }}></div>
