@@ -296,7 +296,7 @@ const FacultySection = () => (
             <img src="/UstMusa.jpeg" // 👈 Make sure to put the photo in your 'public' folder
               alt="Ustadh Musa" className="w-full h-full object-cover"/>
           </div>
-          <h3 className="text-2xl font-serif text-primary mb-2">Dr. Musa Anis</h3>
+          <h3 className="text-2xl font-serif text-primary mb-2">Ustadh Musa Anis</h3>
           <p className="text-accent font-semibold mb-3">Senior Instructor</p>
           <p className="text-primary text-sm leading-relaxed">
             Arabic Language and Islamic Jurisprudence.
