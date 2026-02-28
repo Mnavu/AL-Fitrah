@@ -68,7 +68,8 @@ const HeroSection = () => {
         loop
         muted={isMuted}
         playsInline
-        preload="metadata"
+        preload="auto"
+        controls
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/Al-Fitrah_Intro.mp4" type="video/mp4" />
@@ -471,7 +472,8 @@ const AboutUsContent = () => {
               loop 
               muted 
               playsInline 
-              preload="metadata"
+              preload="auto"
+              controls
               ref={videoRefJourney} 
               onLoadedMetadata={() => {
                   if (videoRefJourney.current) {
