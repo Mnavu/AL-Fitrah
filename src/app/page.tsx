@@ -17,19 +17,32 @@ const AnnouncementsBanner = () => (
 );
 
 const HeroSection = () => {
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(!isMuted);
+    if (!videoRef.current) return;
+    const nextMuted = !isMuted;
+    setIsMuted(nextMuted);
+
+    // Ensure playback continues with sound after user interaction.
+    if (!nextMuted) {
+      videoRef.current.play().catch(() => {});
     }
   };
 
   return (
     <section className="relative h-screen flex items-center justify-center text-white overflow-hidden">
-      <video ref={videoRef} autoPlay loop playsInline className="absolute inset-0 w-full h-full object-cover">
+      <video
+        ref={videoRef}
+        autoPlay
+        loop
+        muted={isMuted}
+        playsInline
+        preload="metadata"
+        poster="/Al-Fitrah1.png"
+        className="absolute inset-0 w-full h-full object-cover"
+      >
         <source src="/Al-Fitrah_Intro.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -48,6 +61,7 @@ const HeroSection = () => {
       </div>
       <button
         onClick={toggleMute}
+        aria-label={isMuted ? "Unmute hero video" : "Mute hero video"}
         className="absolute bottom-10 right-10 bg-white/30 backdrop-blur-sm p-2 rounded-full text-white hover:bg-white/50 transition-colors"
       >
         {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
@@ -407,6 +421,8 @@ const AboutUsContent = () => {
             loop 
             muted 
             playsInline 
+            preload="metadata"
+            poster="/Al-Fitrah2.png"
             ref={videoRefJourney} 
             onLoadedMetadata={() => {
                 if (videoRefJourney.current) {
