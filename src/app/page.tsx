@@ -44,7 +44,7 @@ const HeroSection = () => {
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover"
       >
-        <source src="/Al-Fitrah_Intro.mp4" type="video/mp4" />
+        <source src="/Al-Fitrah_Intro.mp4?v=20260302" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="absolute inset-0 bg-black opacity-40"></div>
@@ -430,7 +430,7 @@ const AboutUsContent = () => {
                   }
               }}
               className="w-full rounded-lg shadow-lg">
-              <source src="/SLIDESHOW.mp4" type="video/mp4" />
+              <source src="/SLIDESHOW.mp4?v=20260302" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
         </div>
