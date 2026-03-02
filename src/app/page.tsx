@@ -27,9 +27,7 @@ const HeroSection = () => {
 
     // Ensure playback continues with sound after user interaction.
     if (!nextMuted) {
-      videoRef.current.play().catch(() => {
-        setNeedsPlay(true);
-      });
+      videoRef.current.play().catch(() => {});
     }
   };
 
