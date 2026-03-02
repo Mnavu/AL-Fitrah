@@ -10,7 +10,7 @@ import { CheckCircle2, GraduationCap, BookOpen, Award, Target } from 'lucide-rea
 
 // --- Page-specific configuration ---
 // 1. UPDATED: Title exactly matches the SQL database!
-const COURSE_TITLE_FOR_FETCH = 'Leadership & Mindset: 2-Year Curriculum'; 
+const COURSE_TITLE_FOR_FETCH = 'Leadership & Mindset: 3-Year Curriculum'; 
 
 export default function BoysBoardingCampus() {
   const [course, setCourse] = useState<Course | null>(null);
@@ -145,7 +145,7 @@ export default function BoysBoardingCampus() {
               </div>
               <div>
                 <p className="text-sm text-gray-500 font-bold uppercase tracking-wider">Duration</p>
-                <p className="text-2xl font-black text-[#045C4C]">{course.schedule || '2 Years'}</p>
+                <p className="text-2xl font-black text-[#045C4C]">{course.schedule || '3 Years'}</p>
               </div>
             </div>
           </div>
