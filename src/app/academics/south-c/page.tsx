@@ -119,7 +119,7 @@ export default function SouthCCampus() {
   return (
     <div className="bg-[#F8FAFC] min-h-screen">
       {/* 1. Hero Banner: Campus Overview */}
-      <div className="relative w-full aspect-video md:aspect-[21/9]">
+      <div className="relative w-full h-[300px] md:h-[450px] bg-[#0f5257]">
         <Image 
           src="/Al-Fitrah1.png" 
           alt="Al-Fitrah South C Campus"
@@ -144,8 +144,8 @@ export default function SouthCCampus() {
             <div key={section.id} className="mb-24 last:mb-0">
               {/* 2. Section Layout: Image alongside Title/Description */}
               <div className={`flex flex-col ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-12 items-center mb-12`}>
-                <div className="md:w-1/2 w-full">
-                  <div className="relative aspect-video w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                <div className="md:w-1/2 w-full flex justify-center">
+                  <div className="relative h-64 md:h-80 w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-gray-100">
                     <Image 
                       src={getSectionImage(section.name, idx)} 
                       alt={section.name}
