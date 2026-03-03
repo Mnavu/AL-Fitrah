@@ -5,8 +5,8 @@ import { Award, Camera, Home } from 'lucide-react';
 import Link from 'next/link';
 
 export default function GraduatesPage() {
-  // Generate array for images 1-16
-  const images = Array.from({ length: 16 }, (_, i) => i + 1);
+  // Generate array for images 1-15
+  const images = Array.from({ length: 15 }, (_, i) => i + 1);
 
   return (
     <div className="bg-[#F8FAFC] min-h-screen">
@@ -42,20 +42,20 @@ export default function GraduatesPage() {
         </div>
 
         {/* Image Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-start">
           {images.map((num) => (
-            <div key={num} className="group relative aspect-[4/5] rounded-3xl overflow-hidden shadow-lg border-4 border-white bg-gray-200 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
+            <div key={num} className="group relative rounded-3xl overflow-hidden shadow-lg border-4 border-white bg-gray-200 transition-all  duration-500 hover:shadow-2xl hover:-translate-y-2">
               <Image
                 src={`/${num}.jpg`}
                 alt={`Graduate Photo ${num}`}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                width={600}
+                height={400}
+                className="w-full h-auto transition-transform duration-700 group-hover:scale-110 block"
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0f5257]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                 <div className="text-white">
                    <p className="text-sm font-bold uppercase tracking-widest opacity-80 mb-1">Al-Fitrah Alumni</p>
-                   <h3 className="text-xl font-serif font-bold">Successfully Graduated</h3>
                 </div>
               </div>
             </div>

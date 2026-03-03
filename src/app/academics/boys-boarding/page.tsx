@@ -268,15 +268,15 @@ export default function BoysBoardingCampus() {
           </div>
           <SectionDivider/>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-            <div className="group overflow-hidden rounded-3xl shadow-lg aspect-square relative">
+            <div className="group overflow-hidden rounded-3xl shadow-lg aspect-video relative">
               <Image src="/27.jpeg" alt="Campus Photo 1" fill className="object-cover group-hover:scale-110 transition-transform duration-700"/>
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
             </div>
-            <div className="group overflow-hidden rounded-3xl shadow-lg aspect-square relative">
+            <div className="group overflow-hidden rounded-3xl shadow-lg aspect-video relative">
               <Image src="/17.jpeg" alt="Campus Photo 2" fill className="object-cover group-hover:scale-110 transition-transform duration-700"/>
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
             </div>
-            <div className="group overflow-hidden rounded-3xl shadow-lg aspect-square relative">
+            <div className="group overflow-hidden rounded-3xl shadow-lg aspect-video relative">
               <Image src="/21.jpeg" alt="Campus Photo 3" fill className="object-cover group-hover:scale-110 transition-transform duration-700"/>
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
             </div>

@@ -84,7 +84,7 @@ export default function CoursePage({ params }: CoursePageProps) {
           <div className={`min-h-screen bg-[#F8FAFC] pb-12 ${playfairDisplay.variable}`}>
             
             {course.cover_image && (
-               <div className="w-full h-64 md:h-80 relative bg-[#0f5257]">
+               <div className="w-full aspect-video md:aspect-[3/1] relative bg-[#0f5257]">
                   <Image src={course.cover_image} alt={course.title} fill className="object-cover opacity-60" />
                </div>
             )}
