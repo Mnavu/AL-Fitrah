@@ -40,14 +40,14 @@ export default function GraduatesPage() {
             Back Home
           </Link>
         </div>
-{/* Image Gallery - Flexible Width, Fixed Height */}
+{/* Image Gallery - Flexible Width, Fixed Height (Uniform) */}
 <div className="flex flex-wrap justify-center gap-6">
   {images.map((num) => (
-    <div key={num} className="group relative h-80 rounded-3xl overflow-hidden shadow-lg border-4 border-white bg-gray-200 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
+    <div key={num} className="group relative h-72 rounded-3xl overflow-hidden shadow-lg border-4 border-white bg-gray-200 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
       <img
         src={`/${num}.jpg`}
         alt={`Graduate Photo ${num}`}
-        className="h-full w-auto object-cover transition-transform duration-700 group-hover:scale-110 block"
+        className="h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110 block"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0f5257]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
         <div className="text-white">

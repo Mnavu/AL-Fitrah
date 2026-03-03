@@ -269,15 +269,15 @@ export default function BoysBoardingCampus() {
           <SectionDivider/>
           <div className="flex flex-wrap justify-center gap-8 mt-12">
             <div className="group overflow-hidden rounded-3xl shadow-lg h-72 w-auto relative border-4 border-white">
-              <img src="/27.jpeg" alt="Campus Photo 1" className="h-full w-auto object-cover group-hover:scale-110 transition-transform duration-700"/>
+              <img src="/27.jpeg" alt="Campus Photo 1" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
             </div>
             <div className="group overflow-hidden rounded-3xl shadow-lg h-72 w-auto relative border-4 border-white">
-              <img src="/17.jpeg" alt="Campus Photo 2" className="h-full w-auto object-cover group-hover:scale-110 transition-transform duration-700"/>
+              <img src="/17.jpeg" alt="Campus Photo 2" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
             </div>
             <div className="group overflow-hidden rounded-3xl shadow-lg h-72 w-auto relative border-4 border-white">
-              <img src="/21.jpeg" alt="Campus Photo 3" className="h-full w-auto object-cover group-hover:scale-110 transition-transform duration-700"/>
+              <img src="/21.jpeg" alt="Campus Photo 3" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
             </div>
           </div>

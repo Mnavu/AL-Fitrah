@@ -145,12 +145,11 @@ export default function SouthCCampus() {
               {/* 2. Section Layout: Image alongside Title/Description */}
               <div className={`flex flex-col ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-12 items-center mb-12`}>
                 <div className="md:w-1/2 w-full flex justify-center">
-                  <div className="relative h-64 md:h-80 w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-gray-100">
-                    <Image 
+                  <div className="relative h-64 md:h-72 w-auto max-w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-gray-100 flex items-center justify-center">
+                    <img 
                       src={getSectionImage(section.name, idx)} 
                       alt={section.name}
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      className="h-full w-auto object-contain hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 </div>
