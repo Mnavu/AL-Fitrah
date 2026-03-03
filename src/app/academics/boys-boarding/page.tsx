@@ -5,23 +5,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import { Course } from '@/lib/types'; // Make sure this type matches your DB!
+import { SectionDivider } from '@/components/ui/FloralDecorations';
 import { CheckCircle2, GraduationCap, BookOpen, Award, Target } from 'lucide-react';
 
 // --- Page-specific configuration ---
 // 1. UPDATED: Title exactly matches the SQL database!
 const COURSE_TITLE_FOR_FETCH = 'Leadership & Mindset: 3-Year Curriculum'; 
-
-const SubtleDivider = () => (
-  <div className="flex justify-center items-center my-12">
-    <div className="h-px bg-gradient-to-r from-transparent via-[#0f5257]/20 to-transparent w-full max-w-4xl relative">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-3 bg-[#F8FAFC] px-4">
-        <div className="w-1.5 h-1.5 rounded-full bg-[#07CAC3]/30"></div>
-        <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]/30"></div>
-        <div className="w-1.5 h-1.5 rounded-full bg-[#07CAC3]/30"></div>
-      </div>
-    </div>
-  </div>
-);
 
 export default function BoysBoardingCampus() {
   const [course, setCourse] = useState<Course | null>(null);
@@ -175,7 +164,7 @@ export default function BoysBoardingCampus() {
             </p>
           </div>
           
-          <SubtleDivider />
+          <SectionDivider />
           
           <div className="mt-16 space-y-12">
             {levels.map((lvl) => (
@@ -271,12 +260,13 @@ export default function BoysBoardingCampus() {
             </div>
         </div>
         
-        {/* Campus Photos Section */} 
-        <div className="mb-20">          <div className="text-center mb-10">
+        {/* Campus Photos Section */}
+        <div className="mb-20">
+          <div className="text-center mb-10">
             <h3 className="text-3xl font-serif text-[#0f5257] mb-4">Campus Life</h3>
             <p className="text-gray-500 text-lg">A serene and conducive environment for focused learning and spiritual growth.</p>
           </div>
-          <SubtleDivider/>
+          <SectionDivider/>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
             <div className="group overflow-hidden rounded-3xl shadow-lg aspect-square relative">
               <Image src="/27.jpeg" alt="Campus Photo 1" fill className="object-cover group-hover:scale-110 transition-transform duration-700"/>
@@ -300,7 +290,7 @@ export default function BoysBoardingCampus() {
     <div className="bg-[#F8FAFC] min-h-screen">
       <div className="container mx-auto px-4 py-20 max-w-7xl">
         <h1 className="text-5xl md:text-7xl font-serif text-[#0f5257] font-bold text-center mb-12">Boys Boarding Campus</h1>
-        <SubtleDivider />
+        <SectionDivider />
         <div className="mt-16">
           {renderContent()}
         </div>
