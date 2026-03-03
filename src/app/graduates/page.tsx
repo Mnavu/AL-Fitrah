@@ -7,7 +7,7 @@ import Link from 'next/link';
 export default function GraduatesPage() {
   // Sorted by size (width * height). 
   // All current images 1-16 are 720x1600 (Size: 1,152,000)
-  const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+  const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
   return (
     <div className="bg-[#F8FAFC] min-h-screen">
