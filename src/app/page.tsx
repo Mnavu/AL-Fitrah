@@ -12,7 +12,7 @@ const GoldAccent = ({ className }: { className?: string }) => (
 
 const AnnouncementsBanner = () => (
   <div className="sticky top-0 z-30 w-full bg-paleYellow text-primary py-3 px-4 text-center font-semibold shadow-md">
-    <p className="text-sm md:text-base"><span className="text-gold mr-2">•</span>📢 Now Enrolling: Islamic Tarbiyah Holiday Program & The 8-Week Sisters Transformational Series!</p>
+    <p className="text-sm md:text-base"><span className="text-gold mr-2">•</span>📢 Now Enrolling: Tarbiyah and Leadership Boys Boarding Programmer</p>
   </div>
 );
 

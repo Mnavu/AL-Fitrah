@@ -41,6 +41,7 @@ export default function Navbar() {
               <DropdownLink href="/academics/boys-boarding">Boys Boarding Campus</DropdownLink>
               <DropdownLink href="/academics/south-c">South C Campus</DropdownLink>
             </DropdownNavLink>
+            <NavLink href="/graduates">Graduates</NavLink>
             <NavLink href="/contact">Contact Us</NavLink>
           </div>
 
@@ -59,6 +60,7 @@ export default function Navbar() {
           <div className="flex flex-col items-center space-y-4">
             <NavLink href="/" onClick={closeMobileMenu}>Home</NavLink>
             <MobileDropdown onLinkClick={closeMobileMenu} />
+            <NavLink href="/graduates" onClick={closeMobileMenu}>Graduates</NavLink>
             <NavLink href="/contact" onClick={closeMobileMenu}>Contact Us</NavLink>
           </div>
         </div>
