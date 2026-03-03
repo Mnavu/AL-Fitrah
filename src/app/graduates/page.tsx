@@ -52,7 +52,6 @@ export default function GraduatesPage() {
       <div className="absolute inset-0 bg-gradient-to-t from-[#0f5257]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
         <div className="text-white">
            <p className="text-sm font-bold uppercase tracking-widest opacity-80 mb-1">Al-Fitrah Alumni</p>
-           <h3 className="text-lg font-serif font-bold">Successfully Graduated</h3>
         </div>
       </div>
     </div>
