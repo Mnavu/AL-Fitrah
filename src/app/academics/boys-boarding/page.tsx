@@ -162,9 +162,9 @@ export default function BoysBoardingCampus() {
         {/* NEW Curriculum Journey Section */}
         <div className="mb-20">
           <div className="text-center mb-12">
-            <h3 className="text-4xl md:text-5xl font-serif text-[#0f5257] mb-6">The Scholarship Journey</h3>
+            <h3 className="text-4xl md:text-5xl font-serif text-[#0f5257] mb-6">The Academic Journey</h3>
             <p className="text-gray-600 max-w-3xl mx-auto text-xl leading-relaxed">
-              A structured, leveled journey of Islamic scholarship designed to build firm foundations, strength in knowledge, and mastery of the sciences.
+              A structured, leveled journey of Islamic education designed to build firm foundations, strength in knowledge, and mastery of the sciences.
             </p>
           </div>
           
