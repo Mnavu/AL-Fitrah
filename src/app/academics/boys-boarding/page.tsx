@@ -266,7 +266,7 @@ export default function BoysBoardingCampus() {
             <h3 className="text-3xl font-serif text-[#0f5257] mb-4">Campus Life</h3>
             <p className="text-gray-500 text-lg">A serene and conducive environment for focused learning and spiritual growth.</p>
           </div>
-          <SectionDivider/>
+
           <div className="flex flex-wrap justify-center gap-8 mt-12">
             <div className="group overflow-hidden rounded-3xl shadow-lg h-72 w-auto relative border-4 border-white">
               <img src="/27.jpeg" alt="Campus Photo 1" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
