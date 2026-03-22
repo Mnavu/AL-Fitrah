@@ -80,10 +80,11 @@ export default function BoysBoardingCampus() {
         border: "border-green-100",
         accent: "#059669",
         subjects: [
+          { cat: "Quranic Excellence", items: "Embarking on a beautiful journey of mastering 10 Juz with precision, focus, and heartfelt revision." },
           { cat: "Aqeedah & Tawhid", items: "Al-Uṣūl ath-Thalāthah, Al-Qawā‘id al-Arba‘, Kashf ash-Shubuhāt." },
           { cat: "Fiqh & Worship", items: "Shurūṭ aṣ-Ṣalāh wa Arkānihā, ‘Umdat al-Aḥkām." },
           { cat: "Hadith & Basic Sciences", items: "Mandhūmat al-Bayqūniyyah, Nukhbat al-Fikr (Intro)." },
-          { cat: "Arabic & Qur’an", items: "Matn al-Ājrūmiyyah, Tuḥfat al-Aṭfāl, Matn al-Jazariyyah." },
+          { cat: "Arabic Language", items: "Matn al-Ājrūmiyyah, Tuḥfat al-Aṭfāl, Matn al-Jazariyyah." },
           { cat: "Adab & Tazkiyah", items: "Al-Adhkār wa al-Ādāb." },
         ],
         outcome: "Students complete 3 semesters of beginner courses, gaining firm foundations in core beliefs, basic worship, Arabic grammar, and Islamic manners."
@@ -95,11 +96,12 @@ export default function BoysBoardingCampus() {
         border: "border-yellow-100",
         accent: "#d97706",
         subjects: [
+          { cat: "Quranic Excellence", items: "Deepening the spiritual bond with Allah's Word, advancing to 17 Juz of steadfast memorization and thorough revision." },
           { cat: "Year 1 Courses", items: "All foundational material and beginner courses from the 1st year program." },
           { cat: "Aqeedah & Manhaj", items: "Nawāqiḍ al-Islām, Al-‘Aqīdah al-Wāsiṭiyyah, Al-‘Aqīdah aṭ-Ṭaḥāwiyyah." },
           { cat: "Fiqh", items: "Zād al-Mustaqni‘, Bulūgh al-Marām." },
           { cat: "Usūl & Hadith Methodology", items: "Warāqāt (Uṣūl al-Fiqh), Nukhbat al-Fikr (Detailed)." },
-          { cat: "Arabic & Language", items: "Continued Al-Ājrūmiyyah with application, Applied grammar exercises." },
+          { cat: "Arabic Language", items: "Continued Al-Ājrūmiyyah with application, Applied grammar exercises." },
           { cat: "Tazkiyah", items: "Lamiyyat al-Af‘āl." },
         ],
         outcome: "Covers all Year 1 details plus year 2 intermediate courses, providing structured Fiqh understanding and stronger Aqeedah grounding."
@@ -111,12 +113,13 @@ export default function BoysBoardingCampus() {
         border: "border-blue-100",
         accent: "#2563eb",
         subjects: [
+          { cat: "Quranic Excellence", items: "The ultimate milestone: completing the full Quran with unwavering accuracy and a lifelong commitment to mastery." },
           { cat: "Comprehensive Coverage", items: "Complete course details and material for all 3 years: Beginner to Advanced." },
           { cat: "Aqeedah & Creed", items: "Advanced Al-‘Aqīdah aṭ-Ṭaḥāwiyyah, Advanced Al-‘Aqīdah al-Wāsiṭiyyah, Kashf ash-Shubuhāt (Refutation level)." },
           { cat: "Fiqh & Hadith", items: "Advanced Bulūgh al-Marām, Advanced ‘Umdat al-Aḥkām, Advanced Zād al-Mustaqni‘." },
           { cat: "Usūl al-Fiqh", items: "Warāqāt (with case studies)." },
           { cat: "Hadith Sciences", items: "Mandhūmat al-Bayqūniyyah (with Takhrīj), Nukhbat al-Fikr (Application)." },
-          { cat: "Arabic", items: "Applied Nahw & Classical Texts." },
+          { cat: "Arabic Language", items: "Applied Nahw & Classical Texts." },
         ],
         outcome: "The complete 3-year curriculum. Students master classical texts, understand evidences, and are confident in teaching foundational material."
       }
