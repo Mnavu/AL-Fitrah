@@ -113,7 +113,7 @@ export default function BoysBoardingCampus() {
         border: "border-blue-100",
         accent: "#2563eb",
         subjects: [
-          { cat: "Quranic Excellence", items: "The ultimate milestone: completing the full Quran with unwavering accuracy and a lifelong commitment to mastery." },
+          { cat: "Quranic Excellence", items: "The ultimate milestone: completing the memorization and revision of the full Quran with unwavering accuracy and mastery." },
           { cat: "Comprehensive Coverage", items: "Complete course details and material for all 3 years: Beginner to Advanced." },
           { cat: "Aqeedah & Creed", items: "Advanced Al-‘Aqīdah aṭ-Ṭaḥāwiyyah, Advanced Al-‘Aqīdah al-Wāsiṭiyyah, Kashf ash-Shubuhāt (Refutation level)." },
           { cat: "Fiqh & Hadith", items: "Advanced Bulūgh al-Marām, Advanced ‘Umdat al-Aḥkām, Advanced Zād al-Mustaqni‘." },
