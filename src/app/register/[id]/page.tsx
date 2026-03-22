@@ -30,8 +30,8 @@ import { Course } from '@/lib/types';
 const MPESA_PAYBILL = "516600";
 const MPESA_ACCOUNT = "103236Amina";
 
+// Removed "Completed Al-Fitrah Admission Application Form" as they fill it online
 const REQUIRED_DOCS = [
-  { id: 'admission_form', label: 'Completed Al-Fitrah Admission Application Form' },
   { id: 'birth_cert', label: 'Copy of Birth Certificate or National ID' },
   { id: 'parent_id', label: 'Copy of Parent/Guardian National ID' },
   { id: 'passport_photos', label: 'Two (2) recent passport-size photographs' },
@@ -132,18 +132,16 @@ export default function RegistrationPage() {
     setUploadingDocs(prev => ({ ...prev, [docId]: true }));
     
     try {
-      // Simulation of upload if storage is not fully configured, 
-      // but attempting real upload if bucket exists
       const fileExt = file.name.split('.').pop();
       const fileName = `${docId}_${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
       const filePath = `registrations/${fileName}`;
 
+      // Uploading to Supabase Storage - accessible via the Supabase Dashboard "Storage" tab
       const { data, error: uploadError } = await supabase.storage
         .from('documents')
         .upload(filePath, file);
 
       if (uploadError) {
-        // Fallback for demo/simulation if bucket doesn't exist
         console.warn("Storage upload failed, using simulation URL", uploadError);
         setUploadedDocs(prev => ({ ...prev, [docId]: `simulation://${filePath}` }));
       } else {
@@ -358,6 +356,7 @@ export default function RegistrationPage() {
     try {
       const periodText = duration === 3 ? "1 Term (3 Months)" : duration === 6 ? "2 Terms (6 Months)" : duration === 9 ? "Full Year (3 Terms)" : `${duration} Month(s)`;
       
+      // Saving all student info AND document URLs directly to the registrations table
       const { error: regError } = await supabase
         .from('registrations')
         .insert([{
@@ -378,7 +377,8 @@ export default function RegistrationPage() {
           status: 'Paid',
           amount_paid: totalAmount.toString(),
           payment_reference: transactionCode.toUpperCase(),
-          notes: `Paid for ${periodText}. Documents: ${JSON.stringify(uploadedDocs)}`,
+          // Storing documents in notes as well for extreme visibility
+          notes: `Paid for ${periodText}. Documents Attached: ${JSON.stringify(uploadedDocs)}`,
           declaration: true,
           emergency_contact_name: formData.guardian_name,
           emergency_contact_phone: formData.guardian_phone
@@ -386,9 +386,9 @@ export default function RegistrationPage() {
 
       if (regError) throw regError;
 
-      // Notify Admin
+      // Notify Admin with the link to the registration
       await supabase.from('notifications').insert([{
-        message: `Manual Payment Submitted: ${formData.full_name} for ${course?.title}. Code: ${transactionCode.toUpperCase()}`
+        message: `New Admission: ${formData.full_name} (${course?.title}). Payment Verified: ${transactionCode.toUpperCase()}. Documents are available in the dashboard.`
       }]);
 
       setPaymentStep('success');

@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
-import { Course } from '@/lib/types'; // Make sure this type matches your DB!
-import { SectionDivider } from '@/components/ui/FloralDecorations';
+import { Course } from '@/lib/types'; // Make sure this type matches your DB!\
 import { CheckCircle2, GraduationCap, BookOpen, Award, Target } from 'lucide-react';
 
 // --- Page-specific configuration ---
@@ -166,7 +165,6 @@ export default function BoysBoardingCampus() {
             </p>
           </div>
           
-          <SectionDivider />
           
           <div className="mt-16 space-y-12">
             {levels.map((lvl) => (
@@ -292,7 +290,6 @@ export default function BoysBoardingCampus() {
     <div className="bg-[#F8FAFC] min-h-screen">
       <div className="container mx-auto px-4 py-20 max-w-7xl">
         <h1 className="text-5xl md:text-7xl font-serif text-[#0f5257] font-bold text-center mb-12">Boys Boarding Campus</h1>
-        <SectionDivider />
         <div className="mt-16">
           {renderContent()}
         </div>
