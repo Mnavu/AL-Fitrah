@@ -263,6 +263,43 @@ export default function BoysBoardingCampus() {
             </div>
         </div>
         
+        {/* Staff Excellence Section */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <h3 className="text-4xl md:text-5xl font-serif text-[#0f5257] mb-6">Staff Excellence</h3>
+            <p className="text-gray-600 max-w-3xl mx-auto text-xl leading-relaxed">
+              Guided by experienced educators and spiritual mentors dedicated to nurturing the next generation of scholars.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 mt-12">
+            {[
+              { name: "Ustadha Amina", role: "Principal", img: "/UstAmina.jpg" },
+              { name: "Sheikh Abdinasser", role: "Head of Pastoral", img: "/Sheikh Abdinassir.png" },
+              { name: "Ustadh Nasser", role: "Islamiyat & Quran Teacher", img: "/UstNasser.jpeg" },
+              { name: "Ustadh Musa", role: "Arabic Teacher", img: "/UstMusa.jpeg" },
+              { name: "Ustadh Abubakr", role: "Quran Teacher", img: "/UstAbubakr.png" },
+            ].map((staff, i) => (
+              <div key={i} className="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 group hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                <div className="h-64 relative overflow-hidden">
+                  <img 
+                    src={staff.img} 
+                    alt={staff.name} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f5257]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                    <p className="text-white text-sm font-medium italic">"{staff.role}"</p>
+                  </div>
+                </div>
+                <div className="p-6 text-center">
+                  <h4 className="text-xl font-bold text-[#0f5257] mb-1">{staff.name}</h4>
+                  <p className="text-[#07CAC3] font-semibold text-sm uppercase tracking-wider">{staff.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Campus Photos Section */}
         <div className="mb-20">
           <div className="text-center mb-10">
