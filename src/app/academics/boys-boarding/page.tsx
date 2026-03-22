@@ -75,7 +75,7 @@ export default function BoysBoardingCampus() {
     const levels = [
       {
         level: 1,
-        title: "1-YEAR PROGRAM: BEGINNER (3 Levels)",
+        title: "1-YEAR PROGRAM: BEGINNER (3 Semesters)",
         bg: "bg-[#f1fcf5]",
         border: "border-green-100",
         accent: "#059669",
@@ -86,7 +86,7 @@ export default function BoysBoardingCampus() {
           { cat: "Arabic & Qur’an", items: "Matn al-Ājrūmiyyah, Tuḥfat al-Aṭfāl, Matn al-Jazariyyah." },
           { cat: "Adab & Tazkiyah", items: "Al-Adhkār wa al-Ādāb." },
         ],
-        outcome: "Students complete 3 levels of beginner courses, gaining firm foundations in core beliefs, basic worship, Arabic grammar, and Islamic manners."
+        outcome: "Students complete 3 semesters of beginner courses, gaining firm foundations in core beliefs, basic worship, Arabic grammar, and Islamic manners."
       },
       {
         level: 2,
@@ -102,7 +102,7 @@ export default function BoysBoardingCampus() {
           { cat: "Arabic & Language", items: "Continued Al-Ājrūmiyyah with application, Applied grammar exercises." },
           { cat: "Tazkiyah", items: "Lamiyyat al-Af‘āl." },
         ],
-        outcome: "Covers all Year 1 details plus Year 2 intermediate courses, providing structured Fiqh understanding and stronger Aqeedah grounding."
+        outcome: "Covers all Year 1 details plus year 2 intermediate courses, providing structured Fiqh understanding and stronger Aqeedah grounding."
       },
       {
         level: 3,
