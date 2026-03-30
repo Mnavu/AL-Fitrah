@@ -99,7 +99,7 @@ export default function BoysBoardingCampus() {
           { cat: "Quranic Excellence", items: "Deepening the spiritual bond with Allah's Word, advancing to 17 Juz of steadfast memorization and thorough revision." },
           { cat: "Year 1 Courses", items: "All foundational material and beginner courses from the 1st year program." },
           { cat: "Aqeedah & Manhaj", items: "Nawāqiḍ al-Islām, Al-‘Aqīdah al-Wāsiṭiyyah, Al-‘Aqīdah aṭ-Ṭaḥāwiyyah." },
-          { cat: "Fiqh", items: "Zād al-Mustaqni‘, Bulūgh al-Marām." },
+          { cat: "Fiqh", items: "Abu shuja‘, Safinatun Najah, Bulūgh al-Marām." },
           { cat: "Usūl & Hadith Methodology", items: "Warāqāt (Uṣūl al-Fiqh), Nukhbat al-Fikr (Detailed)." },
           { cat: "Arabic Language", items: "Continued Al-Ājrūmiyyah with application, Applied grammar exercises." },
           { cat: "Tazkiyah", items: "Lamiyyat al-Af‘āl." },
