@@ -116,7 +116,7 @@ export default function BoysBoardingCampus() {
           { cat: "Quranic Excellence", items: "The ultimate milestone: completing the memorization and revision of the full Quran with unwavering accuracy and mastery." },
           { cat: "Comprehensive Coverage", items: "Complete course details and material for all 3 years: Beginner to Advanced." },
           { cat: "Aqeedah & Creed", items: "Advanced Al-‘Aqīdah aṭ-Ṭaḥāwiyyah, Advanced Al-‘Aqīdah al-Wāsiṭiyyah, Kashf ash-Shubuhāt (Refutation level)." },
-          { cat: "Fiqh & Hadith", items: "Advanced Bulūgh al-Marām, Advanced ‘Umdat al-Aḥkām, Advanced Zād al-Mustaqni‘." },
+          { cat: "Fiqh & Hadith", items: "Advanced Bulūgh al-Marām, Advanced ‘Umdat al-Aḥkām, Advanced Abu shuja‘, Advanced Safinatun Najah‘." },
           { cat: "Usūl al-Fiqh", items: "Warāqāt (with case studies)." },
           { cat: "Hadith Sciences", items: "Mandhūmat al-Bayqūniyyah (with Takhrīj), Nukhbat al-Fikr (Application)." },
           { cat: "Arabic Language", items: "Applied Nahw & Classical Texts." },
