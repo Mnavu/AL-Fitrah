@@ -229,7 +229,7 @@ export default function BoysBoardingCampus() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                    <Calendar className="text-[#07CAC3] w-6 h-6" />
-                   <span className="bg-[#07CAC3] text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider">Upcoming Session</span>
+                   <span className="bg-[#07CAC3] text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider">Starts 6th of May. Intake Ongoing</span>
                 </div>
                 <h3 className="text-4xl md:text-6xl font-serif font-bold">4-Week Transformational Holiday Boarding Program</h3>
                 <div className="flex flex-wrap items-center gap-6 mt-4">
@@ -252,7 +252,7 @@ export default function BoysBoardingCampus() {
                   Program Overview
                 </h4>
                 <p className="text-xl text-gray-200 leading-relaxed mb-8">
-                  Join us this season for a unique and transformative experience — far more than just a program. 
+                  Join us this season for a unique and transformative experience, far more than just a program. 
                   Our mission is to nurture young boys into strong, confident, and grounded Muslims, 
                   deeply connected to the Qur’an and their identity.
                 </p>
@@ -303,7 +303,7 @@ export default function BoysBoardingCampus() {
                <h4 className="text-3xl font-serif font-bold mb-10 text-center text-[#07CAC3]">Comprehensive Curriculum</h4>
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {[
-                    { title: "Qur’an", desc: "Fluent recitation, Tajweed mastery, Memorization & revision", icon: BookOpen },
+                    { title: "Qur’an", desc: "Quran recitation, Tafsir of Juz Amma, Memorization & revision", icon: BookOpen },
                     { title: "Aqeedah", desc: "Strong Islamic belief, Understanding of Tawheed", icon: Shield },
                     { title: "Fiqh", desc: "Daily Islamic rulings, Practical worship (Salah, purification)", icon: CheckCircle2 },
                     { title: "Seerah", desc: "Life of Prophet Muhammad ﷺ, Lessons from his character", icon: Heart },
