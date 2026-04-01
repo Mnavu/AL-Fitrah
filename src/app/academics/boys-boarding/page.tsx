@@ -276,7 +276,7 @@ export default function BoysBoardingCampus() {
                   A Journey of Tarbiyah
                 </h4>
                 <p className="text-lg text-gray-200 leading-relaxed mb-6">
-                  At Al-Fitrah, Tarbiyah (holistic nurturing) is at our heart. We don't just teach — we build character, instill discipline, and shape future leaders.
+                  At Al-Fitrah, Tarbiyah (holistic nurturing) is at our heart. We don't just teach, we build character, instill discipline, and shape future leaders.
                 </p>
                 <div className="grid grid-cols-2 gap-4">
                    <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
