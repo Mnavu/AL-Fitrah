@@ -9,6 +9,7 @@ CREATE TABLE sections (
 -- Create the 'courses' table
 CREATE TABLE courses (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT UNIQUE, -- Added slug for better URLs
   title TEXT NOT NULL,
   description TEXT,
   price NUMERIC(10, 2), -- Made nullable

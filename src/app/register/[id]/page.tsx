@@ -80,16 +80,24 @@ export default function RegistrationPage() {
     async function fetchCourse() {
       try {
         setLoading(true);
-        const { data, error: fetchError } = await supabase
-          .from('courses')
-          .select('*')
-          .eq('id', id)
-          .single();
+        // Try to fetch by ID first, then by slug
+        let query = supabase.from('courses').select('*');
+        
+        // Basic check if it's a UUID or a slug
+        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id as string);
+        
+        if (isUUID) {
+          query = query.eq('id', id);
+        } else {
+          query = query.eq('slug', id);
+        }
+
+        const { data, error: fetchError } = await query.single();
 
         if (fetchError) throw fetchError;
         setCourse(data);
       } catch (err: any) {
-        setError("Failed to load course details.");
+        setError("Failed to load course details. Make sure you use a valid course link.");
         console.error(err);
       } finally {
         setLoading(false);
@@ -102,14 +110,18 @@ export default function RegistrationPage() {
   useEffect(() => {
     if (!course) return;
 
-    const isBoarding = course.title.toLowerCase().includes('boarding') || course.title.toLowerCase().includes('leadership');
+    // Use price from DB if available, otherwise default to logic
+    const basePrice = course.price ? parseFloat(course.price.toString()) : 0;
     
-    if (isBoarding) {
-      setTotalAmount(70000 * duration);
-    } else {
-      const rawPrice = course.price?.toString() || "0";
-      const basePrice = parseInt(rawPrice.replace(/[^\d]/g, '')) || 0;
+    if (basePrice > 0) {
       setTotalAmount(basePrice * duration);
+    } else {
+      const isBoarding = course.title.toLowerCase().includes('boarding') || course.title.toLowerCase().includes('leadership');
+      if (isBoarding) {
+        setTotalAmount(70000 * duration);
+      } else {
+        setTotalAmount(0);
+      }
     }
   }, [course, duration]);
 
@@ -357,7 +369,7 @@ export default function RegistrationPage() {
       const periodText = duration === 3 ? "1 Term (3 Months)" : duration === 6 ? "2 Terms (6 Months)" : duration === 9 ? "Full Year (3 Terms)" : `${duration} Month(s)`;
       
       // Saving all student info AND document URLs directly to the registrations table
-      const { error: regError } = await supabase
+      const { data: regData, error: regError } = await supabase
         .from('registrations')
         .insert([{
           full_name: formData.full_name,
@@ -373,22 +385,36 @@ export default function RegistrationPage() {
           guardian_phone: formData.guardian_phone,
           medical_conditions_details: formData.medical_conditions,
           allergies: formData.allergies,
-          course_id: id,
+          course_id: course?.id, // Use actual ID from course state
           status: 'Paid',
           amount_paid: totalAmount.toString(),
           payment_reference: transactionCode.toUpperCase(),
           // Storing documents in notes as well for extreme visibility
-          notes: `Paid for ${periodText}. Documents Attached: ${JSON.stringify(uploadedDocs)}`,
+          notes: `Paid for ${periodText}. Documents: ${Object.keys(uploadedDocs).join(', ')}`,
           declaration: true,
           emergency_contact_name: formData.guardian_name,
           emergency_contact_phone: formData.guardian_phone
-        }]);
+        }])
+        .select()
+        .single();
 
       if (regError) throw regError;
 
+      // Now insert document metadata if possible
+      if (regData && Object.keys(uploadedDocs).length > 0) {
+        const docInserts = Object.entries(uploadedDocs).map(([type, path]) => ({
+          registration_id: regData.id,
+          document_type: type,
+          file_path: path
+        }));
+        
+        // This will only work if the table exists
+        await supabase.from('student_documents').insert(docInserts);
+      }
+
       // Notify Admin with the link to the registration
       await supabase.from('notifications').insert([{
-        message: `New Admission: ${formData.full_name} (${course?.title}). Payment Verified: ${transactionCode.toUpperCase()}. Documents are available in the dashboard.`
+        message: `New Admission: ${formData.full_name} (${course?.title}). Payment Verified: ${transactionCode.toUpperCase()}.`
       }]);
 
       setPaymentStep('success');

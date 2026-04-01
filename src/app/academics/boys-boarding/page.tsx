@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import { Course } from '@/lib/types'; // Make sure this type matches your DB!\
-import { CheckCircle2, GraduationCap, BookOpen, Award, Target } from 'lucide-react';
+import { CheckCircle2, GraduationCap, BookOpen, Award, Target, Sparkles, Users, Shield, Smile, Moon, Calendar, Activity, Heart } from 'lucide-react';
 
 // --- Page-specific configuration ---
 // 1. UPDATED: Title exactly matches the SQL database!
@@ -212,6 +212,136 @@ export default function BoysBoardingCampus() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Holiday Programme Section */}
+        <div className="mb-20 bg-gradient-to-br from-[#0f5257] to-[#045C4C] rounded-[3rem] p-8 md:p-16 text-white overflow-hidden relative shadow-2xl">
+          <div className="absolute top-0 right-0 p-12 opacity-10">
+            <Moon size={200} />
+          </div>
+          <div className="absolute bottom-0 left-0 p-12 opacity-10">
+            <Sparkles size={150} />
+          </div>
+
+          <div className="relative z-10">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                   <Calendar className="text-[#07CAC3] w-6 h-6" />
+                   <span className="bg-[#07CAC3] text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider">Upcoming Session</span>
+                </div>
+                <h3 className="text-4xl md:text-6xl font-serif font-bold">4-Week Transformational Holiday Boarding Program</h3>
+                <div className="flex flex-wrap items-center gap-6 mt-4">
+                  <p className="text-[#07CAC3] text-2xl font-bold">For Boys (12+)</p>
+                  <div className="bg-white/10 px-4 py-2 rounded-xl border border-white/20 flex items-center gap-2">
+                    <span className="text-[#07CAC3] font-bold">Tuition:</span>
+                    <span className="text-xl font-black">Ksh 50,000</span>
+                  </div>
+                </div>
+              </div>
+              <Link href="/register/holiday-program" className="bg-[#07CAC3] text-white font-bold py-4 px-10 rounded-2xl hover:bg-white hover:text-[#0f5257] transition-all transform hover:scale-105 shadow-xl border-2 border-[#07CAC3]">
+                Register Now
+              </Link>
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-12">
+              <div>
+                <h4 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                  <Shield className="text-[#07CAC3]" />
+                  Program Overview
+                </h4>
+                <p className="text-xl text-gray-200 leading-relaxed mb-8">
+                  Join us this season for a unique and transformative experience — far more than just a program. 
+                  Our mission is to nurture young boys into strong, confident, and grounded Muslims, 
+                  deeply connected to the Qur’an and their identity.
+                </p>
+                <div className="space-y-4">
+                  {[
+                    "Develop a deep love for the Qur’an",
+                    "Strengthen their connection with Allah",
+                    "Find pride and joy in being Muslim"
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <CheckCircle2 className="text-[#07CAC3] w-6 h-6 shrink-0" />
+                      <span className="text-lg">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
+                <h4 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                  <Heart className="text-[#07CAC3]" />
+                  A Journey of Tarbiyah
+                </h4>
+                <p className="text-lg text-gray-200 leading-relaxed mb-6">
+                  At Al-Fitrah, Tarbiyah (holistic nurturing) is at our heart. We don't just teach — we build character, instill discipline, and shape future leaders.
+                </p>
+                <div className="grid grid-cols-2 gap-4">
+                   <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                      <p className="text-[#07CAC3] font-bold text-sm uppercase mb-1">Character</p>
+                      <p className="text-white font-bold">Strong Values</p>
+                   </div>
+                   <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                      <p className="text-[#07CAC3] font-bold text-sm uppercase mb-1">Manners</p>
+                      <p className="text-white font-bold">Better Manners</p>
+                   </div>
+                   <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                      <p className="text-[#07CAC3] font-bold text-sm uppercase mb-1">Identity</p>
+                      <p className="text-white font-bold">Islamic Identity</p>
+                   </div>
+                   <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                      <p className="text-[#07CAC3] font-bold text-sm uppercase mb-1">Leadership</p>
+                      <p className="text-white font-bold">Shape Leaders</p>
+                   </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-16">
+               <h4 className="text-3xl font-serif font-bold mb-10 text-center text-[#07CAC3]">Comprehensive Curriculum</h4>
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {[
+                    { title: "Qur’an", desc: "Fluent recitation, Tajweed mastery, Memorization & revision", icon: BookOpen },
+                    { title: "Aqeedah", desc: "Strong Islamic belief, Understanding of Tawheed", icon: Shield },
+                    { title: "Fiqh", desc: "Daily Islamic rulings, Practical worship (Salah, purification)", icon: CheckCircle2 },
+                    { title: "Seerah", desc: "Life of Prophet Muhammad ﷺ, Lessons from his character", icon: Heart },
+                    { title: "Ahadith", desc: "Essential sayings of the Prophet ﷺ, Practical application", icon: GraduationCap },
+                    { title: "Akhlaq & Adab", desc: "Manners, respect, and building noble character", icon: Users },
+                    { title: "Dua & Sunnah", desc: "Important daily supplications, Living a Sunnah-centered life", icon: Moon },
+                    { title: "Character", desc: "Building leadership and discipline in every action", icon: Target }
+                  ].map((sub, i) => (
+                    <div key={i} className="bg-white/5 hover:bg-white/10 transition-colors p-6 rounded-2xl border border-white/10 group">
+                      <div className="bg-[#07CAC3] w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <sub.icon className="text-white w-6 h-6" />
+                      </div>
+                      <h5 className="text-xl font-bold mb-2">{sub.title}</h5>
+                      <p className="text-gray-300 text-sm leading-relaxed">{sub.desc}</p>
+                    </div>
+                  ))}
+               </div>
+            </div>
+
+            <div className="mt-16 grid md:grid-cols-2 gap-12 items-center">
+               <div className="order-2 md:order-1">
+                  <h4 className="text-3xl font-serif font-bold mb-6">Balanced with Fun & Growth</h4>
+                  <p className="text-xl text-gray-200 leading-relaxed mb-8">
+                    Learning is combined with engaging activities to ensure a joyful and memorable experience in a clean, safe, and spacious environment.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    {["Basketball", "Football", "Tennis"].map((sport, i) => (
+                      <span key={i} className="bg-[#07CAC3]/20 border border-[#07CAC3]/30 px-6 py-2 rounded-full font-bold flex items-center gap-2">
+                        <Activity className="w-4 h-4 text-[#07CAC3]" />
+                        {sport}
+                      </span>
+                    ))}
+                  </div>
+               </div>
+               <div className="order-1 md:order-2 bg-[#07CAC3]/10 rounded-[2rem] p-4 border border-white/10">
+                  <img src="/21.jpeg" alt="Activities" className="rounded-[1.5rem] w-full h-64 object-cover shadow-2xl" />
+               </div>
+            </div>
           </div>
         </div>
 
