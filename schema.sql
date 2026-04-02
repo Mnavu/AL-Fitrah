@@ -71,8 +71,16 @@ CREATE TABLE registrations (
   amount_paid TEXT DEFAULT 'Pending',
   payment_reference TEXT,
   checkout_request_id TEXT, -- M-Pesa link
-  notes TEXT,
-  declaration BOOLEAN NOT NULL
+  notes TEXT
+);
+
+-- Create the 'student_documents' table
+CREATE TABLE student_documents (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  registration_id UUID REFERENCES registrations(id) ON DELETE CASCADE,
+  document_type TEXT NOT NULL,
+  file_path TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create the 'notifications' table
