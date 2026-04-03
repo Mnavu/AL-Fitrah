@@ -167,15 +167,15 @@ const CorePillars = () => (
 
 const OurApproach = () => (
   <section className="bg-white py-20 border-t border-secondary">
-    <div className="container mx-auto px-4 max-w-5xl">
+    <div className="container mx-auto px-4 max-w-7xl">
       <div className="text-center mb-16">
         <h2 className="text-4xl md:text-5xl font-serif text-primary mb-6">Our Approach</h2>
         <GoldAccent />
-        <div className="mt-10 max-w-3xl mx-auto">
+        <div className="mt-10 max-w-5xl mx-auto">
           <p className="text-xl text-primary leading-relaxed mb-8">
             At Al-Fitrah, we understand that every parent/guardian and or teacher desires something beautiful for their children, a strong connection with Allah, noble character, and a sincere love for Islam. But one common question always arises:
           </p>
-          <div className="bg-paleYellow p-8 rounded-xl border-2 border-accent/20 relative">
+          <div className="bg-paleYellow p-8 rounded-xl border-2 border-accent/20 relative max-w-4xl mx-auto">
             <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full border border-accent/20 text-accent font-serif italic">The Question</span>
             <p className="text-2xl md:text-3xl font-serif text-primary italic leading-tight">
               "How do we teach Islam to children in a way they truly understand, love, and enjoy?"
@@ -238,7 +238,7 @@ const OurApproach = () => (
               ))}
             </div>
             <p className="mt-4 text-primary leading-relaxed text-sm opacity-80">
-              This helps children not only understand Islam—but feel it deeply.
+              This helps children not only understand Islam, but feel it deeply.
             </p>
           </div>
 
@@ -264,7 +264,7 @@ const OurApproach = () => (
         </div>
         <div className="relative z-10">
           <h3 className="text-3xl font-serif mb-6">Creating Joy in Learning</h3>
-          <p className="text-lg mb-10 opacity-90 max-w-2xl">
+          <p className="text-lg mb-10 opacity-90 max-w-3xl">
             When children enjoy learning, they remember it for life. We incorporate a positive, motivating atmosphere so that every class becomes something they are excited to attend.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -279,13 +279,13 @@ const OurApproach = () => (
 
       <div className="mt-20 text-center">
         <h3 className="text-3xl font-serif text-primary mb-6">A Space for Growth, Sisterhood, and Community</h3>
-        <p className="text-xl text-primary leading-relaxed max-w-3xl mx-auto opacity-90">
-          Al-Fitrah is more than a place of learning, it is a living community. A place where hearts connect, friendships grow, and faith is strengthened. We aim to create an environment where children don’t just learn Islam—they love being Muslim.
+        <p className="text-xl text-primary leading-relaxed max-w-4xl mx-auto opacity-90">
+          Al-Fitrah is more than a place of learning, it is a living community. A place where hearts connect, friendships grow, and faith is strengthened. We aim to create an environment where children don’t just learn Islam, they love being Muslim.
         </p>
       </div>
 
       <div className="mt-20 pt-16 border-t border-accent/20 text-center">
-        <p className="text-2xl font-serif text-primary italic mb-10 max-w-4xl mx-auto">
+        <p className="text-2xl font-serif text-primary italic mb-10 max-w-5xl mx-auto">
           "Teaching Islam to children does not have to be complicated. With the right approach, the right environment, and sincere intention, it becomes a beautiful journey—for both the child and the teacher."
         </p>
         <div className="inline-block bg-accent text-white px-10 py-4 rounded-full text-xl font-serif shadow-lg">
