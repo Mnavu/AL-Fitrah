@@ -167,15 +167,15 @@ const CorePillars = () => (
 
 const OurApproach = () => (
   <section className="bg-white py-20 border-t border-secondary">
-    <div className="container mx-auto px-4 max-w-9xl">
+    <div className="container mx-auto px-4 max-w-[1440px]">
       <div className="text-center mb-16">
         <h2 className="text-4xl md:text-5xl font-serif text-primary mb-6">Our Approach</h2>
         <GoldAccent />
-        <div className="mt-10 max-w-5xl mx-auto">
+        <div className="mt-10 max-w-6xl mx-auto">
           <p className="text-xl text-primary leading-relaxed mb-8">
             At Al-Fitrah, we understand that every parent/guardian and or teacher desires something beautiful for their children, a strong connection with Allah, noble character, and a sincere love for Islam. But one common question always arises:
           </p>
-          <div className="bg-paleYellow p-8 rounded-xl border-2 border-accent/20 relative max-w-4xl mx-auto">
+          <div className="bg-paleYellow p-8 rounded-xl border-2 border-accent/20 relative max-w-5xl mx-auto">
             <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full border border-accent/20 text-accent font-serif italic">The Question</span>
             <p className="text-2xl md:text-3xl font-serif text-primary italic leading-tight">
               "How do we teach Islam to children in a way they truly understand, love, and enjoy?"
@@ -190,6 +190,7 @@ const OurApproach = () => (
           </p>
         </div>
       </div>
+
 
       <div className="grid md:grid-cols-2 gap-12 items-start">
         <div className="space-y-12">
