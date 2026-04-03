@@ -12,7 +12,7 @@ const GoldAccent = ({ className }: { className?: string }) => (
 
 const AnnouncementsBanner = () => (
   <div className="sticky top-0 z-30 w-full bg-paleYellow text-primary py-3 px-4 text-center font-semibold shadow-md">
-    <p className="text-sm md:text-base"><span className="text-gold mr-2">•</span>📢 Now Enrolling: The 1 -3 Year Boys Boarding Programme. A unique blend of Tarbiyah, Aqeedah, and Hadith designed to forge the next generation of leaders.</p>
+    <p className="text-sm md:text-base"><span className="text-gold mr-2">•</span>📢 Now Enrolling: The 1 -3 Year Boys Boarding Programme. A unique blend of Tarbiyah, Ta'lim, Tahfidh and Leadership designed to forge the next generation of leaders.</p>
   </div>
 );
 
