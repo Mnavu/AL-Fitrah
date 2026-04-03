@@ -164,6 +164,137 @@ const CorePillars = () => (
     </div>
   </section>
 );
+
+const OurApproach = () => (
+  <section className="bg-white py-20 border-t border-secondary">
+    <div className="container mx-auto px-4 max-w-5xl">
+      <div className="text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-serif text-primary mb-6">Our Approach</h2>
+        <GoldAccent />
+        <div className="mt-10 max-w-3xl mx-auto">
+          <p className="text-xl text-primary leading-relaxed mb-8">
+            At Al-Fitrah, we understand that every parent/guardian and or teacher desires something beautiful for their children, a strong connection with Allah, noble character, and a sincere love for Islam. But one common question always arises:
+          </p>
+          <div className="bg-paleYellow p-8 rounded-xl border-2 border-accent/20 relative">
+            <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full border border-accent/20 text-accent font-serif italic">The Question</span>
+            <p className="text-2xl md:text-3xl font-serif text-primary italic leading-tight">
+              "How do we teach Islam to children in a way they truly understand, love, and enjoy?"
+            </p>
+          </div>
+          <p className="text-lg text-primary mt-10 leading-relaxed opacity-90">
+            Teaching young minds is a responsibility filled with reward, but it can also feel overwhelming.
+            Where do we begin? How much should we teach? And most importantly, how do we make it something they look forward to, not something they feel pressured by?
+          </p>
+          <p className="text-xl font-bold text-primary mt-8">
+            At Al-Fitrah Training Institute, we believe that learning Islam should be alive, engaging, and heart-centered, not dry or difficult.
+          </p>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-12 items-start">
+        <div className="space-y-12">
+          <div className="bg-secondary/30 p-8 rounded-2xl border-l-4 border-accent">
+            <h3 className="text-2xl font-serif text-primary mb-4">Nurturing Hearts Before Minds</h3>
+            <p className="text-primary leading-relaxed mb-4">
+              We don’t just teach information, we build Iman, identity, and character. Children learn best when they feel:
+            </p>
+            <ul className="grid grid-cols-3 gap-2 text-center">
+              {['Safe', 'Loved', 'Inspired'].map((item) => (
+                <li key={item} className="bg-white py-2 rounded-lg border border-accent/20 text-accent font-semibold text-sm">
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <p className="text-primary leading-relaxed mt-4 text-sm opacity-80 italic">
+              Our environment is designed to be warm, welcoming, and uplifting, where every child feels a sense of belonging.
+            </p>
+          </div>
+
+          <div className="bg-secondary/30 p-8 rounded-2xl border-l-4 border-accent">
+            <h3 className="text-2xl font-serif text-primary mb-4">Simple and Meaningful</h3>
+            <p className="text-primary leading-relaxed mb-4">
+              We break down Islamic concepts into easy, relatable lessons that children can connect to their daily lives. We focus on:
+            </p>
+            <ul className="space-y-2">
+              <li className="flex items-center gap-3 text-primary"><span className="w-1.5 h-1.5 rounded-full bg-accent" /> Small, consistent learning</li>
+              <li className="flex items-center gap-3 text-primary"><span className="w-1.5 h-1.5 rounded-full bg-accent" /> Practical examples</li>
+              <li className="flex items-center gap-3 text-primary"><span className="w-1.5 h-1.5 rounded-full bg-accent" /> Real-life application</li>
+            </ul>
+            <p className="mt-4 font-serif text-primary italic">"Because Islam is not just to be memorized, it is to be lived."</p>
+          </div>
+        </div>
+
+        <div className="space-y-12">
+          <div className="bg-secondary/30 p-8 rounded-2xl border-l-4 border-accent">
+            <h3 className="text-2xl font-serif text-primary mb-4">Stories and Connection</h3>
+            <p className="text-primary leading-relaxed mb-4">
+              Children love stories, and Islam is rich with them. From the lives of the Prophets to the companions, we bring lessons to life through:
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {['Storytelling', 'Reflection', 'Discussion'].map((tag) => (
+                <span key={tag} className="bg-accent/10 text-accent px-4 py-1 rounded-full text-sm font-medium border border-accent/20">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <p className="mt-4 text-primary leading-relaxed text-sm opacity-80">
+              This helps children not only understand Islam—but feel it deeply.
+            </p>
+          </div>
+
+          <div className="bg-secondary/30 p-8 rounded-2xl border-l-4 border-accent">
+            <h3 className="text-2xl font-serif text-primary mb-4">Building Character and Identity</h3>
+            <p className="text-primary leading-relaxed mb-4">
+              Our goal is not just knowledgeable children—but confident young Muslims. We focus on:
+            </p>
+            <ul className="space-y-1">
+              {['Good manners (Akhlaq)', 'Respect and kindness', 'Responsibility and discipline', 'Love for Allah and His Messenger ﷺ'].map((item) => (
+                <li key={item} className="flex items-center gap-3 text-primary">
+                  <Heart size={14} className="text-accent fill-accent/20" /> {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-20 bg-primary text-white p-8 md:p-12 rounded-3xl shadow-xl relative overflow-hidden group">
+        <div className="absolute top-0 right-0 p-8 opacity-10 rotate-12 transition-transform group-hover:rotate-0">
+          <Lightbulb size={120} />
+        </div>
+        <div className="relative z-10">
+          <h3 className="text-3xl font-serif mb-6">Creating Joy in Learning</h3>
+          <p className="text-lg mb-10 opacity-90 max-w-2xl">
+            When children enjoy learning, they remember it for life. We incorporate a positive, motivating atmosphere so that every class becomes something they are excited to attend.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {['Interactive sessions', 'Group activities', 'Gentle encouragement', 'Motivating atmosphere'].map((item) => (
+              <div key={item} className="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20 text-center text-sm">
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-20 text-center">
+        <h3 className="text-3xl font-serif text-primary mb-6">A Space for Growth, Sisterhood, and Community</h3>
+        <p className="text-xl text-primary leading-relaxed max-w-3xl mx-auto opacity-90">
+          Al-Fitrah is more than a place of learning, it is a living community. A place where hearts connect, friendships grow, and faith is strengthened. We aim to create an environment where children don’t just learn Islam—they love being Muslim.
+        </p>
+      </div>
+
+      <div className="mt-20 pt-16 border-t border-accent/20 text-center">
+        <p className="text-2xl font-serif text-primary italic mb-10 max-w-4xl mx-auto">
+          "Teaching Islam to children does not have to be complicated. With the right approach, the right environment, and sincere intention, it becomes a beautiful journey—for both the child and the teacher."
+        </p>
+        <div className="inline-block bg-accent text-white px-10 py-4 rounded-full text-xl font-serif shadow-lg">
+          At Al-Fitrah Training Institute, we are committed to making that journey easy, meaningful, and full of barakah.
+        </div>
+      </div>
+    </div>
+  </section>
+);
 /*
 const WaqfSection = () => {
   const [showWaqfModal, setShowWaqfModal] = useState(false);
@@ -489,6 +620,8 @@ export default function Home() {
       <AnnouncementsBanner />
       <HeroSection />
       <WhyChooseAlFitrah />
+      <SectionDivider />
+      <OurApproach />
       <CorePillars />
       {/*<WaqfSection />*/}
       <FacultySection />
