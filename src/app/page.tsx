@@ -167,7 +167,7 @@ const CorePillars = () => (
 
 const OurApproach = () => (
   <section className="bg-white py-20 border-t border-secondary">
-    <div className="container mx-auto px-4 max-w-7xl">
+    <div className="container mx-auto px-4 max-w-9xl">
       <div className="text-center mb-16">
         <h2 className="text-4xl md:text-5xl font-serif text-primary mb-6">Our Approach</h2>
         <GoldAccent />
