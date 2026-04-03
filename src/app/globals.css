@@ -7,6 +7,10 @@ body {
   padding: 0;
   margin: 0;
   font-family: var(--font-sans);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 a {

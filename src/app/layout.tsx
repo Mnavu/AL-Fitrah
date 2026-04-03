@@ -1,5 +1,7 @@
+"use client";
+
+import { useEffect } from 'react';
 import './globals.css';
-import type { Metadata } from 'next';
 import { Playfair_Display, Lato } from 'next/font/google';
 import { Toaster } from 'sonner';
 import Navbar from '../components/Navbar';
@@ -18,13 +20,44 @@ const lato = Lato({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  title: 'Al-Fitrah Training Institute',
-  description: 'Woven into the fabric of Excellence.',
-  icons: {
-    icon: '/Logo.png',
-  },
-};
+function CopyProtection() {
+  useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Prevent Ctrl+C, Ctrl+X, Ctrl+U (view source), and Cmd variants on Mac
+      if (
+        (e.ctrlKey || e.metaKey) && 
+        (e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's')
+      ) {
+        e.preventDefault();
+      }
+      
+      // Prevent F12 (Inspect Element)
+      if (e.key === 'F12') {
+        e.preventDefault();
+      }
+    };
+
+    const handleCopy = (e: ClipboardEvent) => {
+      e.preventDefault();
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('copy', handleCopy);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('copy', handleCopy);
+    };
+  }, []);
+
+  return null;
+}
 
 export default function RootLayout({
   children,
@@ -33,7 +66,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <title>Al-Fitrah Training Institute</title>
+        <meta name="description" content="Woven into the fabric of Excellence." />
+        <link rel="icon" href="/Logo.png" />
+      </head>
       <body className={`${playfairDisplay.variable} ${lato.variable} font-sans bg-canvas text-primary flex flex-col min-h-screen`}>
+        <CopyProtection />
         <Navbar />
         <main className="flex-grow">
           {children}
