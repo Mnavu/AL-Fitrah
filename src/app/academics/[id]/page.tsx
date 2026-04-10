@@ -165,6 +165,31 @@ export default function CoursePage({ params }: CoursePageProps) {
                           </div>
                         </div>
                       )}
+
+                      {/* EID GALA GALLERY SECTION */}
+                      {course.title.toLowerCase().includes('gala') && (
+                        <div className="mb-12">
+                          <div className="flex items-center space-x-3 mb-8">
+                            <Image src="/Logo.png" alt="Logo" width={40} height={40} className="opacity-50" />
+                            <h2 className="text-3xl font-serif font-bold text-[#0f5257]">Previous Eid Gala Highlights</h2>
+                          </div>
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+                              <div key={i} className="aspect-square relative overflow-hidden rounded-2xl group shadow-lg border-2 border-white">
+                                <img 
+                                  src={`/${i}.jpg`} 
+                                  alt={`Gala Moment ${i}`} 
+                                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                              </div>
+                            ))}
+                          </div>
+                          <p className="mt-8 text-[#0f5257] italic text-center text-lg bg-secondary/30 py-4 rounded-xl border border-accent/10">
+                            "A beautiful journey of sisterhood, faith, and joy."
+                          </p>
+                        </div>
+                      )}
                             {/* CTA SECTION */}
               <div className="mt-12 pt-8 border-t border-gray-200 max-w-4xl mx-auto">
       

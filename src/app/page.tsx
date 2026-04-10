@@ -354,6 +354,75 @@ const WaqfSection = () => {
   );
 };
 */
+const UpcomingEvents = () => (
+  <section className="bg-white py-24 overflow-hidden relative">
+    {/* Decorative background element */}
+    <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full -mr-48 -mt-48 blur-3xl"></div>
+    <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full -ml-48 -mb-48 blur-3xl"></div>
+    
+    <div className="container mx-auto px-4 relative z-10">
+      <div className="text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-serif text-primary mb-4">Upcoming Campus Events</h2>
+        <GoldAccent />
+        <p className="text-xl text-primary opacity-80 max-w-2xl mx-auto">
+          Join us for special gatherings, seminars, and community celebrations across our campuses.
+        </p>
+      </div>
+
+      <div className="max-w-5xl mx-auto">
+        <div className="bg-secondary/40 rounded-[2.5rem] overflow-hidden shadow-2xl border border-accent/20 flex flex-col md:flex-row items-stretch group hover:shadow-accent/10 transition-all duration-500">
+          {/* Event Image */}
+          <div className="md:w-1/2 relative h-80 md:h-auto overflow-hidden">
+            <img 
+              src="/Ladies.jpg" 
+              alt="Eid Gala" 
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent"></div>
+            <div className="absolute bottom-6 left-6">
+              <span className="bg-accent text-white px-4 py-1 rounded-full text-sm font-bold tracking-wider uppercase">
+                Sisters Program
+              </span>
+            </div>
+          </div>
+
+          {/* Event Content */}
+          <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+            <div className="flex items-center gap-2 text-accent font-bold mb-4">
+              <Calendar size={20} />
+              <span>Next Eid - Date TBC</span>
+            </div>
+            <h3 className="text-3xl md:text-4xl font-serif text-primary mb-6">Upcoming Eid Gala</h3>
+            <p className="text-lg text-primary leading-relaxed mb-8 opacity-90">
+              A celebration of sisterhood and joy. Our annual Eid Gala returns with inspiring talks, activities, and a chance to connect with the community. Registration is now open.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link 
+                href="/academics/south-c" 
+                className="bg-primary text-white px-8 py-4 rounded-xl font-bold text-center hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/20"
+              >
+                View on South C Campus
+              </Link>
+              <Link 
+                href="/register/eid-gala-2026" 
+                className="bg-accent text-white px-8 py-4 rounded-xl font-bold text-center hover:bg-accent/90 transition-all shadow-lg hover:shadow-accent/20"
+              >
+                Register Now
+              </Link>
+            </div>
+          </div>
+        </div>
+        
+        <div className="mt-12 text-center">
+          <p className="text-primary/60 font-medium">
+            Stay tuned for more events at our Karen and Boys Boarding campuses.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
 const FacultySection = () => (
   <section className="bg-white py-20">
     <div className="container mx-auto px-4">
@@ -624,6 +693,7 @@ export default function Home() {
       <SectionDivider />
       <OurApproach />
       <CorePillars />
+      <UpcomingEvents />
       {/*<WaqfSection />*/}
       <FacultySection />
       <TestimonialsSection />

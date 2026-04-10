@@ -18,10 +18,11 @@ export default async function CourseDetailPage({ params }: { params: { id: strin
   }
 
   // Fetch course details from Supabase
+  const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
   const { data: course, error } = await supabase
     .from('courses')
     .select('*')
-    .eq('id', id)
+    .eq(isUUID ? 'id' : 'slug', id)
     .single();
 
   if (error || !course) {
@@ -69,7 +70,7 @@ export default async function CourseDetailPage({ params }: { params: { id: strin
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-100">
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-100 mb-12">
               <h3 className="text-2xl font-serif text-[#0f5257] mb-6">Program Highlights</h3>
               <ul className="space-y-4">
                 <li className="flex items-start">
@@ -86,6 +87,26 @@ export default async function CourseDetailPage({ params }: { params: { id: strin
                 </li>
               </ul>
             </div>
+
+            {typedCourse.title.toLowerCase().includes('gala') && (
+              <div className="mt-12">
+                <h3 className="text-3xl font-serif text-[#0f5257] mb-8">Previous Eid Galas</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div key={i} className="aspect-square relative overflow-hidden rounded-2xl group shadow-md">
+                      <img 
+                        src={`/${i}.jpg`} 
+                        alt={`Gala Highlight ${i}`} 
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-6 text-[#045C4C] italic text-center text-lg">
+                  Beautiful moments of sisterhood and joy from our past celebrations.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Right Column: Sticky Card */}

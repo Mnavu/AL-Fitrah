@@ -10,37 +10,16 @@ export default function SouthCCampus() {
   const [sections, setSections] = useState<Section[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isNetworkError, setIsNetworkError] = useState(false);
 
   const fetchSectionsAndCourses = async () => {
     try {
       setLoading(true);
       setError(null);
-      setIsNetworkError(false);
-      
-      const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-      if (!url || !key) {
-        throw new Error("Missing Supabase configuration. Please check your .env.local file.");
-      }
-      
-      // DIAGNOSTIC TEST
-      try {
-        const testRes = await fetch(`${url}/rest/v1/`, {
-          method: 'GET',
-          headers: { 'apikey': key }
-        });
-        if (!testRes.ok) throw new Error("Supabase API returned an error.");
-      } catch (netErr) {
-        setIsNetworkError(true);
-        throw new Error("Failed to reach database server. Check your connection or AdBlockers.");
-      }
       
       const { data, error: fetchError } = await supabase
         .from('sections')
         .select('*, courses(*)')
-        .neq('name', 'Brothers Boarding Program') 
+        .neq('name', 'Brothers Boarding Program')
         .order('order', { ascending: true });
 
       if (fetchError) throw fetchError;
