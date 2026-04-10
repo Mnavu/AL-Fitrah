@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
-import { Volume2, VolumeX, Heart, Users, Lightbulb, Mail, Send } from 'lucide-react';
+import { Volume2, VolumeX, Heart, Users, Lightbulb, Mail, Send, Calendar } from 'lucide-react';
 import { SectionDivider } from '@/components/ui/FloralDecorations';
 
 // Announcements Banner
