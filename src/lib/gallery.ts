@@ -3,6 +3,7 @@ import path from 'path';
 
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
 const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif']);
+const IGNORED_DIRECTORY_NAMES = new Set(['class materials and photos']);
 
 export type GalleryItem = {
   src: string;
@@ -32,6 +33,10 @@ async function walkDirectory(directory: string): Promise<string[]> {
         const absolutePath = path.join(directory, entry.name);
 
         if (entry.isDirectory()) {
+          if (IGNORED_DIRECTORY_NAMES.has(entry.name.toLowerCase())) {
+            return [];
+          }
+
           return walkDirectory(absolutePath);
         }
 
