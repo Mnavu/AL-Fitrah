@@ -11,6 +11,7 @@ export interface Section {
 // Update the Course interface to match the new schema
 export interface Course {
   id: string;
+  slug?: string | null;
   title: string;
   description: string | null;
   price: number | null; // Price is now nullable

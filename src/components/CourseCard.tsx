@@ -10,12 +10,14 @@ interface CourseCardProps {
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
+  const coursePath = course.slug || course.id;
+
   return (
     <div className="bg-white shadow-md rounded-xl p-6 flex flex-col justify-between border border-gray-100 hover:shadow-xl transition-all duration-300">
       <div>
         {/* IMPORTANT: Make sure this link matches your folder structure! */}
         {/* If your detail page is in src/app/academics/[id], change this to /academics/${course.id} */}
-        <Link href={`/academics/${course.id}`}>
+        <Link href={`/academics/${coursePath}`}>
           <h3 className="text-2xl font-serif text-[#0f5257] mb-3 hover:text-[#07CAC3] transition-colors cursor-pointer">
             {course.title}
           </h3>
@@ -38,7 +40,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
       
       <div className="mt-4 flex flex-col gap-3">
         <Link 
-          href={`/academics/${course.id}`} 
+          href={`/academics/${coursePath}`} 
           className="bg-[#0f5257] text-white text-center py-3 px-4 rounded-lg hover:bg-[#045C4C] transition duration-300 font-medium shadow-sm"
         >
           Learn More
@@ -46,7 +48,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
         
         {course.requires_registration && (
           <Link 
-            href={`/register/${course.id}`} 
+            href={`/register/${coursePath}`} 
             className="border-2 border-[#07CAC3] text-[#077B83] text-center py-3 px-4 rounded-lg hover:bg-[#07CAC3] hover:text-white transition duration-300 font-bold shadow-sm"
           >
             Quick Enroll

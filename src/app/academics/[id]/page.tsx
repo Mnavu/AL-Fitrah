@@ -26,10 +26,11 @@ export default function CoursePage({ params }: CoursePageProps) {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
+        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(params.id);
         const { data, error } = await supabase
           .from('courses')
           .select('*')
-          .eq('id', params.id)
+          .eq(isUUID ? 'id' : 'slug', params.id)
           .single();
 
         if (error || !data) {
@@ -62,6 +63,8 @@ export default function CoursePage({ params }: CoursePageProps) {
   if (!course) {
     notFound();
   }
+
+  const coursePath = course.slug || course.id;
 
   // --- MANUAL OVERRIDE FOR BOOK IMAGES ---
   // Note: Removed '/public' from the beginning of these paths!
@@ -195,7 +198,7 @@ export default function CoursePage({ params }: CoursePageProps) {
       
               {course.requires_registration ? (
                 <Link
-                  href={`/register/${course.id}`}
+                  href={`/register/${coursePath}`}
                   className="block w-full text-center bg-[#07CAC3] hover:bg-[#077B83] text-white font-bold py-5 rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-xl"
                 >
                   Ready to Begin? Register Now

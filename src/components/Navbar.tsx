@@ -20,7 +20,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-100">
+      <nav className="sticky top-0 z-[80] bg-white shadow-sm border-b border-gray-100">
         <HeaderBackground />
         <div className="relative z-10 container mx-auto px-4 py-3 flex justify-between items-center">
           <Link href="/" className="flex items-center">
@@ -41,6 +41,7 @@ export default function Navbar() {
               <DropdownLink href="/academics/boys-boarding">Boys Boarding Campus</DropdownLink>
               <DropdownLink href="/academics/south-c">South C Campus</DropdownLink>
             </DropdownNavLink>
+            <NavLink href="/gallery">Gallery</NavLink>
             <NavLink href="/graduates">Graduates</NavLink>
             <NavLink href="/contact">Contact Us</NavLink>
           </div>
@@ -56,10 +57,11 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white shadow-lg pb-4">
+        <div className="relative z-[75] md:hidden bg-white shadow-lg pb-4">
           <div className="flex flex-col items-center space-y-4">
             <NavLink href="/" onClick={closeMobileMenu}>Home</NavLink>
             <MobileDropdown onLinkClick={closeMobileMenu} />
+            <NavLink href="/gallery" onClick={closeMobileMenu}>Gallery</NavLink>
             <NavLink href="/graduates" onClick={closeMobileMenu}>Graduates</NavLink>
             <NavLink href="/contact" onClick={closeMobileMenu}>Contact Us</NavLink>
           </div>
@@ -116,7 +118,7 @@ function DropdownNavLink({ title, children }: { title: string; children: React.R
         <ChevronDown className={`h-4 w-4 ml-1 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+        <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-[90]">
           <div className="py-1">
             {children}
           </div>
