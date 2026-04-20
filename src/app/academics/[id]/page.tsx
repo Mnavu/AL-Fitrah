@@ -8,6 +8,7 @@ import { User, Calendar, Banknote, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
+import { STATIC_ASSETS, getGraduationGalleryPath, resolveLegacyImagePath } from '@/lib/assets';
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
@@ -68,18 +69,20 @@ export default function CoursePage({ params }: CoursePageProps) {
 
   // --- MANUAL OVERRIDE FOR BOOK IMAGES ---
   // Note: Removed '/public' from the beginning of these paths!
-  let displayBooks = course.book_images || [];
+  let displayBooks = Array.isArray(course.book_images)
+    ? course.book_images.map((imagePath: string) => resolveLegacyImagePath(imagePath))
+    : [];
   if (displayBooks.length === 0) {
         if (course.title.includes('Aqeedah')) {
-          displayBooks = ['/Back-to-Basics.jpeg'];
+          displayBooks = [STATIC_ASSETS.backToBasics];
         } else if (course.title.includes('Sisters')) {
-          displayBooks = ['/Hadith-An-Nawawi.png', '/Ladies.png'];
+          displayBooks = [STATIC_ASSETS.hadithNawawi, STATIC_ASSETS.ladiesWorkbook];
         } else if (course.title.includes('Children')) {
-          displayBooks = ['/Nooraniyah.jpeg', '/Islamic-Studies-Kindergaten.jpeg'];
+          displayBooks = [STATIC_ASSETS.nooraniyah, STATIC_ASSETS.islamicStudiesKindergarten];
         } else if (course.title.includes('Junior')) {
-          displayBooks = ['/Junior-Hadith.png'];
+          displayBooks = [STATIC_ASSETS.juniorHadith];
         } else if (course.title.includes('Marriage')) {
-          displayBooks = ['/Marriage.png'];
+          displayBooks = [STATIC_ASSETS.marriage];
         }
       }
     
@@ -88,7 +91,7 @@ export default function CoursePage({ params }: CoursePageProps) {
             
             {course.cover_image && (
                <div className="w-full h-64 md:h-80 relative bg-[#0f5257]">
-                  <Image src={course.cover_image} alt={course.title} fill className="object-cover opacity-60" />
+                  <Image src={resolveLegacyImagePath(course.cover_image)} alt={course.title} fill className="object-cover opacity-60" />
                </div>
             )}
       
@@ -173,14 +176,14 @@ export default function CoursePage({ params }: CoursePageProps) {
                       {course.title.toLowerCase().includes('gala') && (
                         <div className="mb-12">
                           <div className="flex items-center space-x-3 mb-8">
-                            <Image src="/Logo.png" alt="Logo" width={40} height={40} className="opacity-50" />
+                            <Image src={STATIC_ASSETS.logo} alt="Logo" width={40} height={40} className="opacity-50" />
                             <h2 className="text-3xl font-serif font-bold text-[#0f5257]">Previous Eid Gala Highlights</h2>
                           </div>
                           <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
                               <div key={i} className="aspect-square relative overflow-hidden rounded-2xl group shadow-lg border-2 border-white">
                                 <img 
-                                  src={`/${i}.jpg`} 
+                                  src={getGraduationGalleryPath(i)} 
                                   alt={`Gala Moment ${i}`} 
                                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                 />

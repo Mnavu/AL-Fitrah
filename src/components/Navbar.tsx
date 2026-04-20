@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { HeaderBackground } from './ui/FloralDecorations';
+import { STATIC_ASSETS } from '@/lib/assets';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function Navbar() {
         <div className="relative z-10 container mx-auto px-4 py-3 flex justify-between items-center">
           <Link href="/" className="flex items-center">
             <Image
-              src="/Logo.png"
+              src={STATIC_ASSETS.logo}
               alt="Al-Fitrah Institute Logo"
               width={150}
               height={60}

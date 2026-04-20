@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import CourseCard from '@/components/CourseCard';
 import { Section, Course } from '@/lib/types';
+import { STATIC_ASSETS } from '@/lib/assets';
 
 export default function SouthCCampus() {
   const [sections, setSections] = useState<Section[]>([]);
@@ -71,28 +72,28 @@ export default function SouthCCampus() {
   const getSectionImage = (sectionName: string, index: number) => {
     const name = sectionName.toLowerCase();
     if (name.includes('sisters')) {
-      return '/Ladies.jpg';
+      return STATIC_ASSETS.sistersSessionMain;
     }
     if (name.includes('junior')) {
-      return '/Al-Fitrah2.png';
+      return STATIC_ASSETS.juniorClassSession;
     }
     if (name.includes('adult')) {
-      return '/Sisters.jpeg';
+      return STATIC_ASSETS.sistersSessionAlt;
     }
     if (name.includes('children') || name.includes('baby')) {
-      return '/Babyclass.png';
+      return STATIC_ASSETS.babyClassSession;
     }
     if (name.includes('senior')) {
-      return '/Al-Fitrah3.jpeg';
+      return STATIC_ASSETS.seniorClassSession;
     }
     if (name.includes('counselling') || name.includes('support')) {
-      return '/Consultation.png';
+      return STATIC_ASSETS.consultation;
     }
     if (name.includes('online') || name.includes('global')) {
-      return '/Online.png';
+      return STATIC_ASSETS.onlineProgram;
     }
     // Default alternating images for other sections
-    return index % 2 === 0 ? "/Al-Fitrah2.png" : "/Al-Fitrah3.jpeg";
+    return index % 2 === 0 ? STATIC_ASSETS.juniorClassSession : STATIC_ASSETS.seniorClassSession;
   };
 
   return (
@@ -100,7 +101,7 @@ export default function SouthCCampus() {
       {/* 1. Hero Banner: Campus Overview */}
       <div className="relative w-full h-[300px] md:h-[450px] bg-[#0f5257]">
         <Image 
-          src="/Al-Fitrah1.png" 
+          src={STATIC_ASSETS.juniorClassHero} 
           alt="Al-Fitrah South C Campus"
           fill
           className="object-cover"

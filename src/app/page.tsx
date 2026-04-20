@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { Volume2, VolumeX, Heart, Users, Lightbulb, Mail, Send, Calendar } from 'lucide-react';
 import { SectionDivider } from '@/components/ui/FloralDecorations';
+import { STATIC_ASSETS } from '@/lib/assets';
 
 // Announcements Banner
 const GoldAccent = ({ className }: { className?: string }) => (
@@ -374,7 +375,7 @@ const UpcomingEvents = () => (
           {/* Event Image */}
           <div className="md:w-1/2 relative h-80 md:h-auto overflow-hidden">
             <img 
-              src="/Ladies.jpg" 
+              src={STATIC_ASSETS.sistersSessionMain} 
               alt="Eid Gala" 
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
             />
@@ -432,7 +433,7 @@ const FacultySection = () => (
         {/* Faculty 1 */}
         <div className="text-center">
           <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
-            <img src="/UstAmina.jpg" // 👈 Make sure to put the photo in your 'public' folder
+            <img src={STATIC_ASSETS.facultyAmina}
               alt="Ustadha Amina" className="w-full h-full object-cover"/>
           </div>
           <h3 className="text-2xl font-serif text-primary mb-2">Ustadha Amina Abdiqadir</h3>
@@ -444,7 +445,7 @@ const FacultySection = () => (
         {/* Faculty 2 */}
         <div className="text-center">
           <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
-            <img src="/UstNasser.jpeg" // 👈 Make sure to put the photo in your 'public' folder
+            <img src={STATIC_ASSETS.facultyNasser}
               alt="Ustadh Nasser" className="w-full h-full object-cover"/>
           </div>
           <h3 className="text-2xl font-serif text-primary mb-2">Ustadh Nasser Abdulaziz</h3>
@@ -456,7 +457,7 @@ const FacultySection = () => (
         {/* Faculty 3 */}
         <div className="text-center">
           <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
-            <img src="/UstMusa.jpeg" // 👈 Make sure to put the photo in your 'public' folder
+            <img src={STATIC_ASSETS.facultyMusa}
               alt="Ustadh Musa" className="w-full h-full object-cover"/>
           </div>
           <h3 className="text-2xl font-serif text-primary mb-2">Ustadh Musa Anis</h3>
@@ -467,7 +468,7 @@ const FacultySection = () => (
         </div>
         <div className="text-center">
           <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
-            <img src="/UstNahla.png" // 👈 Make sure to put the photo in your 'public' folder
+            <img src={STATIC_ASSETS.facultyNahla}
               alt="Ustadha Nahla Rashid" className="w-full h-full object-cover"/>
           </div>
           <h3 className="text-2xl font-serif text-primary mb-2">Ustadha Nahla Rashid</h3>
@@ -478,7 +479,7 @@ const FacultySection = () => (
         </div>
         <div className="text-center">
           <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
-            <img src="/UstMariam.png" 
+            <img src={STATIC_ASSETS.facultyMariam} 
               alt="Ustadha Mariam" className="w-full h-full object-cover"/>
           </div>
           <h3 className="text-2xl font-serif text-primary mb-2">Ustadha Mariam</h3>
@@ -489,7 +490,7 @@ const FacultySection = () => (
         </div>
         <div className="text-center">
           <div className="w-44 h-44 rounded-full mx-auto mb-6 relative overflow-hidden ring-4 ring-[#07CAC3]/30 shadow-lg">
-            <img src="/UstAbubakr.png" 
+            <img src={STATIC_ASSETS.facultyAbubakr} 
               alt="Ustadh Abubakr" className="w-full h-full object-cover"/>
           </div>
           <h3 className="text-2xl font-serif text-primary mb-2">Ustadh Abubakr</h3>

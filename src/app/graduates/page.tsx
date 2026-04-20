@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { Award, Camera, Home } from 'lucide-react';
 import Link from 'next/link';
+import { getGraduationGalleryPath } from '@/lib/assets';
 
 export default function GraduatesPage() {
   // Sorted by size (width * height). 
@@ -46,7 +47,7 @@ export default function GraduatesPage() {
   {images.map((num) => (
     <div key={num} className="group relative h-72 rounded-3xl overflow-hidden shadow-lg border-4 border-white bg-gray-200 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
       <img
-        src={`/${num}.jpg`}
+        src={getGraduationGalleryPath(num)}
         alt={`Graduate Photo ${num}`}
         className="h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110 block"
       />

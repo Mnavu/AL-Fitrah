@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { Course } from '@/lib/types';
 import { Calendar, Clock, ArrowLeft, CheckCircle } from 'lucide-react';
+import { getGraduationGalleryPath } from '@/lib/assets';
 
 export default async function CourseDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -95,7 +96,7 @@ export default async function CourseDetailPage({ params }: { params: { id: strin
                   {[1, 2, 3, 4, 5, 6].map((i) => (
                     <div key={i} className="aspect-square relative overflow-hidden rounded-2xl group shadow-md">
                       <img 
-                        src={`/${i}.jpg`} 
+                        src={getGraduationGalleryPath(i)} 
                         alt={`Gala Highlight ${i}`} 
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />

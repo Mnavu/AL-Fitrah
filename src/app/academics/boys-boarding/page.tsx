@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import { Course } from '@/lib/types'; // Make sure this type matches your DB!\
 import { CheckCircle2, GraduationCap, BookOpen, Award, Target, Sparkles, Users, Shield, Smile, Moon, Calendar, Activity, Heart } from 'lucide-react';
+import { STATIC_ASSETS } from '@/lib/assets';
 
 // --- Page-specific configuration ---
 // 1. UPDATED: Title exactly matches the SQL database!
@@ -339,7 +340,7 @@ export default function BoysBoardingCampus() {
                   </div>
                </div>
                <div className="order-1 md:order-2 bg-[#07CAC3]/10 rounded-[2rem] p-4 border border-white/10">
-                  <img src="/21.jpeg" alt="Activities" className="rounded-[1.5rem] w-full h-64 object-cover shadow-2xl" />
+                  <img src={STATIC_ASSETS.boysBoarding21} alt="Activities" className="rounded-[1.5rem] w-full h-64 object-cover shadow-2xl" />
                </div>
             </div>
           </div>
@@ -404,11 +405,11 @@ export default function BoysBoardingCampus() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 mt-12">
             {[
-              { name: "Ustadha Amina", role: "Principal", img: "/UstAmina.jpg" },
-              { name: "Sheikh Abdinasser", role: "Head of Pastoral", img: "/Sheikh Abdinassir.png" },
-              { name: "Ustadh Nasser", role: "Islamiyat & Quran Teacher", img: "/UstNasser.jpeg" },
-              { name: "Ustadh Musa", role: "Arabic Teacher", img: "/UstMusa.jpeg" },
-              { name: "Ustadh Abubakr", role: "Quran Teacher", img: "/UstAbubakr.png" },
+              { name: "Ustadha Amina", role: "Principal", img: STATIC_ASSETS.facultyAmina },
+              { name: "Sheikh Abdinasser", role: "Head of Pastoral", img: STATIC_ASSETS.sheikhAbdinassir },
+              { name: "Ustadh Nasser", role: "Islamiyat & Quran Teacher", img: STATIC_ASSETS.facultyNasser },
+              { name: "Ustadh Musa", role: "Arabic Teacher", img: STATIC_ASSETS.facultyMusa },
+              { name: "Ustadh Abubakr", role: "Quran Teacher", img: STATIC_ASSETS.facultyAbubakr },
             ].map((staff, i) => (
               <div key={i} className="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 group hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
                 <div className="h-64 relative overflow-hidden">
@@ -439,15 +440,15 @@ export default function BoysBoardingCampus() {
 
           <div className="flex flex-wrap justify-center gap-8 mt-12">
             <div className="group overflow-hidden rounded-3xl shadow-lg h-72 w-auto relative border-4 border-white">
-              <img src="/27.jpeg" alt="Campus Photo 1" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
+              <img src={STATIC_ASSETS.boysBoarding27} alt="Campus Photo 1" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
             </div>
             <div className="group overflow-hidden rounded-3xl shadow-lg h-72 w-auto relative border-4 border-white">
-              <img src="/17.jpeg" alt="Campus Photo 2" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
+              <img src={STATIC_ASSETS.boysBoarding17} alt="Campus Photo 2" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
             </div>
             <div className="group overflow-hidden rounded-3xl shadow-lg h-72 w-auto relative border-4 border-white">
-              <img src="/21.jpeg" alt="Campus Photo 3" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
+              <img src={STATIC_ASSETS.boysBoarding21} alt="Campus Photo 3" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
             </div>
           </div>

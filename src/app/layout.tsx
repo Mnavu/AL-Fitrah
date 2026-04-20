@@ -6,6 +6,7 @@ import { Playfair_Display, Lato } from 'next/font/google';
 import { Toaster } from 'sonner';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { STATIC_ASSETS } from '@/lib/assets';
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
@@ -69,7 +70,7 @@ export default function RootLayout({
       <head>
         <title>Al-Fitrah Training Institute</title>
         <meta name="description" content="Woven into the fabric of Excellence." />
-        <link rel="icon" href="/Logo.png" />
+        <link rel="icon" href={STATIC_ASSETS.logo} />
       </head>
       <body className={`${playfairDisplay.variable} ${lato.variable} font-sans bg-canvas text-primary flex flex-col min-h-screen`}>
         <CopyProtection />

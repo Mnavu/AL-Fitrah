@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import { Course } from '@/lib/types';
+import { STATIC_ASSETS } from '@/lib/assets';
 
 // Hardcoded M-Pesa details
 const MPESA_PAYBILL = "516600";
@@ -195,7 +196,7 @@ export default function RegistrationPage() {
     // 1. HEADER & LOGO
     try {
       const img = new Image();
-      img.src = '/Logo.png';
+      img.src = STATIC_ASSETS.logo;
       await new Promise((resolve) => {
         img.onload = resolve;
         img.onerror = resolve; 
