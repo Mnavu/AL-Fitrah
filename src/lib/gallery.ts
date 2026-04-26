@@ -4,6 +4,25 @@ import path from 'path';
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
 const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif']);
 const IGNORED_DIRECTORY_NAMES = new Set(['class materials and photos']);
+const CATEGORY_BY_FOLDER: Record<string, string> = {
+  'Baby Class Sessions': 'South C Campus',
+  'Juniour Class Sessions': 'South C Campus',
+  'Senior Class Sessions': 'South C Campus',
+  'Sisters Session': 'Sisters Classes',
+  'Boys Boarding Campus': 'Boys Campus',
+  'Al-Fitrah Graduation': 'Graduation',
+};
+const CATEGORY_ORDER = [
+  'South C Campus',
+  'Sisters Classes',
+  'Boys Campus',
+  'Graduation',
+  'Faculty Portraits',
+  'General',
+] as const;
+const CATEGORY_ORDER_INDEX = new Map<string, number>(
+  CATEGORY_ORDER.map((category, index) => [category, index])
+);
 
 export type GalleryItem = {
   src: string;
@@ -76,9 +95,10 @@ function getCategoryAndLabel(relativePath: string, fileName: string) {
   }
 
   const categoryFolder = path.posix.basename(parentDirectory);
+  const groupedCategory = CATEGORY_BY_FOLDER[categoryFolder];
 
   return {
-    category: humanizeText(categoryFolder),
+    category: groupedCategory ?? humanizeText(categoryFolder),
     label: humanizeText(categoryFolder),
   };
 }
@@ -102,12 +122,11 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
       };
     })
     .sort((left, right) => {
-      if (left.category === 'General' && right.category !== 'General') {
-        return -1;
-      }
+      const leftCategoryOrder = CATEGORY_ORDER_INDEX.get(left.category) ?? Number.MAX_SAFE_INTEGER;
+      const rightCategoryOrder = CATEGORY_ORDER_INDEX.get(right.category) ?? Number.MAX_SAFE_INTEGER;
 
-      if (left.category !== 'General' && right.category === 'General') {
-        return 1;
+      if (leftCategoryOrder !== rightCategoryOrder) {
+        return leftCategoryOrder - rightCategoryOrder;
       }
 
       const categoryDelta = left.category.localeCompare(right.category, undefined, {
@@ -117,6 +136,15 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
 
       if (categoryDelta !== 0) {
         return categoryDelta;
+      }
+
+      const labelDelta = left.label.localeCompare(right.label, undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      });
+
+      if (labelDelta !== 0) {
+        return labelDelta;
       }
 
       return left.fileName.localeCompare(right.fileName, undefined, {
