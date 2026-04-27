@@ -9,6 +9,7 @@ const CATEGORY_BY_FOLDER: Record<string, string> = {
   'Juniour Class Sessions': 'South C Campus',
   'Senior Class Sessions': 'South C Campus',
   'South C Campus': 'South C Campus',
+  'Community Lectures': 'Community Lectures',
   'Sisters Session': 'Sisters Classes',
   'Sisters Game Night': 'Sisters Classes',
   'Boys Boarding Campus': 'Boys Campus',
@@ -16,6 +17,7 @@ const CATEGORY_BY_FOLDER: Record<string, string> = {
 };
 const CATEGORY_ORDER = [
   'South C Campus',
+  'Community Lectures',
   'Sisters Classes',
   'Boys Campus',
   'Graduation',
