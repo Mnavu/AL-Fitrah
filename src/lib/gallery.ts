@@ -8,7 +8,9 @@ const CATEGORY_BY_FOLDER: Record<string, string> = {
   'Baby Class Sessions': 'South C Campus',
   'Juniour Class Sessions': 'South C Campus',
   'Senior Class Sessions': 'South C Campus',
+  'South C Campus': 'South C Campus',
   'Sisters Session': 'Sisters Classes',
+  'Sisters Game Night': 'Sisters Classes',
   'Boys Boarding Campus': 'Boys Campus',
   'Al-Fitrah Graduation': 'Graduation',
 };

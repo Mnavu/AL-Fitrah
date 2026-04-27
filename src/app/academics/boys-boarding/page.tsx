@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import { Course } from '@/lib/types'; // Make sure this type matches your DB!\
-import { CheckCircle2, GraduationCap, BookOpen, Award, Target, Sparkles, Users, Shield, Smile, Moon, Calendar, Activity, Heart } from 'lucide-react';
+import { CheckCircle2, GraduationCap, BookOpen, Award, Target, Sparkles, Users, Shield, Moon, Calendar, Activity, Heart } from 'lucide-react';
 import { STATIC_ASSETS } from '@/lib/assets';
 
 // --- Page-specific configuration ---
 // 1. UPDATED: Title exactly matches the SQL database!
 const COURSE_TITLE_FOR_FETCH = 'Tahfidh, Tarbiyah and Leadership: 1-3 Year Curriculum'; 
+const BOYS_CAMPUS_VIDEO_EMBED_URL = 'https://www.youtube.com/embed/TCWnQzPJCIY?si=-aPEyLTubMLrijub';
 
 export default function BoysBoardingCampus() {
   const [course, setCourse] = useState<Course | null>(null);
@@ -461,6 +461,19 @@ export default function BoysBoardingCampus() {
     <div className="bg-[#F8FAFC] min-h-screen">
       <div className="container mx-auto px-4 py-20 max-w-7xl">
         <h1 className="text-5xl md:text-7xl font-serif text-[#0f5257] font-bold text-center mb-12">Boys Boarding Campus</h1>
+        <div className="mb-12 overflow-hidden rounded-[2rem] border border-[#041719] bg-gradient-to-br from-[#041719] via-[#0b2b2e] to-[#041719] p-3 shadow-[0_28px_80px_rgba(4,23,25,0.35)]">
+          <div className="aspect-video overflow-hidden rounded-[1.5rem] border border-white/10 bg-black">
+            <iframe
+              className="h-full w-full"
+              src={BOYS_CAMPUS_VIDEO_EMBED_URL}
+              title="Boys Boarding Campus YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
+          </div>
+        </div>
         <div className="mt-16">
           {renderContent()}
         </div>
