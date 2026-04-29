@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
+import { Calendar } from 'lucide-react';
 import CourseCard from '@/components/CourseCard';
 import { Section, Course } from '@/lib/types';
 import { STATIC_ASSETS } from '@/lib/assets';
@@ -96,6 +97,36 @@ export default function SouthCCampus() {
     return index % 2 === 0 ? STATIC_ASSETS.juniorClassSession : STATIC_ASSETS.seniorClassSession;
   };
 
+  const getWeekendTimetable = (sectionName: string) => {
+    const name = sectionName.toLowerCase();
+
+    if (name.includes('junior')) {
+      return {
+        title: 'Junior Class Weekend Timetable',
+        description: 'Saturday and Sunday sessions for our junior students.',
+        image: '/Timetables/3.jpg',
+      };
+    }
+
+    if (name.includes('senior')) {
+      return {
+        title: 'Senior Class Weekend Timetable',
+        description: 'Saturday and Sunday sessions for our senior students.',
+        image: '/Timetables/4.jpg',
+      };
+    }
+
+    if (name.includes('baby') || name.includes('children')) {
+      return {
+        title: 'Baby Class Weekend Timetable',
+        description: 'Saturday and Sunday sessions for our youngest learners.',
+        image: '/Timetables/2.jpg',
+      };
+    }
+
+    return null;
+  };
+
   return (
     <div className="bg-[#F8FAFC] min-h-screen">
       {/* 1. Hero Banner: Campus Overview */}
@@ -120,7 +151,10 @@ export default function SouthCCampus() {
 
       <div className="container mx-auto px-4 py-16 max-w-6xl">
         {sections.length > 0 ? (
-          sections.map((section, idx) => (
+          sections.map((section, idx) => {
+            const timetable = getWeekendTimetable(section.name);
+
+            return (
             <div key={section.id} className="mb-24 last:mb-0">
               {/* 2. Section Layout: Image alongside Title/Description */}
               <div className={`flex flex-col ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-12 items-center mb-12`}>
@@ -149,6 +183,35 @@ export default function SouthCCampus() {
                 </div>
               </div>
 
+              {timetable && (
+                <div className="mb-12 rounded-[2rem] border border-[#07CAC3]/15 bg-white p-6 shadow-lg md:p-8">
+                  <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div>
+                      <div className="inline-flex items-center gap-2 rounded-full border border-[#07CAC3]/20 bg-[#ecfffb] px-4 py-2 text-sm font-semibold text-[#077B83]">
+                        <Calendar size={16} />
+                        Saturday & Sunday Classes
+                      </div>
+                      <h3 className="mt-4 text-2xl md:text-3xl font-serif font-bold text-[#0f5257]">
+                        {timetable.title}
+                      </h3>
+                      <p className="mt-2 text-gray-600">{timetable.description}</p>
+                    </div>
+                  </div>
+
+                  <div className="mx-auto max-w-xl">
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-[#f8fffd] ring-1 ring-slate-100">
+                      <Image
+                        src={timetable.image}
+                        alt={timetable.title}
+                        fill
+                        className="object-contain p-3"
+                        sizes="(min-width: 1024px) 40vw, (min-width: 768px) 60vw, 100vw"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* 3. Courses Grid */}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {section.courses && section.courses.length > 0 ? (
@@ -162,7 +225,7 @@ export default function SouthCCampus() {
                 )}
               </div>
             </div>
-          ))
+          )})
         ) : (
           <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-slate-100">
             <p className="text-[#0f5257] text-2xl font-serif">Our academic catalog is being updated.</p>

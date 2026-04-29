@@ -230,7 +230,7 @@ export default function BoysBoardingCampus() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                    <Calendar className="text-[#07CAC3] w-6 h-6" />
-                   <span className="bg-[#07CAC3] text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider">Starts 6th of May. Intake Ongoing</span>
+                   <span className="bg-[#07CAC3] text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider">April Holiday Programme Completed. Next Intake will be announced soon In shaa Allah.</span>
                 </div>
                 <h3 className="text-4xl md:text-6xl font-serif font-bold">4-Week Transformational Holiday Boarding Program</h3>
                 <div className="flex flex-wrap items-center gap-6 mt-4">
@@ -394,6 +394,57 @@ export default function BoysBoardingCampus() {
             </div>
         </div>
         
+        {/* Daily Schedule Section */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <h3 className="text-4xl md:text-5xl font-serif text-[#0f5257] mb-6">Daily Schedule</h3>
+            <p className="text-gray-600 max-w-3xl mx-auto text-xl leading-relaxed">
+              A structured daily routine designed to balance intensive learning, spiritual devotion, and personal growth.
+            </p>
+          </div>
+          
+          <div className="bg-white rounded-[3rem] p-4 md:p-8 shadow-2xl border border-gray-100 overflow-hidden">
+            <div className="relative group">
+              <img 
+                src={STATIC_ASSETS.boysBoardingTimetable} 
+                alt="Boys Boarding Campus Daily Timetable" 
+                className="w-full h-auto rounded-[2rem] shadow-inner transition-transform duration-700"
+              />
+              <div className="absolute inset-0 rounded-[2rem] border-4 border-[#07CAC3]/10 pointer-events-none"></div>
+            </div>
+            
+            <div className="mt-8 grid md:grid-cols-3 gap-6 px-4">
+              <div className="flex items-start gap-4">
+                <div className="bg-[#07CAC3]/10 p-3 rounded-xl">
+                  <Activity className="text-[#07CAC3] w-6 h-6" />
+                </div>
+                <div>
+                  <h5 className="font-bold text-[#0f5257]">Structured Routine</h5>
+                  <p className="text-gray-500 text-sm">Every hour is optimized for physical and spiritual development.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="bg-[#07CAC3]/10 p-3 rounded-xl">
+                  <Moon className="text-[#07CAC3] w-6 h-6" />
+                </div>
+                <div>
+                  <h5 className="font-bold text-[#0f5257]">Spiritual Focus</h5>
+                  <p className="text-gray-500 text-sm">Built around the five daily prayers and dedicated Quran time.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="bg-[#07CAC3]/10 p-3 rounded-xl">
+                  <Users className="text-[#07CAC3] w-6 h-6" />
+                </div>
+                <div>
+                  <h5 className="font-bold text-[#0f5257]">Community Living</h5>
+                  <p className="text-gray-500 text-sm">Developing brotherhood and leadership through shared activities.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Staff Excellence Section */}
         <div className="mb-20">
           <div className="text-center mb-12">

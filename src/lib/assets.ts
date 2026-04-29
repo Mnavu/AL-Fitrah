@@ -26,6 +26,7 @@ export const STATIC_ASSETS = {
   facultyMariam: '/UstMariam.png',
   facultyAbubakr: '/UstAbubakr.png',
   sheikhAbdinassir: '/Sheikh Abdinassir.png',
+  boysBoardingTimetable: '/Timetables/5.png',
 } as const;
 
 const LEGACY_PATH_MAP: Record<string, string> = {
