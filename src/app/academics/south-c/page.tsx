@@ -184,7 +184,7 @@ export default function SouthCCampus() {
               </div>
 
               {timetable && (
-                <div className="mb-12 rounded-[2rem] border border-[#07CAC3]/15 bg-white p-6 shadow-lg md:p-8">
+                <div className="mb-12 rounded-[2rem] border border-[#07CAC3]/15 bg-white p-4 shadow-lg md:p-6">
                   <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
                       <div className="inline-flex items-center gap-2 rounded-full border border-[#07CAC3]/20 bg-[#ecfffb] px-4 py-2 text-sm font-semibold text-[#077B83]">
@@ -198,14 +198,12 @@ export default function SouthCCampus() {
                     </div>
                   </div>
 
-                  <div className="mx-auto max-w-xl">
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-[#f8fffd] ring-1 ring-slate-100">
-                      <Image
+                  <div className="mx-auto max-w-2xl">
+                    <div className="relative overflow-hidden rounded-[1.5rem] bg-[#f8fffd] ring-1 ring-slate-100 flex justify-center">
+                      <img
                         src={timetable.image}
                         alt={timetable.title}
-                        fill
-                        className="object-contain p-3"
-                        sizes="(min-width: 1024px) 40vw, (min-width: 768px) 60vw, 100vw"
+                        className="w-full h-auto object-contain max-h-[800px]"
                       />
                     </div>
                   </div>
