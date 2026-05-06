@@ -485,23 +485,37 @@ export default function BoysBoardingCampus() {
         {/* Campus Photos Section */}
         <div className="mb-20">
           <div className="text-center mb-10">
-            <h3 className="text-3xl font-serif text-[#0f5257] mb-4">Campus Life</h3>
-            <p className="text-gray-500 text-lg">A serene and conducive environment for focused learning and spiritual growth.</p>
+            <h3 className="text-4xl font-serif text-[#0f5257] mb-4">Campus Life & Events</h3>
+            <p className="text-gray-500 text-lg max-w-2xl mx-auto">A glimpse into the vibrant environment and meaningful events that shape our students' journey at the Boys Boarding Campus.</p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-8 mt-12">
-            <div className="group overflow-hidden rounded-3xl shadow-lg h-72 w-auto relative border-4 border-white">
-              <img src={STATIC_ASSETS.boysBoarding27} alt="Campus Photo 1" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-            </div>
-            <div className="group overflow-hidden rounded-3xl shadow-lg h-72 w-auto relative border-4 border-white">
-              <img src={STATIC_ASSETS.boysBoarding17} alt="Campus Photo 2" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-            </div>
-            <div className="group overflow-hidden rounded-3xl shadow-lg h-72 w-auto relative border-4 border-white">
-              <img src={STATIC_ASSETS.boysBoarding21} alt="Campus Photo 3" className="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-700"/>
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+            {[
+              { img: STATIC_ASSETS.boysBoardingDSC09571, alt: "Boys Campus Event 1" },
+              { img: STATIC_ASSETS.boysBoardingDSC09524, alt: "Boys Campus Event 2" },
+              { img: STATIC_ASSETS.boysBoardingDSC09478, alt: "Boys Campus Activity" },
+              { img: STATIC_ASSETS.boysBoardingDSC09475, alt: "Learning Environment" },
+              { img: STATIC_ASSETS.boysBoarding21, alt: "Campus Facilities" },
+              { img: STATIC_ASSETS.boysBoardingDSC09511, alt: "Student Engagement" },
+            ].map((photo, i) => (
+              <div key={i} className="group overflow-hidden rounded-3xl shadow-lg aspect-square relative border-4 border-white bg-gray-100">
+                <img 
+                  src={photo.img} 
+                  alt={photo.alt} 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                  <p className="text-white font-medium">{photo.alt}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="text-center mt-12">
+            <Link href="/gallery" className="inline-flex items-center gap-2 text-[#07CAC3] font-bold text-lg hover:text-[#0f5257] transition-colors">
+              View Full Campus Gallery
+              <Sparkles className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </>
