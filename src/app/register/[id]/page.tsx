@@ -119,7 +119,11 @@ export default function RegistrationPage() {
     } else {
       const isBoarding = course.title.toLowerCase().includes('boarding') || course.title.toLowerCase().includes('leadership');
       if (isBoarding) {
-        setTotalAmount(70000 * duration);
+        // Apply specific term pricing
+        if (duration === 4) setTotalAmount(210000);
+        else if (duration === 8) setTotalAmount(420000);
+        else if (duration === 12) setTotalAmount(630000);
+        else setTotalAmount(70000 * duration);
       } else {
         setTotalAmount(0);
       }
@@ -755,9 +759,9 @@ export default function RegistrationPage() {
                             {isBoarding ? (
                                 <>
                                     <option value={1}>1 Month (KES 70,000)</option>
-                                    <option value={4}>1 Term - 4 Months (KES 280,000)</option>
-                                    <option value={8}>2 Terms - 8 Months (KES 560,000)</option>
-                                    <option value={12}>Full Year - 3 Terms (KES 840,000)</option>
+                                    <option value={4}>1 Term - 4 Months (KES 210,000)</option>
+                                    <option value={8}>2 Terms - 8 Months (KES 420,000)</option>
+                                    <option value={12}>Full Year - 12 Months (KES 630,000)</option>
                                 </>
                             ) : (
                                 Array.from({length: 12}, (_, i) => i + 1).map(m => (
@@ -767,9 +771,13 @@ export default function RegistrationPage() {
                         </select>
                     </div>
                     
-                    {!isBoarding && (
+                    {!isBoarding ? (
                         <p className="mt-4 text-sm text-gray-500 font-medium italic">
                             Calculation: KES {basePriceValue.toLocaleString()} x {duration} {duration === 1 ? 'Month' : 'Months'} = <span className="text-[#07CAC3] font-bold">KES {totalAmount.toLocaleString()}</span>
+                        </p>
+                    ) : (
+                        <p className="mt-4 text-sm text-gray-500 font-medium italic">
+                            Total for {duration === 4 ? "1 Term" : duration === 8 ? "2 Terms" : duration === 12 ? "Full Year" : `${duration} Month(s)`}: <span className="text-[#07CAC3] font-bold">KES {totalAmount.toLocaleString()}</span>
                         </p>
                     )}
                 </div>
