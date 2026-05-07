@@ -367,7 +367,7 @@ export default function RegistrationPage() {
     setSubmitting(true);
 
     try {
-      const periodText = duration === 3 ? "1 Term (3 Months)" : duration === 6 ? "2 Terms (6 Months)" : duration === 9 ? "Full Year (3 Terms)" : `${duration} Month(s)`;
+      const periodText = duration === 4 ? "1 Term (4 Months)" : duration === 8 ? "2 Terms (8 Months)" : duration === 12 ? "Full Year (3 Terms)" : `${duration} Month(s)`;
       
       // Saving all student info AND document URLs directly to the registrations table
       const { data: regData, error: regError } = await supabase
@@ -559,7 +559,7 @@ export default function RegistrationPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
-                onClick={() => generateReceipt(formData, course?.title || '', totalAmount, duration === 3 ? "1 Term (3 Months)" : duration === 6 ? "2 Terms (6 Months)" : duration === 9 ? "Full Year (3 Terms)" : `${duration} Month(s)`, transactionCode.toUpperCase())}
+                onClick={() => generateReceipt(formData, course?.title || '', totalAmount, duration === 4 ? "1 Term (4 Months)" : duration === 8 ? "2 Terms (8 Months)" : duration === 12 ? "Full Year (3 Terms)" : `${duration} Month(s)`, transactionCode.toUpperCase())}
                 className="flex items-center justify-center gap-2 bg-[#07CAC3] text-white px-10 py-5 rounded-2xl font-black text-lg hover:bg-[#0f5257] transition-all shadow-xl hover:shadow-2xl"
               >
                 <Download size={22} /> Download Receipt
@@ -755,9 +755,9 @@ export default function RegistrationPage() {
                             {isBoarding ? (
                                 <>
                                     <option value={1}>1 Month (KES 70,000)</option>
-                                    <option value={3}>1 Term - 3 Months (KES 210,000)</option>
-                                    <option value={6}>2 Terms - 6 Months (KES 420,000)</option>
-                                    <option value={9}>Full Year - 3 Terms (KES 630,000)</option>
+                                    <option value={4}>1 Term - 4 Months (KES 280,000)</option>
+                                    <option value={8}>2 Terms - 8 Months (KES 560,000)</option>
+                                    <option value={12}>Full Year - 3 Terms (KES 840,000)</option>
                                 </>
                             ) : (
                                 Array.from({length: 12}, (_, i) => i + 1).map(m => (
