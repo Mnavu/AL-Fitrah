@@ -482,6 +482,34 @@ export default function BoysBoardingCampus() {
           </div>
         </div>
 
+        {/* Boys Campus Events - Video Gallery */}
+        <div className="mb-20">
+          <div className="text-center mb-10">
+            <h3 className="text-4xl md:text-5xl font-serif text-[#0f5257] mb-6">Boys Campus Events</h3>
+            <p className="text-gray-600 max-w-3xl mx-auto text-xl leading-relaxed">
+              Explore the various events and activities held at our Boys Boarding Campus through our video gallery.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+            {[
+              { url: "https://www.youtube.com/embed/fircB29te1k?si=0y4B4TzBFhgQg7o4", title: "Boys Campus Event Highlights" },
+            ].map((video, i) => (
+              <div key={i} className="aspect-video overflow-hidden rounded-[2rem] border-4 border-white bg-black shadow-2xl relative group">
+                <iframe
+                  className="h-full w-full"
+                  src={video.url}
+                  title={video.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Campus Photos Section */}
         <div className="mb-20">
           <div className="text-center mb-10">
