@@ -493,18 +493,30 @@ export default function BoysBoardingCampus() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
             {[
-              { url: "https://www.youtube.com/embed/fircB29te1k?si=0y4B4TzBFhgQg7o4", title: "Boys Campus Event Highlights" },
+              { url: "https://www.youtube.com/embed/fircB29te1k?si=0y4B4TzBFhgQg7o4", title: "Boys Campus Event Highlights", type: "youtube" },
+              { url: "/Boys Campus Event/Boys_Events.mp4", title: "Boys Campus Events", type: "local" },
             ].map((video, i) => (
               <div key={i} className="aspect-video overflow-hidden rounded-[2rem] border-4 border-white bg-black shadow-2xl relative group">
-                <iframe
-                  className="h-full w-full"
-                  src={video.url}
-                  title={video.title}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                />
+                {video.type === "youtube" ? (
+                  <iframe
+                    className="h-full w-full"
+                    src={video.url}
+                    title={video.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    className="h-full w-full object-cover"
+                    controls
+                    preload="metadata"
+                  >
+                    <source src={video.url} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                )}
               </div>
             ))}
           </div>
