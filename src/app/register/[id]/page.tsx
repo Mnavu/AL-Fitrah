@@ -31,6 +31,48 @@ import { STATIC_ASSETS } from '@/lib/assets';
 const MPESA_PAYBILL = "516600";
 const MPESA_ACCOUNT = "103236Amina";
 
+const COUNTRY_CODES = [
+  { code: '+254', country: 'Kenya', flag: '🇰🇪' },
+  { code: '+255', country: 'Tanzania', flag: '🇹🇿' },
+  { code: '+256', country: 'Uganda', flag: '🇺🇬' },
+  { code: '+251', country: 'Ethiopia', flag: '🇪🇹' },
+  { code: '+252', country: 'Somalia', flag: '🇸🇴' },
+  { code: '+250', country: 'Rwanda', flag: '🇷🇼' },
+  { code: '+257', country: 'Burundi', flag: '🇧🇮' },
+  { code: '+258', country: 'Mozambique', flag: '🇲🇿' },
+  { code: '+249', country: 'Sudan', flag: '🇸🇩' },
+  { code: '+253', country: 'Djibouti', flag: '🇩🇯' },
+  { code: '+966', country: 'Saudi Arabia', flag: '🇸🇦' },
+  { code: '+971', country: 'UAE', flag: '🇦🇪' },
+  { code: '+974', country: 'Qatar', flag: '🇶🇦' },
+  { code: '+965', country: 'Kuwait', flag: '🇰🇼' },
+  { code: '+973', country: 'Bahrain', flag: '🇧🇭' },
+  { code: '+968', country: 'Oman', flag: '🇴🇲' },
+  { code: '+962', country: 'Jordan', flag: '🇯🇴' },
+  { code: '+961', country: 'Lebanon', flag: '🇱🇧' },
+  { code: '+20', country: 'Egypt', flag: '🇪🇬' },
+  { code: '+27', country: 'South Africa', flag: '🇿🇦' },
+  { code: '+234', country: 'Nigeria', flag: '🇳🇬' },
+  { code: '+233', country: 'Ghana', flag: '🇬🇭' },
+  { code: '+212', country: 'Morocco', flag: '🇲🇦' },
+  { code: '+216', country: 'Tunisia', flag: '🇹🇳' },
+  { code: '+213', country: 'Algeria', flag: '🇩🇿' },
+  { code: '+90', country: 'Turkey', flag: '🇹🇷' },
+  { code: '+92', country: 'Pakistan', flag: '🇵🇰' },
+  { code: '+91', country: 'India', flag: '🇮🇳' },
+  { code: '+60', country: 'Malaysia', flag: '🇲🇾' },
+  { code: '+62', country: 'Indonesia', flag: '🇮🇩' },
+  { code: '+44', country: 'United Kingdom', flag: '🇬🇧' },
+  { code: '+1', country: 'United States / Canada', flag: '🇺🇸' },
+  { code: '+61', country: 'Australia', flag: '🇦🇺' },
+  { code: '+49', country: 'Germany', flag: '🇩🇪' },
+  { code: '+33', country: 'France', flag: '🇫🇷' },
+  { code: '+31', country: 'Netherlands', flag: '🇳🇱' },
+  { code: '+46', country: 'Sweden', flag: '🇸🇪' },
+  { code: '+47', country: 'Norway', flag: '🇳🇴' },
+  { code: '+45', country: 'Denmark', flag: '🇩🇰' },
+];
+
 // Removed "Completed Al-Fitrah Admission Application Form" as they fill it online
 const REQUIRED_DOCS = [
   { id: 'birth_cert', label: 'Copy of Birth Certificate or National ID' },
@@ -68,6 +110,8 @@ export default function RegistrationPage() {
     guardian_name: '',
     guardian_relationship: '',
     guardian_phone: '',
+    guardian_phone_country_code: '+254',
+    phone_country_code: '+254',
     medical_conditions: '',
     allergies: '',
     agreed: false
@@ -176,8 +220,8 @@ export default function RegistrationPage() {
   };
 
   const validatePhone = (num: string) => {
-    const clean = num.replace(/\s/g, '');
-    return /^(07|01|254|(\+254))\d{7,9}$/.test(clean);
+    const clean = num.replace(/[\s\-\(\)]/g, '');
+    return /^\d{6,15}$/.test(clean);
   };
 
   const generateReceipt = async (data: typeof formData, courseTitle: string, amount: number, period: string, code: string) => {
@@ -267,15 +311,15 @@ export default function RegistrationPage() {
     doc.setTextColor(0); doc.text(data.full_name, 75, detailsY);
     
     doc.setTextColor(100); doc.text('Student Phone:', 25, detailsY + spacing);
-    doc.setTextColor(0); doc.text(data.phone, 75, detailsY + spacing);
+    doc.setTextColor(0); doc.text(`${data.phone_country_code}${data.phone}`, 75, detailsY + spacing);
     
     doc.setTextColor(100); doc.text('Guardian Name:', 25, detailsY + spacing * 2);
     doc.setTextColor(0); doc.text(data.guardian_name, 75, detailsY + spacing * 2);
     
-    doc.setTextColor(100); doc.text('Guardian M-Pesa Phone:', 25, detailsY + spacing * 3);
+    doc.setTextColor(100); doc.text('Guardian Phone:', 25, detailsY + spacing * 3);
     doc.setTextColor(midnight[0], midnight[1], midnight[2]);
     doc.setFont('helvetica', 'bold');
-    doc.text(data.guardian_phone, 75, detailsY + spacing * 3);
+    doc.text(`${data.guardian_phone_country_code}${data.guardian_phone}`, 75, detailsY + spacing * 3);
     doc.setFont('helvetica', 'normal');
 
     // Section 2: Enrollment Summary
@@ -344,7 +388,7 @@ export default function RegistrationPage() {
     }
 
     if (!validatePhone(formData.phone)) {
-      setError("Please enter a valid Kenyan phone number (e.g., 07XXXXXXXX).");
+      setError("Please enter a valid phone number (digits only, 6–15 digits, no country code prefix).");
       return;
     }
 
@@ -383,11 +427,11 @@ export default function RegistrationPage() {
           nationality: formData.nationality,
           address: formData.address,
           city: formData.city,
-          student_phone: formData.phone,
+          student_phone: `${formData.phone_country_code}${formData.phone}`,
           student_email: formData.email,
           guardian_name: formData.guardian_name,
           guardian_relationship: formData.guardian_relationship,
-          guardian_phone: formData.guardian_phone,
+          guardian_phone: `${formData.guardian_phone_country_code}${formData.guardian_phone}`,
           medical_conditions_details: formData.medical_conditions,
           allergies: formData.allergies,
           course_id: course?.id, // Use actual ID from course state
@@ -645,11 +689,23 @@ export default function RegistrationPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Phone Number (M-Pesa)</label>
-                  <div className="relative">
-                    <Phone className="absolute right-5 top-5 text-gray-400 w-5 h-5 pointer-events-none" />
-                    <input required name="phone" value={formData.phone} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all" placeholder="07XXXXXXXX" />
+                  <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Phone Number</label>
+                  <div className="flex rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus-within:bg-white focus-within:border-[#07CAC3] overflow-hidden transition-all">
+                    <select
+                      name="phone_country_code"
+                      value={formData.phone_country_code}
+                      onChange={handleInputChange}
+                      aria-label="Phone country code"
+                      className="bg-transparent border-r border-gray-200 px-3 py-5 outline-none font-bold text-[#0f5257] appearance-none cursor-pointer text-sm shrink-0"
+                    >
+                      {COUNTRY_CODES.map(c => (
+                        <option key={c.code + c.country} value={c.code}>{c.flag} {c.code} {c.country}</option>
+                      ))}
+                    </select>
+                    <input required name="phone" value={formData.phone} onChange={handleInputChange} className="flex-1 px-5 py-5 bg-transparent outline-none text-gray-700 min-w-0" placeholder="712 345 678" />
+                    <Phone className="self-center mr-5 text-gray-400 w-5 h-5 pointer-events-none shrink-0" />
                   </div>
+                  <p className="mt-2 text-xs text-gray-400 font-medium">Select your country code then enter your local number without the leading 0.</p>
                 </div>
               </div>
             </div>
@@ -673,7 +729,22 @@ export default function RegistrationPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-black text-[#0f5257] uppercase tracking-widest mb-3">Guardian Phone</label>
-                  <input required name="guardian_phone" value={formData.guardian_phone} onChange={handleInputChange} className="w-full px-6 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#07CAC3] outline-none transition-all" placeholder="07XXXXXXXX" />
+                  <div className="flex rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus-within:bg-white focus-within:border-[#07CAC3] overflow-hidden transition-all">
+                    <select
+                      name="guardian_phone_country_code"
+                      value={formData.guardian_phone_country_code}
+                      onChange={handleInputChange}
+                      aria-label="Guardian phone country code"
+                      className="bg-transparent border-r border-gray-200 px-3 py-5 outline-none font-bold text-[#0f5257] appearance-none cursor-pointer text-sm shrink-0"
+                    >
+                      {COUNTRY_CODES.map(c => (
+                        <option key={c.code + c.country} value={c.code}>{c.flag} {c.code} {c.country}</option>
+                      ))}
+                    </select>
+                    <input required name="guardian_phone" value={formData.guardian_phone} onChange={handleInputChange} className="flex-1 px-5 py-5 bg-transparent outline-none text-gray-700 min-w-0" placeholder="712 345 678" />
+                    <Phone className="self-center mr-5 text-gray-400 w-5 h-5 pointer-events-none shrink-0" />
+                  </div>
+                  <p className="mt-2 text-xs text-gray-400 font-medium">Select country code then enter the local number without the leading 0.</p>
                 </div>
               </div>
             </div>
