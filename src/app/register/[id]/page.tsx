@@ -242,16 +242,25 @@ export default function RegistrationPage() {
     doc.rect(0, 0, 4, 297, 'F');
 
     // 1. HEADER & LOGO
+    // jsPDF renders PNG transparency as black, so we composite onto the header
+    // background color first via an off-screen canvas before adding to the PDF.
     try {
       const img = new Image();
       img.src = STATIC_ASSETS.logo;
       await new Promise((resolve) => {
         img.onload = resolve;
-        img.onerror = resolve; 
+        img.onerror = resolve;
       });
       if (img.complete && img.naturalWidth !== 0) {
-        // Position logo on the left
-        doc.addImage(img, 'PNG', 15, 12, 45, 20);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext('2d')!;
+        ctx.fillStyle = '#f0fdfa'; // match the header background color
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+        const logoDataUrl = canvas.toDataURL('image/jpeg', 1.0);
+        doc.addImage(logoDataUrl, 'JPEG', 15, 12, 45, 20);
       }
     } catch (e) {
       console.error("Logo failed to load", e);
