@@ -176,7 +176,7 @@ export default function CoursePage({ params }: CoursePageProps) {
                       {course.title.toLowerCase().includes('gala') && (
                         <div className="mb-12">
                           <div className="flex items-center space-x-3 mb-8">
-                            <Image src={STATIC_ASSETS.logo} alt="Logo" width={40} height={40} className="opacity-50" />
+                            <Image src={STATIC_ASSETS.logoAlt} alt="Logo" width={40} height={40} className="opacity-50" />
                             <h2 className="text-3xl font-serif font-bold text-[#0f5257]">Previous Eid Gala Highlights</h2>
                           </div>
                           <div className="grid grid-cols-2 md:grid-cols-3 gap-6">

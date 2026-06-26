@@ -246,7 +246,7 @@ export default function RegistrationPage() {
     // background color first via an off-screen canvas before adding to the PDF.
     try {
       const img = new Image();
-      img.src = STATIC_ASSETS.logo;
+      img.src = STATIC_ASSETS.logoAlt;
       await new Promise((resolve) => {
         img.onload = resolve;
         img.onerror = resolve;
@@ -256,8 +256,11 @@ export default function RegistrationPage() {
         canvas.width = img.naturalWidth;
         canvas.height = img.naturalHeight;
         const ctx = canvas.getContext('2d')!;
-        ctx.fillStyle = '#f0fdfa'; // match the header background color
+        // Fill with the header background first, then multiply-blend the logo
+        // so its white background disappears into the teal header color.
+        ctx.fillStyle = '#f0fdfa';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.globalCompositeOperation = 'multiply';
         ctx.drawImage(img, 0, 0);
         const logoDataUrl = canvas.toDataURL('image/jpeg', 1.0);
         doc.addImage(logoDataUrl, 'JPEG', 15, 12, 45, 20);

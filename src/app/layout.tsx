@@ -70,7 +70,7 @@ export default function RootLayout({
       <head>
         <title>Al-Fitrah Training Institute</title>
         <meta name="description" content="Woven into the fabric of Excellence." />
-        <link rel="icon" href={STATIC_ASSETS.logo} />
+        <link rel="icon" href={STATIC_ASSETS.logoAlt} />
       </head>
       <body className={`${playfairDisplay.variable} ${lato.variable} font-sans bg-canvas text-primary flex flex-col min-h-screen`}>
         <CopyProtection />

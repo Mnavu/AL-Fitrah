@@ -26,7 +26,7 @@ export default function Navbar() {
         <div className="relative z-10 container mx-auto px-4 py-3 flex justify-between items-center">
           <Link href="/" className="flex items-center">
             <Image
-              src={STATIC_ASSETS.logo}
+              src={STATIC_ASSETS.logoAlt}
               alt="Al-Fitrah Institute Logo"
               width={150}
               height={60}
