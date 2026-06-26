@@ -197,20 +197,24 @@ export default function RegistrationPage() {
       const fileName = `${docId}_${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
       const filePath = `registrations/${fileName}`;
 
-      // Uploading to Supabase Storage - accessible via the Supabase Dashboard "Storage" tab
-      const { data, error: uploadError } = await supabase.storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
         .from('documents')
         .upload(filePath, file);
 
       if (uploadError) {
-        console.warn("Storage upload failed, using simulation URL", uploadError);
-        setUploadedDocs(prev => ({ ...prev, [docId]: `simulation://${filePath}` }));
-      } else {
-        const { data: { publicUrl } } = supabase.storage
-          .from('documents')
-          .getPublicUrl(filePath);
-        setUploadedDocs(prev => ({ ...prev, [docId]: publicUrl }));
+        // Storage bucket not configured or not public — show a real error so
+        // the student knows the upload did not succeed.
+        alert(
+          `Document upload failed: ${uploadError.message}\n\n` +
+          `Please ask the administrator to create a public "documents" storage bucket in the Supabase dashboard, then try again.`
+        );
+        return; // leave the doc button in "Choose File" state
       }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('documents')
+        .getPublicUrl(filePath);
+      setUploadedDocs(prev => ({ ...prev, [docId]: publicUrl }));
     } catch (err: any) {
       console.error("Upload error:", err);
       alert("Failed to upload document. Please try again.");
@@ -450,8 +454,9 @@ export default function RegistrationPage() {
           status: 'Paid',
           amount_paid: totalAmount.toString(),
           payment_reference: transactionCode.toUpperCase(),
-          // Storing documents in notes as well for extreme visibility
-          notes: `Paid for ${periodText}. Documents: ${Object.keys(uploadedDocs).join(', ')}`,
+          // Store full document URL map as JSON so admin can recover links
+          // even if the student_documents insert below fails.
+          notes: `Paid for ${periodText}. Documents: ${JSON.stringify(uploadedDocs)}`,
           declaration: true,
           emergency_contact_name: formData.guardian_name,
           emergency_contact_phone: formData.guardian_phone
@@ -461,16 +466,23 @@ export default function RegistrationPage() {
 
       if (regError) throw regError;
 
-      // Now insert document metadata if possible
+      // Insert document metadata — table must exist with columns:
+      // registration_id, document_type, file_path
       if (regData && Object.keys(uploadedDocs).length > 0) {
         const docInserts = Object.entries(uploadedDocs).map(([type, path]) => ({
           registration_id: regData.id,
           document_type: type,
-          file_path: path
+          file_path: path,
         }));
-        
-        // This will only work if the table exists
-        await supabase.from('student_documents').insert(docInserts);
+
+        const { error: docError } = await supabase
+          .from('student_documents')
+          .insert(docInserts);
+
+        if (docError) {
+          // Non-fatal: the URLs are already saved in the notes field above.
+          console.warn('student_documents insert failed:', docError.message);
+        }
       }
 
       // Notify Admin with the link to the registration

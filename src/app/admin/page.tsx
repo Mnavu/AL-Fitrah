@@ -86,6 +86,23 @@ interface Message {
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
+// Parses the JSON document map stored in the registration's notes field.
+// Used as a fallback when the student_documents table is unavailable.
+function parseDocsFromNotes(notes: string): DocumentRecord[] {
+  try {
+    const match = notes.match(/Documents:\s*(\{[\s\S]*\})/);
+    if (!match) return [];
+    const obj = JSON.parse(match[1]) as Record<string, string>;
+    return Object.entries(obj).map(([type, path]) => ({
+      id: `notes-${type}`,
+      document_type: type,
+      file_path: path,
+    }));
+  } catch {
+    return [];
+  }
+}
+
 const DOC_TYPE_LABELS: Record<string, string> = {
   birth_cert: 'Birth Certificate / National ID',
   parent_id: 'Parent / Guardian National ID',
@@ -211,12 +228,23 @@ export default function AdminDashboard() {
 
       if (regError) throw regError;
 
-      const { data: docs } = await supabase
+      const { data: docs, error: docsError } = await supabase
         .from('student_documents')
         .select('*')
         .eq('registration_id', id);
 
-      setSelectedReg({ ...reg, documents: docs || [] });
+      if (docsError) {
+        console.warn('student_documents query failed:', docsError.message);
+      }
+
+      // Primary source: student_documents table.
+      // Fallback: parse the JSON URL map stored in the notes field.
+      const documents: DocumentRecord[] =
+        docs && docs.length > 0
+          ? docs
+          : parseDocsFromNotes(reg.notes || '');
+
+      setSelectedReg({ ...reg, documents });
     } catch (err: any) {
       toast.error('Failed to load registration details', { description: err.message });
       setShowModal(false);
