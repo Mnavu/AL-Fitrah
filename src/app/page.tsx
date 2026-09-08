@@ -52,11 +52,11 @@ const HeroSection = () => {
         <div/>
         <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 justify-center">
           <Link href="/academics/south-c" className="bg-accent hover:bg-accent/90 text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 shadow-lg">
-            South C Campus
+            Headquaters
           </Link>
-          <Link href="/academics/boys-boarding" className="border-2 border-white text-white hover:bg-white/20 backdrop-blur-sm font-bold py-3 px-8 rounded-lg text-lg transition duration-300">
+          {/* <Link href="/academics/boys-boarding" className="border-2 border-white text-white hover:bg-white/20 backdrop-blur-sm font-bold py-3 px-8 rounded-lg text-lg transition duration-300">
             Boys Boarding Campus
-          </Link>
+          </Link> */}
         </div>
       </div>
       <button
