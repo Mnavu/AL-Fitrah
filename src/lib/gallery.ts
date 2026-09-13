@@ -13,6 +13,7 @@ const CATEGORY_BY_FOLDER: Record<string, string> = {
   'Sisters Session': 'Sisters Classes',
   'Sisters Game Night': 'Sisters Classes',
   'Boys Boarding Campus': 'Al-Fitrah Boys Residence',
+  'Boys Campus Event': 'Al-Fitrah Residence Events',
   'Al-Fitrah Graduation': 'Graduation',
 };
 const CATEGORY_ORDER = [
@@ -20,6 +21,7 @@ const CATEGORY_ORDER = [
   'Community Lectures',
   'Sisters Classes',
   'Al-Fitrah Boys Residence',
+  'Al-Fitrah Residence Events',
   'Graduation',
   'Faculty Portraits',
   'General',
@@ -104,6 +106,8 @@ function getCategoryAndLabel(relativePath: string, fileName: string) {
   let label = humanizeText(categoryFolder);
   if (categoryFolder === 'Boys Boarding Campus') {
     label = 'Al-Fitrah Boys Residence';
+  } else if (categoryFolder === 'Boys Campus Event') {
+    label = 'Al-Fitrah Residence Events';
   }
 
   return {

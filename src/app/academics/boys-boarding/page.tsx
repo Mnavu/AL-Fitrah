@@ -494,7 +494,7 @@ export default function BoysBoardingCampus() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
             {[
               { url: "https://www.youtube.com/embed/fircB29te1k?si=0y4B4TzBFhgQg7o4", title: "Al-Fitrah Boys Residence Event Highlights", type: "youtube" },
-              { url: "/Al-Fitrah Boys Residence Event/Boys_Events.mp4", title: "Al-Fitrah Boys Residence Events", type: "local" },
+              { url: "/Boys Campus Event/Boys_Events.mp4", title: "Al-Fitrah Residence Events", type: "local" },
             ].map((video, i) => (
               <div key={i} className="aspect-video overflow-hidden rounded-[2rem] border-4 border-white bg-black shadow-2xl relative group">
                 {video.type === "youtube" ? (
