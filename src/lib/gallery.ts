@@ -12,14 +12,14 @@ const CATEGORY_BY_FOLDER: Record<string, string> = {
   'Community Lectures': 'Community Lectures',
   'Sisters Session': 'Sisters Classes',
   'Sisters Game Night': 'Sisters Classes',
-  'Boys Boarding Campus': 'Boys Campus',
+  'Boys Boarding Campus': 'Al-Fitrah Boys Residence',
   'Al-Fitrah Graduation': 'Graduation',
 };
 const CATEGORY_ORDER = [
   'South C Campus',
   'Community Lectures',
   'Sisters Classes',
-  'Boys Campus',
+  'Al-Fitrah Boys Residence',
   'Graduation',
   'Faculty Portraits',
   'General',
@@ -101,9 +101,14 @@ function getCategoryAndLabel(relativePath: string, fileName: string) {
   const categoryFolder = path.posix.basename(parentDirectory);
   const groupedCategory = CATEGORY_BY_FOLDER[categoryFolder];
 
+  let label = humanizeText(categoryFolder);
+  if (categoryFolder === 'Boys Boarding Campus') {
+    label = 'Al-Fitrah Boys Residence';
+  }
+
   return {
     category: groupedCategory ?? humanizeText(categoryFolder),
-    label: humanizeText(categoryFolder),
+    label,
   };
 }
 

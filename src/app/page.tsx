@@ -13,7 +13,7 @@ const GoldAccent = ({ className }: { className?: string }) => (
 
 const AnnouncementsBanner = () => (
   <div className="sticky top-[88px] z-30 w-full bg-paleYellow text-primary py-5 px-6 text-center font-semibold shadow-md">
-    <p className="text-lg md:text-xl"><span className="text-gold mr-8">•</span>📢 Now Enrolling: The 1 -3 Year Boys Boarding Programme. A unique blend of Tarbiyah, Ta'lim, Tahfidh and Leadership designed to forge the next generation of leaders.</p>
+    <p className="text-lg md:text-xl"><span className="text-gold mr-8">•</span>📢 Now Enrolling: The 1 -3 Year Al-Fitrah Boys Residence Programme. A unique blend of Tarbiyah, Ta'lim, Tahfidh and Leadership designed to forge the next generation of leaders.</p>
   </div>
 );
 
@@ -55,7 +55,7 @@ const HeroSection = () => {
             Headquaters - South C Campus
           </Link>
           {/* <Link href="/academics/boys-boarding" className="border-2 border-white text-white hover:bg-white/20 backdrop-blur-sm font-bold py-3 px-8 rounded-lg text-lg transition duration-300">
-            Boys Boarding Campus
+            Al-Fitrah Boys Residence
           </Link> */}
         </div>
       </div>
@@ -147,7 +147,7 @@ const CorePillars = () => (
         </Link>
         {/* Pillar 4 */}
         <Link href="/academics/boys-boarding" className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-all hover:scale-105 cursor-pointer border-t-4 border-primary">
-          <h3 className="text-xl font-serif text-primary mb-3">Boys Boarding</h3>
+          <h3 className="text-xl font-serif text-primary mb-3">Al-Fitrah Boys Residence</h3>
           <p className="text-sm text-primary mb-4">
             2-Year Intensive Leadership & Mindset Hifdh Program.
           </p>
@@ -416,7 +416,7 @@ const UpcomingEvents = () => (
         
         <div className="mt-12 text-center">
           <p className="text-primary/60 font-medium">
-            Stay tuned for more events at our Karen and Boys Boarding campuses.
+            Stay tuned for more events at our Karen and Al-Fitrah Boys Residence campuses.
           </p>
         </div>
       </div>

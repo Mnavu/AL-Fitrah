@@ -407,7 +407,7 @@ export default function BoysBoardingCampus() {
             <div className="relative group">
               <img 
                 src={STATIC_ASSETS.boysBoardingTimetable} 
-                alt="Boys Boarding Campus Daily Timetable" 
+                alt="Al-Fitrah Boys Residence Daily Timetable" 
                 className="w-full h-auto rounded-[2rem] shadow-inner transition-transform duration-700"
               />
               <div className="absolute inset-0 rounded-[2rem] border-4 border-[#07CAC3]/10 pointer-events-none"></div>
@@ -482,19 +482,19 @@ export default function BoysBoardingCampus() {
           </div>
         </div>
 
-        {/* Boys Campus Events - Video Gallery */}
+        {/* Al-Fitrah Boys Residence Events - Video Gallery */}
         <div className="mb-20">
           <div className="text-center mb-10">
-            <h3 className="text-4xl md:text-5xl font-serif text-[#0f5257] mb-6">Boys Campus Events</h3>
+            <h3 className="text-4xl md:text-5xl font-serif text-[#0f5257] mb-6">Al-Fitrah Boys Residence Events</h3>
             <p className="text-gray-600 max-w-3xl mx-auto text-xl leading-relaxed">
-              Explore the various events and activities held at our Boys Boarding Campus through our video gallery.
+              Explore the various events and activities held at our Al-Fitrah Boys Residence through our video gallery.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
             {[
-              { url: "https://www.youtube.com/embed/fircB29te1k?si=0y4B4TzBFhgQg7o4", title: "Boys Campus Event Highlights", type: "youtube" },
-              { url: "/Boys Campus Event/Boys_Events.mp4", title: "Boys Campus Events", type: "local" },
+              { url: "https://www.youtube.com/embed/fircB29te1k?si=0y4B4TzBFhgQg7o4", title: "Al-Fitrah Boys Residence Event Highlights", type: "youtube" },
+              { url: "/Al-Fitrah Boys Residence Event/Boys_Events.mp4", title: "Al-Fitrah Boys Residence Events", type: "local" },
             ].map((video, i) => (
               <div key={i} className="aspect-video overflow-hidden rounded-[2rem] border-4 border-white bg-black shadow-2xl relative group">
                 {video.type === "youtube" ? (
@@ -526,14 +526,14 @@ export default function BoysBoardingCampus() {
         <div className="mb-20">
           <div className="text-center mb-10">
             <h3 className="text-4xl font-serif text-[#0f5257] mb-4">Campus Life & Events</h3>
-            <p className="text-gray-500 text-lg max-w-2xl mx-auto">A glimpse into the vibrant environment and meaningful events that shape our students' journey at the Boys Boarding Campus.</p>
+            <p className="text-gray-500 text-lg max-w-2xl mx-auto">A glimpse into the vibrant environment and meaningful events that shape our students' journey at the Al-Fitrah Boys Residence.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
             {[
-              { img: STATIC_ASSETS.boysBoardingDSC09571, alt: "Boys Campus Event 1" },
-              { img: STATIC_ASSETS.boysBoardingDSC09524, alt: "Boys Campus Event 2" },
-              { img: STATIC_ASSETS.boysBoardingDSC09478, alt: "Boys Campus Activity" },
+              { img: STATIC_ASSETS.boysBoardingDSC09571, alt: "Al-Fitrah Boys Residence Event 1" },
+              { img: STATIC_ASSETS.boysBoardingDSC09524, alt: "Al-Fitrah Boys Residence Event 2" },
+              { img: STATIC_ASSETS.boysBoardingDSC09478, alt: "Al-Fitrah Boys Residence Activity" },
               { img: STATIC_ASSETS.boysBoardingDSC09475, alt: "Learning Environment" },
               { img: STATIC_ASSETS.boysBoarding21, alt: "Campus Facilities" },
               { img: STATIC_ASSETS.boysBoardingDSC09511, alt: "Student Engagement" },
@@ -565,13 +565,13 @@ export default function BoysBoardingCampus() {
   return (
     <div className="bg-[#F8FAFC] min-h-screen">
       <div className="container mx-auto px-4 py-20 max-w-7xl">
-        <h1 className="text-5xl md:text-7xl font-serif text-[#0f5257] font-bold text-center mb-12">Boys Boarding Campus</h1>
+        <h1 className="text-5xl md:text-7xl font-serif text-[#0f5257] font-bold text-center mb-12">Al-Fitrah Boys Residence</h1>
         <div className="mb-12 overflow-hidden rounded-[2rem] border border-[#041719] bg-gradient-to-br from-[#041719] via-[#0b2b2e] to-[#041719] p-3 shadow-[0_28px_80px_rgba(4,23,25,0.35)]">
           <div className="aspect-video overflow-hidden rounded-[1.5rem] border border-white/10 bg-black">
             <iframe
               className="h-full w-full"
               src={BOYS_CAMPUS_VIDEO_EMBED_URL}
-              title="Boys Boarding Campus YouTube video player"
+              title="Al-Fitrah Boys Residence YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"

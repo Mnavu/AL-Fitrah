@@ -39,7 +39,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-6">
             <NavLink href="/">Home</NavLink>
             <DropdownNavLink title="Academics">
-              <DropdownLink href="/academics/boys-boarding">Boys Boarding Campus</DropdownLink>
+              <DropdownLink href="/academics/boys-boarding">Al-Fitrah Boys Residence</DropdownLink>
               <DropdownLink href="/academics/south-c">South C Campus</DropdownLink>
             </DropdownNavLink>
             <NavLink href="/gallery">Gallery</NavLink>
@@ -141,7 +141,7 @@ function MobileDropdown({ onLinkClick }: { onLinkClick: () => void }) {
             </button>
             {isOpen && (
                 <div className="pt-2 pb-1 space-y-2 bg-gray-50">
-                    <Link href="/academics/boys-boarding" onClick={onLinkClick} className="block text-primary hover:text-secondary">Boys Boarding Campus</Link>
+                    <Link href="/academics/boys-boarding" onClick={onLinkClick} className="block text-primary hover:text-secondary">Al-Fitrah Boys Residence</Link>
                     <Link href="/academics/south-c" onClick={onLinkClick} className="block text-primary hover:text-secondary">South C Campus</Link>
                 </div>
             )}

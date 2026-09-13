@@ -101,7 +101,7 @@ export default function ContactUs() {
       phone: '0798 748 885',
     },
     {
-      name: 'Boys Boarding Campus',
+      name: 'Al-Fitrah Boys Residence',
       programs: ['2-Year Intensive Leadership & Hifdh Program'],
       address: 'Muiri Gardens, Karen',
       details: 'Nairobi',
