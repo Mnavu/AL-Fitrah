@@ -100,7 +100,7 @@ function getCategoryAndLabel(relativePath: string, fileName: string) {
     };
   }
 
-  const categoryFolder = path.posix.basename(parentDirectory);
+  const categoryFolder = path.posix.basename(parentDirectory).trim();
   const groupedCategory = CATEGORY_BY_FOLDER[categoryFolder];
 
   let label = humanizeText(categoryFolder);
